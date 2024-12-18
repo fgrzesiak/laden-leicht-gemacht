@@ -12,8 +12,6 @@ import com.example.infrastruktur.application.port.secondary.AnsprechpartnerRepos
 import com.example.infrastruktur.application.port.secondary.EigentuemerRepository;
 import com.example.infrastruktur.application.port.primary.InfrastrukturAppService;
 
-import static org.mockito.ArgumentMatchers.matches;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -268,7 +266,7 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
 
         @Override
         public boolean ansprechpartnerLoeschen(Integer ansprechpartnerId) {
-                Ansprechpartner ap = ansprechpartnerRepository.findById(new AnsprechpartnerId(ansprechpartnerId););
+                Ansprechpartner ap = ansprechpartnerRepository.findById(new AnsprechpartnerId(ansprechpartnerId));
                 if (ap == null)
                         return false;
                 ansprechpartnerRepository.delete(ap.getAnsprechpartnerId());
