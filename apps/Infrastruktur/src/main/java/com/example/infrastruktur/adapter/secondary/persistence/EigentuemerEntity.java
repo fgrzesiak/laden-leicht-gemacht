@@ -4,10 +4,10 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Embedded;
 
 import com.example.infrastruktur.application.domain.Adresse;
-import com.example.infrastruktur.application.domain.Grundstueckseigentuemer;
-import com.example.infrastruktur.application.domain.GrundstueckseigentuemerId;
+import com.example.infrastruktur.application.domain.Eigentuemer;
+import com.example.infrastruktur.application.domain.EigentuemerId;
 
-public class GrundstueckseigentuemerEntity {
+public class EigentuemerEntity {
 
     @Id
     private Integer eigentuemerId;
@@ -25,10 +25,10 @@ public class GrundstueckseigentuemerEntity {
     // nicht mit Join-Tabelle abbilden willst.
     // Evtl. brauchst du eine separate Tabelle + Mapping.
 
-    public GrundstueckseigentuemerEntity() {
+    public EigentuemerEntity() {
     }
 
-    public GrundstueckseigentuemerEntity(Integer eigentuemerId, String name, Adresse adresse) {
+    public EigentuemerEntity(Integer eigentuemerId, String name, Adresse adresse) {
         this.eigentuemerId = eigentuemerId;
         this.name = name;
         this.adresse = new AdresseEntity(adresse);
@@ -37,7 +37,7 @@ public class GrundstueckseigentuemerEntity {
     /**
      * Convenience-Konstruktor zum Konvertieren aus Domain-Entität
      */
-    public GrundstueckseigentuemerEntity(Grundstueckseigentuemer domain) {
+    public EigentuemerEntity(Eigentuemer domain) {
         this.eigentuemerId = domain.getEigentuemerId().getId();
         this.name = domain.getName();
         this.adresse = new AdresseEntity(domain.getAdresse());
@@ -48,9 +48,9 @@ public class GrundstueckseigentuemerEntity {
     /**
      * Konvertierung ins Domain-Objekt
      */
-    public Grundstueckseigentuemer toDomain() {
-        Grundstueckseigentuemer domainObj = new Grundstueckseigentuemer(
-                new GrundstueckseigentuemerId(this.eigentuemerId),
+    public Eigentuemer toDomain() {
+        Eigentuemer domainObj = new Eigentuemer(
+                new EigentuemerId(this.eigentuemerId),
                 this.name,
                 this.adresse.toDomain());
         // Falls Ansprechpartner existieren (hier nicht abgebildet), müssten wir

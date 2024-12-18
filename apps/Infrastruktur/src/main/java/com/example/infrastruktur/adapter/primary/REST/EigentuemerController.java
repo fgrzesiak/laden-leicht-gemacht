@@ -11,11 +11,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/eigentuemer")
-public class GrundstueckseigentuemerController {
+public class EigentuemerController {
 
     private final InfrastrukturAppService service;
 
-    public GrundstueckseigentuemerController(InfrastrukturAppService service) {
+    public EigentuemerController(InfrastrukturAppService service) {
         this.service = service;
     }
 

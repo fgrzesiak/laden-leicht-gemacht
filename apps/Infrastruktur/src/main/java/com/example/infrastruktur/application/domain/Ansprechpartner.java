@@ -7,53 +7,73 @@ import java.util.Objects;
  */
 public class Ansprechpartner {
 
+    private AnsprechpartnerId ansprechpartnerId;
+    private EigentuemerId eigentuemerId;
     private String name;
     private String telefon;
     private String email;
     private Adresse adresse;
 
-    // Leerer Konstruktor, falls für Serialisierung (z.B. JSON) benötigt
-    public Ansprechpartner() {
-    }
-
-    public Ansprechpartner(String name, Adresse adresse, String telefon, String email) {
+    public Ansprechpartner(AnsprechpartnerId ansprechpartnerId,
+            EigentuemerId eigentuemerId,
+            String name,
+            String telefon,
+            String email,
+            Adresse adresse) {
+        this.ansprechpartnerId = ansprechpartnerId;
+        this.eigentuemerId = eigentuemerId;
         this.name = name;
-        this.adresse = adresse;
         this.telefon = telefon;
         this.email = email;
+        this.adresse = adresse;
     }
 
-    // Getter / Setter
+    public AnsprechpartnerId getAnsprechpartnerId() {
+        return ansprechpartnerId;
+    }
+
+    public void setAnsprechpartnerId(AnsprechpartnerId ansprechpartnerId) {
+        this.ansprechpartnerId = ansprechpartnerId;
+    }
+
+    public EigentuemerId getEigentuemerId() {
+        return eigentuemerId;
+    }
+
+    public void setEigentuemerId(EigentuemerId eigentuemerId) {
+        this.eigentuemerId = eigentuemerId;
+    }
+
     public String getName() {
         return name;
-    }
-
-    public Adresse getAdresse() {
-        return adresse;
-    }
-
-    public String getTelefon() {
-        return telefon;
-    }
-
-    public String getEmail() {
-        return email;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setAdresse(Adresse adresse) {
-        this.adresse = adresse;
+    public String getTelefon() {
+        return telefon;
     }
 
     public void setTelefon(String telefon) {
         this.telefon = telefon;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Adresse getAdresse() {
+        return adresse;
+    }
+
+    public void setAdresse(Adresse adresse) {
+        this.adresse = adresse;
     }
 
     // equals / hashCode (typisch für Value Objects)
@@ -64,7 +84,9 @@ public class Ansprechpartner {
         if (!(o instanceof Ansprechpartner))
             return false;
         Ansprechpartner that = (Ansprechpartner) o;
-        return Objects.equals(name, that.name) &&
+        return Objects.equals(ansprechpartnerId, that.ansprechpartnerId) &&
+                Objects.equals(eigentuemerId, that.eigentuemerId) &&
+                Objects.equals(name, that.name) &&
                 Objects.equals(adresse, that.adresse) &&
                 Objects.equals(telefon, that.telefon) &&
                 Objects.equals(email, that.email);
@@ -72,6 +94,6 @@ public class Ansprechpartner {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, adresse, telefon, email);
+        return Objects.hash(ansprechpartnerId, eigentuemerId, name, adresse, telefon, email);
     }
 }

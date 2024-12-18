@@ -8,8 +8,11 @@ import com.example.infrastruktur.application.dto.EigentuemerResponse;
 import com.example.infrastruktur.application.dto.LadepunktRequest;
 import com.example.infrastruktur.application.dto.LadepunktResponse;
 import com.example.infrastruktur.application.port.secondary.LadepunktRepository;
-import com.example.infrastruktur.application.port.secondary.GrundstueckseigentuemerRepository;
+import com.example.infrastruktur.application.port.secondary.AnsprechpartnerRepository;
+import com.example.infrastruktur.application.port.secondary.EigentuemerRepository;
 import com.example.infrastruktur.application.port.primary.InfrastrukturAppService;
+
+import static org.mockito.ArgumentMatchers.matches;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,16 +20,19 @@ import java.util.stream.Collectors;
 public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
 
         private final LadepunktRepository ladepunktRepository;
-        private final GrundstueckseigentuemerRepository eigentuemerRepository;
+        private final EigentuemerRepository eigentuemerRepository;
+        private final AnsprechpartnerRepository ansprechpartnerRepository;
         private final LadepunktDomainService ladepunktDomainService;
 
         // Konstruktor (jetzt mit ladepunktDomainService)
         public InfrastrukturAppServiceImpl(
                         LadepunktRepository ladepunktRepository,
-                        GrundstueckseigentuemerRepository eigentuemerRepository,
+                        EigentuemerRepository eigentuemerRepository,
+                        AnsprechpartnerRepository ansprechpartnerRepository,
                         LadepunktDomainService ladepunktDomainService) {
                 this.ladepunktRepository = ladepunktRepository;
                 this.eigentuemerRepository = eigentuemerRepository;
+                this.ansprechpartnerRepository = ansprechpartnerRepository;
                 this.ladepunktDomainService = ladepunktDomainService;
         }
 
@@ -143,8 +149,8 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
 
         @Override
         public Integer eigentuemerAnlegen(EigentuemerRequest eigentuemer) {
-                Grundstueckseigentuemer neu = new Grundstueckseigentuemer(
-                                new GrundstueckseigentuemerId(),
+                Eigentuemer neu = new Eigentuemer(
+                                new EigentuemerId(),
                                 eigentuemer.getName(),
                                 new Adresse(eigentuemer.getAdresse().getStrasse(),
                                                 eigentuemer.getAdresse().getHausnummer(),
@@ -156,8 +162,8 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
 
         @Override
         public EigentuemerResponse eigentuemerFinden(Integer eigentuemerId) {
-                Grundstueckseigentuemer eigentuemer = eigentuemerRepository
-                                .findById(new GrundstueckseigentuemerId(eigentuemerId));
+                Eigentuemer eigentuemer = eigentuemerRepository
+                                .findById(new EigentuemerId(eigentuemerId));
                 if (eigentuemer == null) {
                         return null;
                 }
@@ -172,21 +178,22 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
                                 eigentuemer.getAnsprechpartner()
                                                 .stream()
                                                 .map((ap) -> new AnsprechpartnerDto(
+                                                                ap.getEigentuemerId().getId(),
                                                                 ap.getName(),
+                                                                ap.getTelefon(),
+                                                                ap.getEmail(),
                                                                 new AdresseDto(
                                                                                 ap.getAdresse().getStrasse(),
                                                                                 ap.getAdresse().getHausnummer(),
                                                                                 ap.getAdresse().getPlz(),
-                                                                                ap.getAdresse().getOrt()),
-                                                                ap.getTelefon(),
-                                                                ap.getEmail()))
+                                                                                ap.getAdresse().getOrt())))
                                                 .collect(Collectors.toList()));
         }
 
         @Override
         public boolean eigentuemerAktualisieren(Integer eigentuemerId, EigentuemerRequest neueDaten) {
-                Grundstueckseigentuemer alt = eigentuemerRepository
-                                .findById(new GrundstueckseigentuemerId(eigentuemerId));
+                Eigentuemer alt = eigentuemerRepository
+                                .findById(new EigentuemerId(eigentuemerId));
                 if (alt == null) {
                         return false;
                 }
@@ -198,14 +205,15 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
                 alt.setAnsprechpartner(neueDaten.getAnsprechpartner()
                                 .stream()
                                 .map(ap -> new Ansprechpartner(
+                                                new EigentuemerId(ap.getEigentuemerId()),
                                                 ap.getName(),
+                                                ap.getTelefon(),
+                                                ap.getEmail(),
                                                 new Adresse(
                                                                 ap.getAdresse().getStrasse(),
                                                                 ap.getAdresse().getHausnummer(),
                                                                 ap.getAdresse().getPlz(),
-                                                                ap.getAdresse().getOrt()),
-                                                ap.getTelefon(),
-                                                ap.getEmail()))
+                                                                ap.getAdresse().getOrt())))
                                 .collect(Collectors.toList()));
                 eigentuemerRepository.save(alt);
                 return true;
@@ -213,8 +221,8 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
 
         @Override
         public boolean eigentuemerLoeschen(Integer eigentuemerId) {
-                Grundstueckseigentuemer eig = eigentuemerRepository
-                                .findById(new GrundstueckseigentuemerId(eigentuemerId));
+                Eigentuemer eig = eigentuemerRepository
+                                .findById(new EigentuemerId(eigentuemerId));
                 if (eig == null) {
                         return false;
                 }
@@ -224,7 +232,7 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
 
         @Override
         public List<EigentuemerResponse> alleEigentuemerAnzeigen() {
-                List<Grundstueckseigentuemer> eigentuemer = eigentuemerRepository.findAll();
+                List<Eigentuemer> eigentuemer = eigentuemerRepository.findAll();
                 return eigentuemer
                                 .stream()
                                 .map(e -> new EigentuemerResponse(
@@ -238,15 +246,90 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
                                                 e.getAnsprechpartner()
                                                                 .stream()
                                                                 .map(ap -> new AnsprechpartnerDto(
+                                                                                ap.getEigentuemerId().getId(),
                                                                                 ap.getName(),
+                                                                                ap.getTelefon(),
+                                                                                ap.getEmail(),
                                                                                 new AdresseDto(
                                                                                                 ap.getAdresse().getStrasse(),
                                                                                                 ap.getAdresse().getHausnummer(),
                                                                                                 ap.getAdresse().getPlz(),
-                                                                                                ap.getAdresse().getOrt()),
-                                                                                ap.getTelefon(),
-                                                                                ap.getEmail()))
+                                                                                                ap.getAdresse().getOrt())))
                                                                 .collect(Collectors.toList())))
                                 .collect(Collectors.toList());
         }
+
+        @Override
+        public Integer ansprechpartnerAnlegen(AnsprechpartnerDto dto) {
+                Ansprechpartner ap = new Ansprechpartner(
+                                new AnsprechpartnerId(),
+                                new EigentuemerId(dto.getEigentuemerId()),
+                                dto.getName(),
+                                dto.getTelefon(),
+                                dto.getEmail(),
+                                new Adresse(dto.getAdresse().getStrasse(), dto.getAdresse().getHausnummer(),
+                                                dto.getAdresse().getPlz(), dto.getAdresse().getOrt()));
+                ansprechpartnerRepository.save(ap);
+                return ap.getAnsprechpartnerId().getId();
+        }
+
+        @Override
+        public AnsprechpartnerDto ansprechpartnerFinden(Integer ansprechpartnerId) {
+                Ansprechpartner ap = ansprechpartnerRepository.findById(new AnsprechpartnerId(ansprechpartnerId));
+                if (ap == null)
+                        return null;
+                return new AnsprechpartnerDto(
+                                ap.getEigentuemerId().getId(),
+                                ap.getName(),
+                                ap.getTelefon(),
+                                ap.getEmail(),
+                                new AdresseDto(
+                                                ap.getAdresse().getStrasse(),
+                                                ap.getAdresse().getHausnummer(),
+                                                ap.getAdresse().getPlz(),
+                                                ap.getAdresse().getOrt()));
+        }
+
+        @Override
+        public boolean ansprechpartnerAktualisieren(Integer ansprechpartnerId, AnsprechpartnerDto dto) {
+                Ansprechpartner apAlt = ansprechpartnerRepository.findById(new AnsprechpartnerId(ansprechpartnerId));
+                if (apAlt == null)
+                        return false;
+                apAlt.setEigentuemerId(new EigentuemerId(dto.getEigentuemerId()));
+                apAlt.setName(dto.getName());
+                apAlt.setTelefon(dto.getTelefon());
+                apAlt.setEmail(dto.getEmail());
+                apAlt.setAdresse(new Adresse(dto.getAdresse().getStrasse(), dto.getAdresse().getHausnummer(),
+                                dto.getAdresse().getPlz(), dto.getAdresse().getOrt()));
+                ansprechpartnerRepository.save(apAlt);
+                return true;
+        }
+
+        @Override
+        public boolean ansprechpartnerLoeschen(Integer ansprechpartnerId) {
+                Ansprechpartner ap = ansprechpartnerRepository.findById(new AnsprechpartnerId(ansprechpartnerId););
+                if (ap == null)
+                        return false;
+                ansprechpartnerRepository.delete(ap.getAnsprechpartnerId());
+                return true;
+        }
+
+        @Override
+        public List<AnsprechpartnerDto> alleAnsprechpartnerFuerEigentuemer(Integer eigentuemerId) {
+                List<Ansprechpartner> aps = ansprechpartnerRepository
+                                .findByEigentuemerId(new EigentuemerId(eigentuemerId));
+                return aps.stream().map(
+                                ap -> new AnsprechpartnerDto(
+                                                ap.getEigentuemerId().getId(),
+                                                ap.getName(),
+                                                ap.getTelefon(),
+                                                ap.getEmail(),
+                                                new AdresseDto(
+                                                                ap.getAdresse().getStrasse(),
+                                                                ap.getAdresse().getHausnummer(),
+                                                                ap.getAdresse().getPlz(),
+                                                                ap.getAdresse().getOrt())))
+                                .collect(Collectors.toList());
+        }
+
 }

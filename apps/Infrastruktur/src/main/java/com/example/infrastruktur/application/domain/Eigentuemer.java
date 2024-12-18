@@ -6,14 +6,14 @@ import java.util.List;
 /**
  * Entität für Grundstückseigentümer
  */
-public class Grundstueckseigentuemer {
+public class Eigentuemer {
 
-    private GrundstueckseigentuemerId eigentuemerId;
+    private EigentuemerId eigentuemerId;
     private String name;
     private List<Ansprechpartner> ansprechpartner;
     private Adresse adresse;
 
-    public Grundstueckseigentuemer(GrundstueckseigentuemerId eigentuemerId,
+    public Eigentuemer(EigentuemerId eigentuemerId,
             String name,
             Adresse adresse) {
         this.eigentuemerId = eigentuemerId;
@@ -27,11 +27,11 @@ public class Grundstueckseigentuemer {
     }
 
     // Getter/Setter
-    public GrundstueckseigentuemerId getEigentuemerId() {
+    public EigentuemerId getEigentuemerId() {
         return eigentuemerId;
     }
 
-    public void setEigentuemerId(GrundstueckseigentuemerId id) {
+    public void setEigentuemerId(EigentuemerId id) {
         this.eigentuemerId = id;
     }
 

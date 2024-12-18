@@ -3,17 +3,17 @@ package com.example.infrastruktur.application.domain;
 import java.util.Objects;
 
 /**
- * Value Object für die Eigentümer-ID
+ * Value Object für die eindeutige ID eines Ansprechpartners
  */
-public class GrundstueckseigentuemerId {
+public class AnsprechpartnerId {
 
     private Integer id;
 
-    public GrundstueckseigentuemerId() {
+    public AnsprechpartnerId() {
         this.id = null;
     }
 
-    public GrundstueckseigentuemerId(Integer id) {
+    public AnsprechpartnerId(Integer id) {
         this.id = id;
     }
 
@@ -25,10 +25,10 @@ public class GrundstueckseigentuemerId {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (!(o instanceof GrundstueckseigentuemerId))
+        if (!(o instanceof AnsprechpartnerId))
             return false;
-        GrundstueckseigentuemerId other = (GrundstueckseigentuemerId) o;
-        return Objects.equals(id, other.id);
+        AnsprechpartnerId ansprechpartnerId = (AnsprechpartnerId) o;
+        return Objects.equals(id, ansprechpartnerId.id);
     }
 
     @Override

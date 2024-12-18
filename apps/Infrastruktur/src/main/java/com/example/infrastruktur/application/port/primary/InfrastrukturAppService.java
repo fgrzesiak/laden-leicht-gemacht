@@ -1,5 +1,6 @@
 package com.example.infrastruktur.application.port.primary;
 
+import com.example.infrastruktur.application.dto.AnsprechpartnerDto;
 import com.example.infrastruktur.application.dto.EigentuemerRequest;
 import com.example.infrastruktur.application.dto.EigentuemerResponse;
 import com.example.infrastruktur.application.dto.LadepunktRequest;
@@ -30,4 +31,16 @@ public interface InfrastrukturAppService {
     boolean eigentuemerLoeschen(Integer eigentuemerId);
 
     List<EigentuemerResponse> alleEigentuemerAnzeigen();
+
+    // Ansprechpartner-Funktionen
+    Integer ansprechpartnerAnlegen(AnsprechpartnerDto dto);
+
+    AnsprechpartnerDto ansprechpartnerFinden(Integer ansprechpartnerId);
+
+    boolean ansprechpartnerAktualisieren(Integer ansprechpartnerId, AnsprechpartnerDto dto);
+
+    boolean ansprechpartnerLoeschen(Integer ansprechpartnerId);
+
+    List<AnsprechpartnerDto> alleAnsprechpartnerFuerEigentuemer(Integer eigentuemerId);
+
 }

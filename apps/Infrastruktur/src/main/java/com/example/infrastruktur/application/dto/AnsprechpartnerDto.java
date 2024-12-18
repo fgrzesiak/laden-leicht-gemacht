@@ -1,19 +1,29 @@
 package com.example.infrastruktur.application.dto;
 
 public class AnsprechpartnerDto {
+    private Integer eigentuemerId;
     private String name;
-    private AdresseDto adresse;
     private String telefon;
     private String email;
+    private AdresseDto adresse;
 
     public AnsprechpartnerDto() {
     }
 
-    public AnsprechpartnerDto(String name, AdresseDto adresse, String telefon, String email) {
+    public AnsprechpartnerDto(Integer eigentuemerId, String name, String telefon, String email, AdresseDto adresse) {
+        this.eigentuemerId = eigentuemerId;
         this.name = name;
-        this.adresse = adresse;
         this.telefon = telefon;
         this.email = email;
+        this.adresse = adresse;
+    }
+
+    public Integer getEigentuemerId() {
+        return eigentuemerId;
+    }
+
+    public void setEigentuemerId(Integer eigentuemerId) {
+        this.eigentuemerId = eigentuemerId;
     }
 
     public String getName() {
@@ -22,14 +32,6 @@ public class AnsprechpartnerDto {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public AdresseDto getAdresse() {
-        return adresse;
-    }
-
-    public void setAdresse(AdresseDto adresse) {
-        this.adresse = adresse;
     }
 
     public String getTelefon() {
@@ -46,5 +48,13 @@ public class AnsprechpartnerDto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public AdresseDto getAdresse() {
+        return adresse;
+    }
+
+    public void setAdresse(AdresseDto adresse) {
+        this.adresse = adresse;
     }
 }
