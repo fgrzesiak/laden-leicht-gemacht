@@ -1,7 +1,7 @@
 #-------------------------
 #-- Tabelle: GRUNDSTUECKSEIGENTUEMER
 #-------------------------
-CREATE TABLE grundstueckseigentuemer_entity (
+CREATE TABLE eigentuemer_entity (
     eigentuemer_id        INT AUTO_INCREMENT PRIMARY KEY,
     name                  VARCHAR(255) NOT NULL,
     strasse               VARCHAR(255) NOT NULL,
@@ -26,7 +26,7 @@ CREATE TABLE ansprechpartner_entity (
     hausnummer            VARCHAR(10) NOT NULL,
     plz                   VARCHAR(10) NOT NULL,
     ort                   VARCHAR(255) NOT NULL,
-    FOREIGN KEY (eigentuemer_id) REFERENCES grundstueckseigentuemer_entity(eigentuemer_id)
+    FOREIGN KEY (eigentuemer_id) REFERENCES eigentuemer_entity(eigentuemer_id)
       ON DELETE CASCADE
       ON UPDATE CASCADE
 );
@@ -45,7 +45,7 @@ CREATE TABLE ladepunkt_entity (
     hausnummer            VARCHAR(10) NOT NULL,
     plz                   VARCHAR(10) NOT NULL,
     ort                   VARCHAR(255) NOT NULL,
-    FOREIGN KEY (eigentuemer_id) REFERENCES grundstueckseigentuemer_entity(eigentuemer_id)
+    FOREIGN KEY (eigentuemer_id) REFERENCES eigentuemer_entity(eigentuemer_id)
       ON DELETE SET NULL
       ON UPDATE CASCADE
 );

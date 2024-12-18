@@ -1,8 +1,5 @@
 package com.example.infrastruktur.application.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * DTO für REST-Kommunikation (Request) über Grundstückseigentümer
  */
@@ -11,18 +8,14 @@ public class EigentuemerResponse {
     private Integer eigentuemerId;
     private String name;
     private AdresseDto adresse;
-    private List<AnsprechpartnerDto> ansprechpartner;
 
     public EigentuemerResponse() {
-        this.ansprechpartner = new ArrayList<>();
     }
 
-    public EigentuemerResponse(Integer eigentuemerId, String name, AdresseDto adresse,
-            List<AnsprechpartnerDto> ansprechpartner) {
+    public EigentuemerResponse(Integer eigentuemerId, String name, AdresseDto adresse) {
         this.eigentuemerId = eigentuemerId;
         this.name = name;
         this.adresse = adresse;
-        this.ansprechpartner = ansprechpartner;
     }
 
     public Integer getEigentuemerId() {
@@ -49,11 +42,4 @@ public class EigentuemerResponse {
         this.adresse = adresse;
     }
 
-    public List<AnsprechpartnerDto> getAnsprechpartner() {
-        return ansprechpartner;
-    }
-
-    public void setAnsprechpartner(List<AnsprechpartnerDto> ansprechpartner) {
-        this.ansprechpartner = ansprechpartner;
-    }
 }

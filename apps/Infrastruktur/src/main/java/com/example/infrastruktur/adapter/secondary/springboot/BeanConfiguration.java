@@ -35,7 +35,7 @@ public class BeanConfiguration {
     }
 
     @Bean
-    EigentuemerController grundstueckseigentuemerController(InfrastrukturAppService ladeinfraService) {
+    EigentuemerController eigentuemerController(InfrastrukturAppService ladeinfraService) {
         return new EigentuemerController(ladeinfraService);
     }
 
@@ -80,8 +80,7 @@ public class BeanConfiguration {
      * Grundstückseigentümer-Repository-Bean
      */
     @Bean
-    EigentuemerRepository grundstueckseigentuemerRepository(
-            JdbcEigentuemerEntityRepository jdbcEigentuemerEntityRepository) {
+    EigentuemerRepository eigentuemerRepository(JdbcEigentuemerEntityRepository jdbcEigentuemerEntityRepository) {
         return new EigentuemerRepositoryImplDb(jdbcEigentuemerEntityRepository);
     }
 

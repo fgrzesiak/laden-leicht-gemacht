@@ -174,20 +174,7 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
                                                 eigentuemer.getAdresse().getStrasse(),
                                                 eigentuemer.getAdresse().getHausnummer(),
                                                 eigentuemer.getAdresse().getPlz(),
-                                                eigentuemer.getAdresse().getOrt()),
-                                eigentuemer.getAnsprechpartner()
-                                                .stream()
-                                                .map((ap) -> new AnsprechpartnerDto(
-                                                                ap.getEigentuemerId().getId(),
-                                                                ap.getName(),
-                                                                ap.getTelefon(),
-                                                                ap.getEmail(),
-                                                                new AdresseDto(
-                                                                                ap.getAdresse().getStrasse(),
-                                                                                ap.getAdresse().getHausnummer(),
-                                                                                ap.getAdresse().getPlz(),
-                                                                                ap.getAdresse().getOrt())))
-                                                .collect(Collectors.toList()));
+                                                eigentuemer.getAdresse().getOrt()));
         }
 
         @Override
@@ -202,19 +189,6 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
                                 neueDaten.getAdresse().getHausnummer(),
                                 neueDaten.getAdresse().getPlz(),
                                 neueDaten.getAdresse().getOrt()));
-                alt.setAnsprechpartner(neueDaten.getAnsprechpartner()
-                                .stream()
-                                .map(ap -> new Ansprechpartner(
-                                                new EigentuemerId(ap.getEigentuemerId()),
-                                                ap.getName(),
-                                                ap.getTelefon(),
-                                                ap.getEmail(),
-                                                new Adresse(
-                                                                ap.getAdresse().getStrasse(),
-                                                                ap.getAdresse().getHausnummer(),
-                                                                ap.getAdresse().getPlz(),
-                                                                ap.getAdresse().getOrt())))
-                                .collect(Collectors.toList()));
                 eigentuemerRepository.save(alt);
                 return true;
         }
@@ -242,20 +216,7 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
                                                                 e.getAdresse().getStrasse(),
                                                                 e.getAdresse().getHausnummer(),
                                                                 e.getAdresse().getPlz(),
-                                                                e.getAdresse().getOrt()),
-                                                e.getAnsprechpartner()
-                                                                .stream()
-                                                                .map(ap -> new AnsprechpartnerDto(
-                                                                                ap.getEigentuemerId().getId(),
-                                                                                ap.getName(),
-                                                                                ap.getTelefon(),
-                                                                                ap.getEmail(),
-                                                                                new AdresseDto(
-                                                                                                ap.getAdresse().getStrasse(),
-                                                                                                ap.getAdresse().getHausnummer(),
-                                                                                                ap.getAdresse().getPlz(),
-                                                                                                ap.getAdresse().getOrt())))
-                                                                .collect(Collectors.toList())))
+                                                                e.getAdresse().getOrt())))
                                 .collect(Collectors.toList());
         }
 
