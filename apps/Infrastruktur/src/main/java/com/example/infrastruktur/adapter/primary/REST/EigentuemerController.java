@@ -23,10 +23,10 @@ public class EigentuemerController {
      * GET /eigentuemer/{id}
      */
     @GetMapping("/{id}")
-    public ResponseEntity<EigentuemerResponse> eigentuemerFinden(@PathVariable("id") Integer id) {
+    public ResponseEntity<?> eigentuemerFinden(@PathVariable("id") Integer id) {
         EigentuemerResponse eigentuemer = service.eigentuemerFinden(id);
         if (eigentuemer == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Eigentuemer nicht gefunden", HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(eigentuemer, HttpStatus.OK);
     }

@@ -7,12 +7,12 @@ public class LadepunktRequest {
     private String anschlussart;
     private String verfuegbarkeit;
     private Double gesamtleistungKWH;
-    private AdresseDto adresse;
+    private AdresseDTO adresse;
 
     public LadepunktRequest() {
     }
 
-    public LadepunktRequest(Integer eigentuemerId, AdresseDto adresse, Double ladeleistungKW, String anschlussart,
+    public LadepunktRequest(Integer eigentuemerId, AdresseDTO adresse, Double ladeleistungKW, String anschlussart,
             String verfuegbarkeit,
             Double gesamtleistungKWH) {
         this.eigentuemerId = eigentuemerId;
@@ -31,11 +31,11 @@ public class LadepunktRequest {
         this.eigentuemerId = eigentuemerId;
     }
 
-    public AdresseDto getAdresse() {
+    public AdresseDTO getAdresse() {
         return adresse;
     }
 
-    public void setAdresse(AdresseDto adresse) {
+    public void setAdresse(AdresseDTO adresse) {
         this.adresse = adresse;
     }
 

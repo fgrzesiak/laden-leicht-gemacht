@@ -36,7 +36,7 @@ public class LadepunktController {
      * Holt einen Ladepunkt anhand seiner ID.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Object> ladepunktFinden(@PathVariable("id") Integer id) {
+    public ResponseEntity<?> ladepunktFinden(@PathVariable("id") Integer id) {
         LadepunktResponse ladepunkt = service.ladepunktFinden(id);
         if (ladepunkt == null) {
             return new ResponseEntity<>("Ladepunkt nicht gefunden", HttpStatus.NOT_FOUND);

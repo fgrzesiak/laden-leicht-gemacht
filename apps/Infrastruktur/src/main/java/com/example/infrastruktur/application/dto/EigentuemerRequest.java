@@ -6,12 +6,12 @@ package com.example.infrastruktur.application.dto;
 public class EigentuemerRequest {
 
     private String name;
-    private AdresseDto adresse;
+    private AdresseDTO adresse;
 
     public EigentuemerRequest() {
     }
 
-    public EigentuemerRequest(String name, AdresseDto adresse) {
+    public EigentuemerRequest(String name, AdresseDTO adresse) {
         this.name = name;
         this.adresse = adresse;
     }
@@ -24,11 +24,11 @@ public class EigentuemerRequest {
         this.name = name;
     }
 
-    public AdresseDto getAdresse() {
+    public AdresseDTO getAdresse() {
         return adresse;
     }
 
-    public void setAdresse(AdresseDto adresse) {
+    public void setAdresse(AdresseDTO adresse) {
         this.adresse = adresse;
     }
 }

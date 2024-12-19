@@ -3,18 +3,18 @@ package com.example.infrastruktur.application.dto;
 /**
  * Value Object für Adress-Daten
  */
-public class AdresseDto {
+public class AdresseDTO {
 
     private String strasse;
     private String hausnummer;
     private String plz;
     private String ort;
 
-    public AdresseDto() {
+    public AdresseDTO() {
     }
 
     // Konstruktor mit allen nötigen Feldern
-    public AdresseDto(String strasse, String hausnummer, String plz, String ort) {
+    public AdresseDTO(String strasse, String hausnummer, String plz, String ort) {
         this.strasse = strasse;
         this.hausnummer = hausnummer;
         this.plz = plz;

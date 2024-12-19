@@ -1,12 +1,15 @@
 package com.example.infrastruktur.application;
 
 import com.example.infrastruktur.application.domain.*;
-import com.example.infrastruktur.application.dto.AdresseDto;
-import com.example.infrastruktur.application.dto.AnsprechpartnerDto;
+import com.example.infrastruktur.application.dto.AnsprechpartnerRequest;
+import com.example.infrastruktur.application.dto.AnsprechpartnerResponse;
 import com.example.infrastruktur.application.dto.EigentuemerRequest;
 import com.example.infrastruktur.application.dto.EigentuemerResponse;
 import com.example.infrastruktur.application.dto.LadepunktRequest;
 import com.example.infrastruktur.application.dto.LadepunktResponse;
+import com.example.infrastruktur.application.mapper.AnsprechpartnerMapper;
+import com.example.infrastruktur.application.mapper.EigentuemerMapper;
+import com.example.infrastruktur.application.mapper.LadepunktMapper;
 import com.example.infrastruktur.application.port.secondary.LadepunktRepository;
 import com.example.infrastruktur.application.port.secondary.AnsprechpartnerRepository;
 import com.example.infrastruktur.application.port.secondary.EigentuemerRepository;
@@ -40,17 +43,7 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
 
         @Override
         public Integer ladepunktAnlegen(LadepunktRequest ladepunkt) {
-                Ladepunkt neuerLadepunkt = new Ladepunkt(
-                                new LadepunktId(),
-                                new EigentuemerId(ladepunkt.getEigentuemerId()),
-                                new Adresse(ladepunkt.getAdresse().getStrasse(),
-                                                ladepunkt.getAdresse().getHausnummer(),
-                                                ladepunkt.getAdresse().getPlz(),
-                                                ladepunkt.getAdresse().getOrt()),
-                                ladepunkt.getLadeleistungKW(),
-                                ladepunkt.getAnschlussart(),
-                                ladepunkt.getVerfuegbarkeit(),
-                                ladepunkt.getGesamtleistungKWH());
+                Ladepunkt neuerLadepunkt = LadepunktMapper.toDomain(ladepunkt);
                 ladepunktRepository.save(neuerLadepunkt);
                 return neuerLadepunkt.getLadepunktId().getId();
         }
@@ -61,37 +54,19 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
                 if (ladepunkt == null) {
                         return null;
                 }
-                return new LadepunktResponse(
-                                ladepunkt.getLadepunktId().getId(),
-                                ladepunkt.getEigentuemerId().getId(),
-                                new AdresseDto(
-                                                ladepunkt.getAdresse().getStrasse(),
-                                                ladepunkt.getAdresse().getHausnummer(),
-                                                ladepunkt.getAdresse().getPlz(),
-                                                ladepunkt.getAdresse().getOrt()),
-                                ladepunkt.getLadeleistungKW(),
-                                ladepunkt.getAnschlussart(),
-                                ladepunkt.getVerfuegbarkeit(),
-                                ladepunkt.getGesamtleistungKWH());
+                return LadepunktMapper.toResponse(ladepunkt);
         }
 
         @Override
         public boolean ladepunktAktualisieren(Integer ladepunktId, LadepunktRequest neueDaten) {
-                Ladepunkt ladepunktAlt = ladepunktRepository.findById(new LadepunktId(ladepunktId));
+                LadepunktId lpId = new LadepunktId(ladepunktId);
+                Ladepunkt ladepunktAlt = ladepunktRepository.findById(lpId);
                 if (ladepunktAlt == null) {
                         return false;
                 }
-                ladepunktAlt.setEigentuemerId(new EigentuemerId(neueDaten.getEigentuemerId()));
-                ladepunktAlt.setAdresse(new Adresse(
-                                neueDaten.getAdresse().getStrasse(),
-                                neueDaten.getAdresse().getHausnummer(),
-                                neueDaten.getAdresse().getPlz(),
-                                neueDaten.getAdresse().getOrt()));
-                ladepunktAlt.setLadeleistungKW(neueDaten.getLadeleistungKW());
-                ladepunktAlt.setAnschlussart(neueDaten.getAnschlussart());
-                ladepunktAlt.setVerfuegbarkeit(neueDaten.getVerfuegbarkeit());
-                ladepunktAlt.setGesamtleistungKWH(neueDaten.getGesamtleistungKWH());
-                ladepunktRepository.save(ladepunktAlt);
+                Ladepunkt ladepunktNeu = LadepunktMapper.toDomain(neueDaten);
+                ladepunktNeu.setLadepunktId(lpId);
+                ladepunktRepository.save(ladepunktNeu);
                 return true;
         }
 
@@ -108,21 +83,7 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
         @Override
         public List<LadepunktResponse> alleLadepunkteAnzeigen() {
                 List<Ladepunkt> ladepunkte = ladepunktRepository.findAll();
-                return ladepunkte
-                                .stream()
-                                .map(ladepunkt -> new LadepunktResponse(
-                                                ladepunkt.getLadepunktId().getId(),
-                                                ladepunkt.getEigentuemerId().getId(),
-                                                new AdresseDto(
-                                                                ladepunkt.getAdresse().getStrasse(),
-                                                                ladepunkt.getAdresse().getHausnummer(),
-                                                                ladepunkt.getAdresse().getPlz(),
-                                                                ladepunkt.getAdresse().getOrt()),
-                                                ladepunkt.getLadeleistungKW(),
-                                                ladepunkt.getAnschlussart(),
-                                                ladepunkt.getVerfuegbarkeit(),
-                                                ladepunkt.getGesamtleistungKWH()))
-                                .collect(Collectors.toList());
+                return ladepunkte.stream().map(LadepunktMapper::toResponse).collect(Collectors.toList());
         }
 
         /**
@@ -134,9 +95,7 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
                 if (lp == null) {
                         return false;
                 }
-                // Fachlogik über DomainService aufrufen
                 ladepunktDomainService.verarbeiteLadevorgang(lp, geladeneKWh);
-                // geänderten Ladepunkt speichern
                 ladepunktRepository.save(lp);
                 return true;
         }
@@ -147,47 +106,30 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
 
         @Override
         public Integer eigentuemerAnlegen(EigentuemerRequest eigentuemer) {
-                Eigentuemer neu = new Eigentuemer(
-                                new EigentuemerId(),
-                                eigentuemer.getName(),
-                                new Adresse(eigentuemer.getAdresse().getStrasse(),
-                                                eigentuemer.getAdresse().getHausnummer(),
-                                                eigentuemer.getAdresse().getPlz(),
-                                                eigentuemer.getAdresse().getOrt()));
+                Eigentuemer neu = EigentuemerMapper.toDomain(eigentuemer);
                 eigentuemerRepository.save(neu);
                 return neu.getEigentuemerId().getId();
         }
 
         @Override
         public EigentuemerResponse eigentuemerFinden(Integer eigentuemerId) {
-                Eigentuemer eigentuemer = eigentuemerRepository
-                                .findById(new EigentuemerId(eigentuemerId));
+                Eigentuemer eigentuemer = eigentuemerRepository.findById(new EigentuemerId(eigentuemerId));
                 if (eigentuemer == null) {
                         return null;
                 }
-                return new EigentuemerResponse(
-                                eigentuemer.getEigentuemerId().getId(),
-                                eigentuemer.getName(),
-                                new AdresseDto(
-                                                eigentuemer.getAdresse().getStrasse(),
-                                                eigentuemer.getAdresse().getHausnummer(),
-                                                eigentuemer.getAdresse().getPlz(),
-                                                eigentuemer.getAdresse().getOrt()));
+                return EigentuemerMapper.toResponse(eigentuemer);
         }
 
         @Override
         public boolean eigentuemerAktualisieren(Integer eigentuemerId, EigentuemerRequest neueDaten) {
-                Eigentuemer alt = eigentuemerRepository
-                                .findById(new EigentuemerId(eigentuemerId));
+                EigentuemerId eigentuemerIdObj = new EigentuemerId(eigentuemerId);
+                Eigentuemer alt = eigentuemerRepository.findById(eigentuemerIdObj);
                 if (alt == null) {
                         return false;
                 }
-                alt.setName(neueDaten.getName());
-                alt.setAdresse(new Adresse(neueDaten.getAdresse().getStrasse(),
-                                neueDaten.getAdresse().getHausnummer(),
-                                neueDaten.getAdresse().getPlz(),
-                                neueDaten.getAdresse().getOrt()));
-                eigentuemerRepository.save(alt);
+                Eigentuemer neu = EigentuemerMapper.toDomain(neueDaten);
+                neu.setEigentuemerId(eigentuemerIdObj);
+                eigentuemerRepository.save(neu);
                 return true;
         }
 
@@ -205,62 +147,37 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
         @Override
         public List<EigentuemerResponse> alleEigentuemerAnzeigen() {
                 List<Eigentuemer> eigentuemer = eigentuemerRepository.findAll();
-                return eigentuemer
-                                .stream()
-                                .map(e -> new EigentuemerResponse(
-                                                e.getEigentuemerId().getId(),
-                                                e.getName(),
-                                                new AdresseDto(
-                                                                e.getAdresse().getStrasse(),
-                                                                e.getAdresse().getHausnummer(),
-                                                                e.getAdresse().getPlz(),
-                                                                e.getAdresse().getOrt())))
-                                .collect(Collectors.toList());
+                return eigentuemer.stream().map(EigentuemerMapper::toResponse).collect(Collectors.toList());
         }
 
+        // ------------------------------------------------------
+        // Ansprechpartner-Funktionen
+        // ------------------------------------------------------
+
         @Override
-        public Integer ansprechpartnerAnlegen(AnsprechpartnerDto dto) {
-                Ansprechpartner ap = new Ansprechpartner(
-                                new AnsprechpartnerId(),
-                                new EigentuemerId(dto.getEigentuemerId()),
-                                dto.getName(),
-                                dto.getTelefon(),
-                                dto.getEmail(),
-                                new Adresse(dto.getAdresse().getStrasse(), dto.getAdresse().getHausnummer(),
-                                                dto.getAdresse().getPlz(), dto.getAdresse().getOrt()));
+        public Integer ansprechpartnerAnlegen(AnsprechpartnerRequest dto) {
+                Ansprechpartner ap = AnsprechpartnerMapper.toDomain(dto);
                 ansprechpartnerRepository.save(ap);
                 return ap.getAnsprechpartnerId().getId();
         }
 
         @Override
-        public AnsprechpartnerDto ansprechpartnerFinden(Integer ansprechpartnerId) {
+        public AnsprechpartnerResponse ansprechpartnerFinden(Integer ansprechpartnerId) {
                 Ansprechpartner ap = ansprechpartnerRepository.findById(new AnsprechpartnerId(ansprechpartnerId));
                 if (ap == null)
                         return null;
-                return new AnsprechpartnerDto(
-                                ap.getEigentuemerId().getId(),
-                                ap.getName(),
-                                ap.getTelefon(),
-                                ap.getEmail(),
-                                new AdresseDto(
-                                                ap.getAdresse().getStrasse(),
-                                                ap.getAdresse().getHausnummer(),
-                                                ap.getAdresse().getPlz(),
-                                                ap.getAdresse().getOrt()));
+                return AnsprechpartnerMapper.toResponse(ap);
         }
 
         @Override
-        public boolean ansprechpartnerAktualisieren(Integer ansprechpartnerId, AnsprechpartnerDto dto) {
-                Ansprechpartner apAlt = ansprechpartnerRepository.findById(new AnsprechpartnerId(ansprechpartnerId));
+        public boolean ansprechpartnerAktualisieren(Integer ansprechpartnerId, AnsprechpartnerRequest dto) {
+                AnsprechpartnerId apId = new AnsprechpartnerId(ansprechpartnerId);
+                Ansprechpartner apAlt = ansprechpartnerRepository.findById(apId);
                 if (apAlt == null)
                         return false;
-                apAlt.setEigentuemerId(new EigentuemerId(dto.getEigentuemerId()));
-                apAlt.setName(dto.getName());
-                apAlt.setTelefon(dto.getTelefon());
-                apAlt.setEmail(dto.getEmail());
-                apAlt.setAdresse(new Adresse(dto.getAdresse().getStrasse(), dto.getAdresse().getHausnummer(),
-                                dto.getAdresse().getPlz(), dto.getAdresse().getOrt()));
-                ansprechpartnerRepository.save(apAlt);
+                Ansprechpartner apNeu = AnsprechpartnerMapper.toDomain(dto);
+                apNeu.setAnsprechpartnerId(apId);
+                ansprechpartnerRepository.save(apNeu);
                 return true;
         }
 
@@ -274,21 +191,10 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
         }
 
         @Override
-        public List<AnsprechpartnerDto> alleAnsprechpartnerFuerEigentuemer(Integer eigentuemerId) {
+        public List<AnsprechpartnerResponse> alleAnsprechpartnerFuerEigentuemer(Integer eigentuemerId) {
                 List<Ansprechpartner> aps = ansprechpartnerRepository
                                 .findByEigentuemerId(new EigentuemerId(eigentuemerId));
-                return aps.stream().map(
-                                ap -> new AnsprechpartnerDto(
-                                                ap.getEigentuemerId().getId(),
-                                                ap.getName(),
-                                                ap.getTelefon(),
-                                                ap.getEmail(),
-                                                new AdresseDto(
-                                                                ap.getAdresse().getStrasse(),
-                                                                ap.getAdresse().getHausnummer(),
-                                                                ap.getAdresse().getPlz(),
-                                                                ap.getAdresse().getOrt())))
-                                .collect(Collectors.toList());
+                return aps.stream().map(AnsprechpartnerMapper::toResponse).collect(Collectors.toList());
         }
 
 }
