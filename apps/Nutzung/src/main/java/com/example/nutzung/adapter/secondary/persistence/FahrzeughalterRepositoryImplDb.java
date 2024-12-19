@@ -3,14 +3,12 @@ package com.example.nutzung.adapter.secondary.persistence;
 import com.example.nutzung.application.domain.Fahrzeughalter;
 import com.example.nutzung.application.domain.FahrzeughalterId;
 import com.example.nutzung.application.port.secondary.FahrzeughalterRepository;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-@Component
 public class FahrzeughalterRepositoryImplDb implements FahrzeughalterRepository {
 
     private final JdbcFahrzeughalterEntityRepository jdbcRepo;

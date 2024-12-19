@@ -4,13 +4,11 @@ import com.example.nutzung.application.domain.Nutzung;
 import com.example.nutzung.application.domain.NutzungId;
 import com.example.nutzung.application.domain.FahrzeughalterId;
 import com.example.nutzung.application.port.secondary.NutzungRepository;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Component
 public class NutzungRepositoryImplDb implements NutzungRepository {
 
     private final JdbcNutzungEntityRepository jdbcRepo;

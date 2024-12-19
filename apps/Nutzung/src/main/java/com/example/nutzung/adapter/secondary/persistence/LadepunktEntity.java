@@ -1,14 +1,20 @@
 package com.example.nutzung.adapter.secondary.persistence;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.domain.Persistable;
 
 import com.example.nutzung.application.domain.Ladepunkt;
+import com.example.nutzung.application.domain.LadepunktId;
 
-public class LadepunktEntity {
+public class LadepunktEntity implements Persistable<Integer> {
     @Id
     private int ladepunktId;
     private double ladeleistungKW;
     private String verfuegbarkeit;
+
+    @Transient
+    private boolean isNew = true;
 
     public LadepunktEntity() {
     }
@@ -25,8 +31,8 @@ public class LadepunktEntity {
         this.verfuegbarkeit = ladepunkt.getVerfuegbarkeit();
     }
 
-    public int getLadepunktId() {
-        return ladepunktId;
+    public Ladepunkt toDomain() {
+        return new Ladepunkt(new LadepunktId(ladepunktId), ladeleistungKW, verfuegbarkeit);
     }
 
     public void setLadepunktId(int ladepunktId) {
@@ -47,5 +53,19 @@ public class LadepunktEntity {
 
     public void setVerfuegbarkeit(String verfuegbarkeit) {
         this.verfuegbarkeit = verfuegbarkeit;
+    }
+
+    @Override
+    public Integer getId() {
+        return ladepunktId;
+    }
+
+    @Override
+    public boolean isNew() {
+        return isNew;
+    }
+
+    public void setIsNew(boolean isNew) {
+        this.isNew = isNew;
     }
 }

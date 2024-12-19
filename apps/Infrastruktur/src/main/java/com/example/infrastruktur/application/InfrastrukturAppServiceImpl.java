@@ -45,6 +45,7 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
         public Integer ladepunktAnlegen(LadepunktRequest ladepunkt) {
                 Ladepunkt neuerLadepunkt = LadepunktMapper.toDomain(ladepunkt);
                 ladepunktRepository.save(neuerLadepunkt);
+                ladepunktDomainService.speichereLadepunkt(neuerLadepunkt);
                 return neuerLadepunkt.getLadepunktId().getId();
         }
 
@@ -67,6 +68,7 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
                 Ladepunkt ladepunktNeu = LadepunktMapper.toDomain(neueDaten);
                 ladepunktNeu.setLadepunktId(lpId);
                 ladepunktRepository.save(ladepunktNeu);
+                ladepunktDomainService.speichereLadepunkt(ladepunktNeu);
                 return true;
         }
 

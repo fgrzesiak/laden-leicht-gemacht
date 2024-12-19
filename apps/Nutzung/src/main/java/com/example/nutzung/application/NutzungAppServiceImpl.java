@@ -107,7 +107,14 @@ public class NutzungAppServiceImpl implements NutzungAppService {
 
     @Override
     public void ladepunktAktualisieren(int ladepunktId, double ladeleistungKW, String verfuegbarkeit) {
-        Ladepunkt ladepunkt = new Ladepunkt(new LadepunktId(ladepunktId), ladeleistungKW, verfuegbarkeit);
-        ladepunktRepo.save(ladepunkt);
+        Ladepunkt ladepunktAlt = ladepunktRepo.findById(new LadepunktId(ladepunktId));
+        if (ladepunktAlt == null) {
+            Ladepunkt ladepunktNeu = new Ladepunkt(new LadepunktId(ladepunktId), ladeleistungKW, verfuegbarkeit);
+            ladepunktRepo.save(ladepunktNeu, true);
+            return;
+        }
+        ladepunktAlt.setLadeleistungKW(ladeleistungKW);
+        ladepunktAlt.setVerfuegbarkeit(verfuegbarkeit);
+        ladepunktRepo.save(ladepunktAlt, false);
     }
 }
