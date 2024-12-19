@@ -15,7 +15,8 @@ public class LadepunktAktualisiertEvent extends DomainEvent {
         // Queue enthält.
         LadepunktTO ladepunktTO = new LadepunktTO(
                 ladepunkt.getLadepunktId().getId(),
-                ladepunkt.getGesamtleistungKWH());
+                ladepunkt.getLadeleistungKW(),
+                ladepunkt.getVerfuegbarkeit());
 
         try {
             ObjectMapper objectMapper = new ObjectMapper();

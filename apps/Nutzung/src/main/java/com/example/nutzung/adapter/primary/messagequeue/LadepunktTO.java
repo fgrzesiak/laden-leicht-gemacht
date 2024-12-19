@@ -1,4 +1,4 @@
-package com.example.infrastruktur.adapter.secondary.messagequeue;
+package com.example.nutzung.adapter.primary.messagequeue;
 
 /**
  * Transfer Object für ein Ladepunkt-Event.
@@ -9,13 +9,6 @@ public class LadepunktTO {
     private int ladepunktId;
     private double ladeleistungKW;
     private String verfuegbarkeit;
-
-    public LadepunktTO(int ladepunktId, double ladeleistungKW, String verfuegbarkeit) {
-        this.ladepunktId = ladepunktId;
-        this.ladeleistungKW = ladeleistungKW;
-        this.verfuegbarkeit = verfuegbarkeit;
-
-    }
 
     public int getLadepunktId() {
         return ladepunktId;

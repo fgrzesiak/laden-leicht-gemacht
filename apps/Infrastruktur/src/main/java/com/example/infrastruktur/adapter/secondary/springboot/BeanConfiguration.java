@@ -48,7 +48,7 @@ public class BeanConfiguration {
      * Application-Service-Bean
      */
     @Bean
-    InfrastrukturAppService ladeinfrastrukturVerwaltungsAppService(
+    InfrastrukturAppService infrastrukturAppService(
             LadepunktRepository ladepunktRepository,
             EigentuemerRepository eigentuemerRepository,
             AnsprechpartnerRepository ansprechpartnerRepository,
