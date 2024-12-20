@@ -2,6 +2,7 @@ package com.example.nutzung.adapter.primary.REST;
 
 import com.example.nutzung.application.dto.FahrzeughalterRequest;
 import com.example.nutzung.application.dto.FahrzeughalterResponse;
+import com.example.nutzung.application.exception.NutzungAppException;
 import com.example.nutzung.application.port.primary.NutzungAppService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,28 +27,21 @@ public class FahrzeughalterController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<FahrzeughalterResponse> halterFinden(@PathVariable("id") int id) {
-        FahrzeughalterResponse dto = service.halterFinden(id);
-        if (dto == null)
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        return ResponseEntity.ok(dto);
+    public ResponseEntity<FahrzeughalterResponse> halterFinden(@PathVariable("id") int id) throws NutzungAppException {
+        return ResponseEntity.ok(service.halterFinden(id));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<String> halterAktualisieren(@PathVariable("id") int id,
-            @RequestBody FahrzeughalterRequest dto) {
-        boolean success = service.halterAktualisieren(id, dto);
-        if (!success)
-            return new ResponseEntity<>("Halter nicht gefunden", HttpStatus.NOT_FOUND);
-        return ResponseEntity.ok("Halter aktualisiert");
+            @RequestBody FahrzeughalterRequest dto) throws NutzungAppException {
+        service.halterAktualisieren(id, dto);
+        return ResponseEntity.ok("Fahrzeughalter aktualisiert");
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> halterLoeschen(@PathVariable("id") int id) {
-        boolean deleted = service.halterLoeschen(id);
-        if (!deleted)
-            return new ResponseEntity<>("Halter nicht gefunden", HttpStatus.NOT_FOUND);
-        return ResponseEntity.ok("Halter gelöscht");
+    public ResponseEntity<String> halterLoeschen(@PathVariable("id") int id) throws NutzungAppException {
+        service.halterLoeschen(id);
+        return ResponseEntity.ok("Fahrzeughalter gelöscht");
     }
 
     @GetMapping

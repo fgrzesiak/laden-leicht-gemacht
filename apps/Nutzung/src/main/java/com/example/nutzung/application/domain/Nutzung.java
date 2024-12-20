@@ -5,14 +5,14 @@ import java.time.LocalDate;
 public class Nutzung {
 
     private NutzungId nutzungsId;
-    private int ladepunktId; // Referenz auf Ladepunkt (aus anderem Bounded Context)
+    private LadepunktId ladepunktId;
     private LocalDate datum;
     private int ladezeitMin;
     private double ladeleistungKWH;
     private FahrzeughalterId halterId;
 
     public Nutzung(NutzungId nutzungsId,
-            int ladepunktId,
+            LadepunktId ladepunktId,
             LocalDate datum,
             int ladezeitMin,
             double ladeleistungKWH,
@@ -29,7 +29,7 @@ public class Nutzung {
         return nutzungsId;
     }
 
-    public int getLadepunktId() {
+    public LadepunktId getLadepunktId() {
         return ladepunktId;
     }
 

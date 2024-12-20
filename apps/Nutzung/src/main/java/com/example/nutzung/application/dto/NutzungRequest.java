@@ -1,40 +1,18 @@
 package com.example.nutzung.application.dto;
 
 public class NutzungRequest {
-    private int nutzungsId;
-    private int ladepunktId;
     private String datum; // z. B. "2023-10-10"
     private int ladezeitMin;
-    private double ladeleistungKWH;
     private int halterId;
+    private double ladeleistungKWH; // muss berechnet werden
 
     public NutzungRequest() {
     }
 
-    public NutzungRequest(int nutzungsId, int ladepunktId, String datum, int ladezeitMin, double ladeleistungKWH,
-            int halterId) {
-        this.nutzungsId = nutzungsId;
-        this.ladepunktId = ladepunktId;
+    public NutzungRequest(String datum, int ladezeitMin, int halterId) {
         this.datum = datum;
         this.ladezeitMin = ladezeitMin;
-        this.ladeleistungKWH = ladeleistungKWH;
         this.halterId = halterId;
-    }
-
-    public int getNutzungsId() {
-        return nutzungsId;
-    }
-
-    public void setNutzungsId(int nutzungsId) {
-        this.nutzungsId = nutzungsId;
-    }
-
-    public int getLadepunktId() {
-        return ladepunktId;
-    }
-
-    public void setLadepunktId(int ladepunktId) {
-        this.ladepunktId = ladepunktId;
     }
 
     public String getDatum() {
@@ -53,19 +31,19 @@ public class NutzungRequest {
         this.ladezeitMin = ladezeitMin;
     }
 
-    public double getladeleistungKWH() {
-        return ladeleistungKWH;
-    }
-
-    public void setladeleistungKWH(double ladeleistungKWH) {
-        this.ladeleistungKWH = ladeleistungKWH;
-    }
-
     public int getHalterId() {
         return halterId;
     }
 
     public void setHalterId(int halterId) {
         this.halterId = halterId;
+    }
+
+    public double getladeleistungKWH() {
+        return ladeleistungKWH;
+    }
+
+    public void setladeleistungKWH(double ladeleistungKWH) {
+        this.ladeleistungKWH = ladeleistungKWH;
     }
 }

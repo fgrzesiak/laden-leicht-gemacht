@@ -4,6 +4,7 @@ import com.example.nutzung.application.dto.FahrzeughalterRequest;
 import com.example.nutzung.application.dto.FahrzeughalterResponse;
 import com.example.nutzung.application.dto.NutzungRequest;
 import com.example.nutzung.application.dto.NutzungResponse;
+import com.example.nutzung.application.exception.NutzungAppException;
 
 import java.util.List;
 
@@ -12,20 +13,20 @@ public interface NutzungAppService {
     // Fahrzeughalter CRUD
     int halterAnlegen(FahrzeughalterRequest dto);
 
-    FahrzeughalterResponse halterFinden(int halterId);
+    FahrzeughalterResponse halterFinden(int halterId) throws NutzungAppException;
 
-    boolean halterAktualisieren(int halterId, FahrzeughalterRequest dto);
+    void halterAktualisieren(int halterId, FahrzeughalterRequest dto) throws NutzungAppException;
 
-    boolean halterLoeschen(int halterId);
+    void halterLoeschen(int halterId) throws NutzungAppException;
 
     List<FahrzeughalterResponse> alleHalterAnzeigen();
 
     // Nutzung erfassen und anzeigen
-    int nutzungAnlegen(NutzungRequest dto);
+    int nutzungAnlegen(int ladepunktId, NutzungRequest dto) throws NutzungAppException;
 
-    NutzungResponse nutzungFinden(int nutzungsId);
+    NutzungResponse nutzungFinden(int nutzungsId) throws NutzungAppException;
 
-    boolean nutzungLoeschen(int nutzungsId);
+    void nutzungLoeschen(int nutzungsId) throws NutzungAppException;
 
     List<NutzungResponse> nutzungsHistorieFuerHalter(int halterId);
 

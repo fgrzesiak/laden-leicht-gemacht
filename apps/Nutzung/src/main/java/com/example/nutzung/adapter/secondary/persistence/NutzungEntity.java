@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import com.example.nutzung.application.domain.Nutzung;
 import com.example.nutzung.application.domain.NutzungId;
 import com.example.nutzung.application.domain.FahrzeughalterId;
+import com.example.nutzung.application.domain.LadepunktId;
 
 import java.time.LocalDate;
 
@@ -22,7 +23,7 @@ public class NutzungEntity {
     }
 
     public NutzungEntity(Nutzung domain) {
-        this.ladepunktId = domain.getLadepunktId();
+        this.ladepunktId = domain.getLadepunktId().getId();
         this.datum = domain.getDatum();
         this.ladezeitMin = domain.getLadezeitMin();
         this.ladeleistungKWH = domain.getladeleistungKWH();
@@ -32,6 +33,7 @@ public class NutzungEntity {
     public Nutzung toDomain() {
         NutzungId nid = new NutzungId(this.nutzungsId);
         FahrzeughalterId hid = new FahrzeughalterId(this.halterId);
+        LadepunktId ladepunktId = new LadepunktId(this.ladepunktId);
         return new Nutzung(nid, ladepunktId, datum, ladezeitMin, ladeleistungKWH, hid);
     }
 

@@ -5,6 +5,9 @@ import com.example.nutzung.application.dto.FahrzeughalterRequest;
 import com.example.nutzung.application.dto.FahrzeughalterResponse;
 import com.example.nutzung.application.dto.NutzungRequest;
 import com.example.nutzung.application.dto.NutzungResponse;
+import com.example.nutzung.application.exception.BadRequestException;
+import com.example.nutzung.application.exception.NotFoundException;
+import com.example.nutzung.application.exception.NutzungAppException;
 import com.example.nutzung.application.mapper.FahrzeughalterMapper;
 import com.example.nutzung.application.mapper.NutzungMapper;
 import com.example.nutzung.application.port.primary.NutzungAppService;
@@ -36,35 +39,33 @@ public class NutzungAppServiceImpl implements NutzungAppService {
     }
 
     @Override
-    public FahrzeughalterResponse halterFinden(int halterId) {
+    public FahrzeughalterResponse halterFinden(int halterId) throws NutzungAppException {
         Fahrzeughalter halter = halterRepo.findById(new FahrzeughalterId(halterId));
         if (halter == null) {
-            return null;
+            throw new NotFoundException("Fahrzeughalter nicht gefunden");
         }
         return FahrzeughalterMapper.toResponse(halter);
     }
 
     @Override
-    public boolean halterAktualisieren(int halterId, FahrzeughalterRequest dto) {
+    public void halterAktualisieren(int halterId, FahrzeughalterRequest dto) throws NutzungAppException {
         FahrzeughalterId hid = new FahrzeughalterId(halterId);
         Fahrzeughalter alt = halterRepo.findById(hid);
         if (alt == null) {
-            return false;
+            throw new NotFoundException("Fahrzeughalter nicht gefunden");
         }
         Fahrzeughalter neu = FahrzeughalterMapper.toDomain(dto);
         neu.setHalterId(hid);
         halterRepo.save(neu);
-        return true;
     }
 
     @Override
-    public boolean halterLoeschen(int halterId) {
+    public void halterLoeschen(int halterId) throws NutzungAppException {
         Fahrzeughalter halter = halterRepo.findById(new FahrzeughalterId(halterId));
         if (halter == null) {
-            return false;
+            throw new NotFoundException("Fahrzeughalter nicht gefunden");
         }
         halterRepo.delete(halter.getHalterId());
-        return true;
     }
 
     @Override
@@ -74,29 +75,40 @@ public class NutzungAppServiceImpl implements NutzungAppService {
     }
 
     @Override
-    public int nutzungAnlegen(NutzungRequest dto) {
-        Nutzung nutzung = NutzungMapper.toDomain(dto);
+    public int nutzungAnlegen(int ladepunktId, NutzungRequest dto) throws NutzungAppException {
+        Ladepunkt ladepunkt = ladepunktRepo.findById(new LadepunktId(ladepunktId));
+        if (ladepunkt == null) {
+            throw new NotFoundException("Ladepunkt nicht gefunden");
+        }
+        if (!ladepunkt.getVerfuegbarkeit().equals("verfügbar")) {
+            throw new BadRequestException("Ladepunkt nicht verfügbar");
+        }
+        Fahrzeughalter halter = halterRepo.findById(new FahrzeughalterId(dto.getHalterId()));
+        if (halter == null) {
+            throw new NotFoundException("Fahrzeughalter nicht gefunden");
+        }
+        dto.setladeleistungKWH(dto.getLadezeitMin() * ladepunkt.getLadeleistungKW() / 60);
+        Nutzung nutzung = NutzungMapper.toDomain(ladepunktId, dto);
         nutzungRepo.save(nutzung);
         return nutzung.getNutzungsId().getId();
     }
 
     @Override
-    public NutzungResponse nutzungFinden(int nutzungId) {
+    public NutzungResponse nutzungFinden(int nutzungId) throws NutzungAppException {
         Nutzung nutzung = nutzungRepo.findById(new NutzungId(nutzungId));
         if (nutzung == null) {
-            return null;
+            throw new NotFoundException("Nutzung nicht gefunden");
         }
         return NutzungMapper.toResponse(nutzung);
     }
 
     @Override
-    public boolean nutzungLoeschen(int nutzungId) {
+    public void nutzungLoeschen(int nutzungId) throws NutzungAppException {
         Nutzung nutzung = nutzungRepo.findById(new NutzungId(nutzungId));
         if (nutzung == null) {
-            return false;
+            throw new NotFoundException("Nutzung nicht gefunden");
         }
         nutzungRepo.delete(nutzung.getNutzungsId());
-        return true;
     }
 
     @Override
