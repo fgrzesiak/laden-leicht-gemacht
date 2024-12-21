@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import com.example.infrastruktur.adapter.primary.REST.AnsprechpartnerController;
 import com.example.infrastruktur.adapter.primary.REST.EigentuemerController;
 import com.example.infrastruktur.adapter.primary.REST.LadepunktController;
+import com.example.infrastruktur.adapter.primary.messagequeue.EventListener;
 import com.example.infrastruktur.adapter.secondary.messagequeue.EventPublisherImpl;
 import com.example.infrastruktur.adapter.secondary.persistence.LadepunktRepositoryImplDb;
 import com.example.infrastruktur.adapter.secondary.persistence.AnsprechpartnerRepositoryImplDb;
@@ -93,10 +94,11 @@ public class BeanConfiguration {
         return new AnsprechpartnerRepositoryImplDb(jdbcAnsprechpartnerEntityRepository);
     }
 
-    /**
-     * EventPublisher-Bean (RabbitMQ / AMQP), analog zum EventPublisherImpl im
-     * Artikel-Beispiel.
-     */
+    @Bean
+    EventListener eventListener(InfrastrukturAppService infrastrukturAppService) {
+        return new EventListener(infrastrukturAppService);
+    }
+
     @Bean
     EventPublisher eventPublisher(RabbitTemplate rabbitTemplate, AmqpAdmin amqpAdmin) {
         return new EventPublisherImpl(rabbitTemplate, amqpAdmin);

@@ -1,4 +1,4 @@
-package com.example.infrastruktur.application.domain;
+package com.example.nutzung.application.domain;
 
 public class DomainEvent {
 

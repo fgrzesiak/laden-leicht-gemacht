@@ -27,7 +27,7 @@ public class Ladepunkt {
         this.ladeleistungKW = ladeleistungKW;
         this.anschlussart = anschlussart;
         this.verfuegbarkeit = verfuegbarkeit;
-        this.gesamtleistungKWH = gesamtleistungKWH;
+        this.gesamtleistungKWH = gesamtleistungKWH != null ? gesamtleistungKWH : 0.0;
     }
 
     // Fachlogik, z. B. Wartung starten
@@ -90,5 +90,9 @@ public class Ladepunkt {
 
     public void setGesamtleistungKWH(Double gesamtleistungKWH) {
         this.gesamtleistungKWH = gesamtleistungKWH;
+    }
+
+    public void verarbeiteLadevorgang(double kwh) {
+        this.gesamtleistungKWH += kwh;
     }
 }

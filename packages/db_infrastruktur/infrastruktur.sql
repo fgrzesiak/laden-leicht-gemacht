@@ -40,7 +40,7 @@ CREATE TABLE ladepunkt_entity (
     ladeleistung_kw       DECIMAL(5,2) NOT NULL,       #-- z.B. 22.00
     anschlussart          VARCHAR(50) NOT NULL,         #-- z.B. "Typ 2", "CCS", ...
     verfuegbarkeit        VARCHAR(50) NOT NULL,         #-- z.B. "verfügbar", "in Wartung"
-    gesamtleistung_kwh    DECIMAL(10,2) DEFAULT 0.0,
+    gesamtleistung_kwh    DECIMAL(10,2) NOT NULL DEFAULT 0.0,
     strasse               VARCHAR(255) NOT NULL,
     hausnummer            VARCHAR(10) NOT NULL,
     plz                   VARCHAR(10) NOT NULL,

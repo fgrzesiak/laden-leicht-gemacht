@@ -23,12 +23,14 @@ public class NutzungAppServiceImpl implements NutzungAppService {
     private final FahrzeughalterRepository halterRepo;
     private final NutzungRepository nutzungRepo;
     private final LadepunktRepository ladepunktRepo;
+    private final NutzungDomainService nutzungDomainService;
 
     public NutzungAppServiceImpl(FahrzeughalterRepository halterRepo, NutzungRepository nutzungRepo,
-            LadepunktRepository ladepunktRepo) {
+            LadepunktRepository ladepunktRepo, NutzungDomainService nutzungDomainService) {
         this.halterRepo = halterRepo;
         this.nutzungRepo = nutzungRepo;
         this.ladepunktRepo = ladepunktRepo;
+        this.nutzungDomainService = nutzungDomainService;
     }
 
     @Override
@@ -90,6 +92,7 @@ public class NutzungAppServiceImpl implements NutzungAppService {
         dto.setladeleistungKWH(dto.getLadezeitMin() * ladepunkt.getLadeleistungKW() / 60);
         Nutzung nutzung = NutzungMapper.toDomain(ladepunktId, dto);
         nutzungRepo.save(nutzung);
+        nutzungDomainService.verarbeiteLadevorgang(nutzung);
         return nutzung.getNutzungsId().getId();
     }
 

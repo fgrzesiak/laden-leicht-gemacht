@@ -44,4 +44,7 @@ public interface InfrastrukturAppService {
 
     List<AnsprechpartnerResponse> alleAnsprechpartnerFuerEigentuemer(Integer eigentuemerId);
 
+    // RabbitMq-Funktionen
+    void verarbeiteLadevorgang(int ladepunktId, double ladeleistungKWH);
+
 }

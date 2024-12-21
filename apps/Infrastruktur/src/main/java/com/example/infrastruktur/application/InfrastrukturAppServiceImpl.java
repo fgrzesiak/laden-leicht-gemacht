@@ -199,4 +199,17 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
                 return aps.stream().map(AnsprechpartnerMapper::toResponse).collect(Collectors.toList());
         }
 
+        // ------------------------------------------------------
+        // RabbitMq-Funktionen
+        // ------------------------------------------------------
+        @Override
+        public void verarbeiteLadevorgang(int ladepunktId, double ladeleistungKWH) {
+                Ladepunkt ladepunkt = ladepunktRepository.findById(new LadepunktId(ladepunktId));
+                if (ladepunkt == null) {
+                        return;
+                }
+                ladepunkt.verarbeiteLadevorgang(ladeleistungKWH);
+                ladepunktRepository.save(ladepunkt);
+        }
+
 }
