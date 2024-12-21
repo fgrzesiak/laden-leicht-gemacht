@@ -28,7 +28,7 @@ public interface NutzungAppService {
 
     void nutzungLoeschen(int nutzungsId) throws NutzungAppException;
 
-    List<NutzungResponse> nutzungsHistorieFuerHalter(int halterId);
+    List<NutzungResponse> nutzungsHistorieFuerHalter(int halterId) throws NutzungAppException;
 
     // Ladepunkt aktualisieren
 

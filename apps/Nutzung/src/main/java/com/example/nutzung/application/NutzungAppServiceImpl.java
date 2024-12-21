@@ -112,8 +112,12 @@ public class NutzungAppServiceImpl implements NutzungAppService {
     }
 
     @Override
-    public List<NutzungResponse> nutzungsHistorieFuerHalter(int halterId) {
-        List<Nutzung> nutzungen = nutzungRepo.findAllByHalterId(new FahrzeughalterId(halterId));
+    public List<NutzungResponse> nutzungsHistorieFuerHalter(int halterId) throws NutzungAppException {
+        Fahrzeughalter halter = halterRepo.findById(new FahrzeughalterId(halterId));
+        if (halter == null) {
+            throw new NotFoundException("Fahrzeughalter nicht gefunden");
+        }
+        List<Nutzung> nutzungen = nutzungRepo.findAllByHalterId(halter.getHalterId());
         return nutzungen.stream().map(NutzungMapper::toResponse).collect(Collectors.toList());
     }
 

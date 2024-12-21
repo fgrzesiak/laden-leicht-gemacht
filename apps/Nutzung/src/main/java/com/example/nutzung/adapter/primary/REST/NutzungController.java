@@ -40,7 +40,8 @@ public class NutzungController {
     }
 
     @GetMapping("/historie/{halterId}")
-    public List<NutzungResponse> nutzungsHistorieFuerHalter(@PathVariable("halterId") int halterId) {
+    public List<NutzungResponse> nutzungsHistorieFuerHalter(@PathVariable("halterId") int halterId)
+            throws NutzungAppException {
         return service.nutzungsHistorieFuerHalter(halterId);
     }
 }
