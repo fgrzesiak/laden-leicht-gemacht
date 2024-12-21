@@ -1,6 +1,9 @@
 package com.example.nutzung.adapter.secondary.persistence;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import com.example.nutzung.application.domain.Ladepunkt;
 import com.example.nutzung.application.domain.LadepunktId;
@@ -25,5 +28,12 @@ public class LadepunktRepositoryImplDb implements LadepunktRepository {
 		LadepunktEntity ladepunktEntity = new LadepunktEntity(ladepunkt);
 		ladepunktEntity.setIsNew(isNew);
 		jdbcLadepunktEntityRepository.save(ladepunktEntity);
+	}
+
+	@Override
+	public List<Ladepunkt> findAll() {
+		return StreamSupport.stream(jdbcLadepunktEntityRepository.findAll().spliterator(), false)
+				.map(LadepunktEntity::toDomain)
+				.collect(Collectors.toList());
 	}
 }

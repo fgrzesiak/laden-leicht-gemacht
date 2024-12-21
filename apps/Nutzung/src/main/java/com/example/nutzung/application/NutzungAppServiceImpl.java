@@ -3,12 +3,14 @@ package com.example.nutzung.application;
 import com.example.nutzung.application.domain.*;
 import com.example.nutzung.application.dto.FahrzeughalterRequest;
 import com.example.nutzung.application.dto.FahrzeughalterResponse;
+import com.example.nutzung.application.dto.LadepunktResponse;
 import com.example.nutzung.application.dto.NutzungRequest;
 import com.example.nutzung.application.dto.NutzungResponse;
 import com.example.nutzung.application.exception.BadRequestException;
 import com.example.nutzung.application.exception.NotFoundException;
 import com.example.nutzung.application.exception.NutzungAppException;
 import com.example.nutzung.application.mapper.FahrzeughalterMapper;
+import com.example.nutzung.application.mapper.LadepunktMapper;
 import com.example.nutzung.application.mapper.NutzungMapper;
 import com.example.nutzung.application.port.primary.NutzungAppService;
 import com.example.nutzung.application.port.secondary.FahrzeughalterRepository;
@@ -89,7 +91,7 @@ public class NutzungAppServiceImpl implements NutzungAppService {
         if (halter == null) {
             throw new NotFoundException("Fahrzeughalter nicht gefunden");
         }
-        dto.setladeleistungKWH(dto.getLadezeitMin() * ladepunkt.getLadeleistungKW() / 60);
+        dto.setladeleistungKWH(dto.getLadezeitMin() * (ladepunkt.getLadeleistungKW() / 60));
         Nutzung nutzung = NutzungMapper.toDomain(ladepunktId, dto);
         nutzungRepo.save(nutzung);
         nutzungDomainService.verarbeiteLadevorgang(nutzung);
@@ -135,5 +137,11 @@ public class NutzungAppServiceImpl implements NutzungAppService {
         ladepunktAlt.setLadeleistungKW(ladeleistungKW);
         ladepunktAlt.setVerfuegbarkeit(verfuegbarkeit);
         ladepunktRepo.save(ladepunktAlt, false);
+    }
+
+    @Override
+    public List<LadepunktResponse> alleLadepunkteAnzeigen() {
+        List<Ladepunkt> ladepunkte = ladepunktRepo.findAll();
+        return ladepunkte.stream().map(LadepunktMapper::toResponse).collect(Collectors.toList());
     }
 }

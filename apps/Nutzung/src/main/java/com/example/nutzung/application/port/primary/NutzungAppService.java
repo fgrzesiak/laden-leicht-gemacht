@@ -2,6 +2,7 @@ package com.example.nutzung.application.port.primary;
 
 import com.example.nutzung.application.dto.FahrzeughalterRequest;
 import com.example.nutzung.application.dto.FahrzeughalterResponse;
+import com.example.nutzung.application.dto.LadepunktResponse;
 import com.example.nutzung.application.dto.NutzungRequest;
 import com.example.nutzung.application.dto.NutzungResponse;
 import com.example.nutzung.application.exception.NutzungAppException;
@@ -33,4 +34,8 @@ public interface NutzungAppService {
     // Ladepunkt aktualisieren
 
     void ladepunktAktualisieren(int ladepunktId, double ladeleistungKW, String verfuegbarkeit);
+
+    // Ladepunkte anzeigen
+
+    List<LadepunktResponse> alleLadepunkteAnzeigen();
 }
