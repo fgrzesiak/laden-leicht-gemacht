@@ -1,5 +1,6 @@
 package com.example.nutzung.adapter.primary.REST;
 
+import com.example.nutzung.application.dto.NutzungPutRequest;
 import com.example.nutzung.application.dto.NutzungRequest;
 import com.example.nutzung.application.dto.NutzungResponse;
 import com.example.nutzung.application.port.primary.NutzungAppService;
@@ -51,6 +52,16 @@ public class NutzungController {
     }
 
     /**
+     * Gibt eine Liste aller Nutzungen zurück.
+     *
+     * @return eine Liste von NutzungResponse-Objekten
+     */
+    @GetMapping
+    public List<NutzungResponse> alleNutzungen() {
+        return service.alleNutzungenAnzeigen();
+    }
+
+    /**
      * Gibt die Nutzungshistorie für einen Halter zurück.
      *
      * @param halterId die ID des Halters
@@ -61,6 +72,21 @@ public class NutzungController {
     public List<NutzungResponse> nutzungsHistorieFuerHalter(@PathVariable("halterId") int halterId)
             throws NutzungAppException {
         return service.nutzungsHistorieFuerHalter(halterId);
+    }
+
+    /**
+     * Aktualisiert eine bestehende Nutzung.
+     *
+     * @param id  die ID der Nutzung
+     * @param dto die neuen Daten der Nutzung
+     * @return eine ResponseEntity mit einer Bestätigungsmeldung
+     * @throws NutzungAppException wenn ein Fehler auftritt
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<String> nutzungAktualisieren(@PathVariable("id") int id, @RequestBody NutzungPutRequest dto)
+            throws NutzungAppException {
+        service.nutzungAktualisieren(id, dto);
+        return ResponseEntity.ok("Nutzung aktualisiert");
     }
 
     /**
@@ -75,4 +101,5 @@ public class NutzungController {
         service.nutzungLoeschen(id);
         return ResponseEntity.ok("Nutzung gelöscht");
     }
+
 }

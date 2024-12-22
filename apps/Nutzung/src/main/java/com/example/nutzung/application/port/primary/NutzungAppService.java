@@ -3,6 +3,7 @@ package com.example.nutzung.application.port.primary;
 import com.example.nutzung.application.dto.FahrzeughalterRequest;
 import com.example.nutzung.application.dto.FahrzeughalterResponse;
 import com.example.nutzung.application.dto.LadepunktResponse;
+import com.example.nutzung.application.dto.NutzungPutRequest;
 import com.example.nutzung.application.dto.NutzungRequest;
 import com.example.nutzung.application.dto.NutzungResponse;
 import com.example.nutzung.application.exception.NutzungAppException;
@@ -28,6 +29,10 @@ public interface NutzungAppService {
     NutzungResponse nutzungFinden(int nutzungsId) throws NutzungAppException;
 
     void nutzungLoeschen(int nutzungsId) throws NutzungAppException;
+
+    void nutzungAktualisieren(int nutzungsId, NutzungPutRequest dto) throws NutzungAppException;
+
+    List<NutzungResponse> alleNutzungenAnzeigen();
 
     List<NutzungResponse> nutzungsHistorieFuerHalter(int halterId) throws NutzungAppException;
 

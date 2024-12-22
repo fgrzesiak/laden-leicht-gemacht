@@ -28,47 +28,24 @@ public class NutzungResponse {
         return nutzungsId;
     }
 
-    public void setNutzungsId(int nutzungsId) {
-        this.nutzungsId = nutzungsId;
-    }
-
     public int getLadepunktId() {
         return ladepunktId;
-    }
-
-    public void setLadepunktId(int ladepunktId) {
-        this.ladepunktId = ladepunktId;
     }
 
     public String getDatum() {
         return datum;
     }
 
-    public void setDatum(String datum) {
-        this.datum = datum;
-    }
-
     public int getLadezeitMin() {
         return ladezeitMin;
     }
 
-    public void setLadezeitMin(int ladezeitMin) {
-        this.ladezeitMin = ladezeitMin;
-    }
-
-    public double getladeleistungKWH() {
+    public double getLadeleistungKWH() {
         return ladeleistungKWH;
-    }
-
-    public void setladeleistungKWH(double ladeleistungKWH) {
-        this.ladeleistungKWH = ladeleistungKWH;
     }
 
     public int getHalterId() {
         return halterId;
     }
 
-    public void setHalterId(int halterId) {
-        this.halterId = halterId;
-    }
 }

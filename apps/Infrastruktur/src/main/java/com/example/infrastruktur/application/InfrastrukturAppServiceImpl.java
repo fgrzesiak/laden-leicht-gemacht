@@ -73,6 +73,11 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
                         throw new NotFoundException("Ladepunkt nicht gefunden");
                 }
                 Ladepunkt ladepunktNeu = LadepunktMapper.toDomain(neueDaten);
+                Eigentuemer eigentuemer = eigentuemerRepository
+                                .findById(new EigentuemerId(neueDaten.getEigentuemerId()));
+                if (eigentuemer == null) {
+                        throw new NotFoundException("Eigentümer nicht gefunden");
+                }
                 ladepunktNeu.setLadepunktId(lpId);
                 ladepunktRepository.save(ladepunktNeu);
                 ladepunktDomainService.speichereLadepunkt(ladepunktNeu);

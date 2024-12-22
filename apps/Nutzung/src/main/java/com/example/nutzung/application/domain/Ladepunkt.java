@@ -38,6 +38,6 @@ public class Ladepunkt {
     }
 
     public boolean isVerfuegbar() {
-        return verfuegbarkeit == VerfuegbarkeitEnum.VERFUEGBAR.toString();
+        return verfuegbarkeit.equals(VerfuegbarkeitEnum.VERFUEGBAR.toString());
     }
 }

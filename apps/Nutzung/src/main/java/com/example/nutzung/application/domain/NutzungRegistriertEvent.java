@@ -12,7 +12,7 @@ public class NutzungRegistriertEvent extends DomainEvent {
     public NutzungRegistriertEvent(Nutzung nutzung) {
         NutzungTO nutzungTO = new NutzungTO(
                 nutzung.getLadepunktId().getId(),
-                nutzung.getladeleistungKWH());
+                nutzung.getLadeleistungKWH());
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             this.payload = objectMapper.writeValueAsString(nutzungTO);

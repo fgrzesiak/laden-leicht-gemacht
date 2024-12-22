@@ -42,7 +42,7 @@ public class NutzungEntity {
         return ladezeitMin;
     }
 
-    public double getladeleistungKWH() {
+    public double getLadeleistungKWH() {
         return ladeleistungKWH;
     }
 

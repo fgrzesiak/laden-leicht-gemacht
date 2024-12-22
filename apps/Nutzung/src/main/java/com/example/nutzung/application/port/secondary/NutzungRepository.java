@@ -13,5 +13,7 @@ public interface NutzungRepository {
 
     void delete(NutzungId id);
 
+    List<Nutzung> findAll();
+
     List<Nutzung> findAllByHalterId(FahrzeughalterId halterId);
 }

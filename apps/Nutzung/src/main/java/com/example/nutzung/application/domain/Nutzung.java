@@ -45,11 +45,20 @@ public class Nutzung {
         return ladezeitMin;
     }
 
-    public double getladeleistungKWH() {
+    public double getLadeleistungKWH() {
         return ladeleistungKWH;
     }
 
     public FahrzeughalterId getHalterId() {
         return halterId;
     }
+
+    public void setLadeleistungKWH(double ladeleistungKWH) {
+        this.ladeleistungKWH = ladeleistungKWH;
+    }
+
+    public void berechneLadeleistungKWH(double ladeleistungKW) {
+        this.ladeleistungKWH = ladeleistungKW * ladezeitMin / 60;
+    }
+
 }

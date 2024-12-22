@@ -4,6 +4,7 @@ import com.example.nutzung.application.domain.*;
 import com.example.nutzung.application.dto.FahrzeughalterRequest;
 import com.example.nutzung.application.dto.FahrzeughalterResponse;
 import com.example.nutzung.application.dto.LadepunktResponse;
+import com.example.nutzung.application.dto.NutzungPutRequest;
 import com.example.nutzung.application.dto.NutzungRequest;
 import com.example.nutzung.application.dto.NutzungResponse;
 import com.example.nutzung.application.exception.BadRequestException;
@@ -99,8 +100,8 @@ public class NutzungAppServiceImpl implements NutzungAppService {
         if (halter == null) {
             throw new NotFoundException("Fahrzeughalter nicht gefunden");
         }
-        dto.setladeleistungKWH(dto.getLadezeitMin() * (ladepunkt.getLadeleistungKW() / 60));
         Nutzung nutzung = NutzungMapper.toDomain(ladepunktId, dto);
+        nutzung.berechneLadeleistungKWH(ladepunkt.getLadeleistungKW());
         nutzungRepo.save(nutzung);
         nutzungDomainService.verarbeiteLadevorgang(nutzung);
         return nutzung.getNutzungsId().getId();
@@ -116,12 +117,9 @@ public class NutzungAppServiceImpl implements NutzungAppService {
     }
 
     @Override
-    public void nutzungLoeschen(int nutzungId) throws NutzungAppException {
-        Nutzung nutzung = nutzungRepo.findById(new NutzungId(nutzungId));
-        if (nutzung == null) {
-            throw new NotFoundException("Nutzung nicht gefunden");
-        }
-        nutzungRepo.delete(nutzung.getNutzungsId());
+    public List<NutzungResponse> alleNutzungenAnzeigen() {
+        List<Nutzung> nutzungen = nutzungRepo.findAll();
+        return nutzungen.stream().map(NutzungMapper::toResponse).collect(Collectors.toList());
     }
 
     @Override
@@ -132,6 +130,30 @@ public class NutzungAppServiceImpl implements NutzungAppService {
         }
         List<Nutzung> nutzungen = nutzungRepo.findAllByHalterId(halter.getHalterId());
         return nutzungen.stream().map(NutzungMapper::toResponse).collect(Collectors.toList());
+    }
+
+    @Override
+    public void nutzungAktualisieren(int nutzungId, NutzungPutRequest dto) throws NutzungAppException {
+        Nutzung nutzung = nutzungRepo.findById(new NutzungId(nutzungId));
+        if (nutzung == null) {
+            throw new NotFoundException("Nutzung nicht gefunden");
+        }
+        Fahrzeughalter halter = halterRepo.findById(new FahrzeughalterId(dto.getHalterId()));
+        if (halter == null) {
+            throw new NotFoundException("Fahrzeughalter nicht gefunden");
+        }
+        Nutzung nutzungNeu = NutzungMapper.toDomain(nutzungId, dto);
+        nutzungRepo.save(nutzungNeu);
+        nutzungDomainService.verarbeiteLadevorgangAktualisiert(nutzung, nutzungNeu);
+    }
+
+    @Override
+    public void nutzungLoeschen(int nutzungId) throws NutzungAppException {
+        Nutzung nutzung = nutzungRepo.findById(new NutzungId(nutzungId));
+        if (nutzung == null) {
+            throw new NotFoundException("Nutzung nicht gefunden");
+        }
+        nutzungRepo.delete(nutzung.getNutzungsId());
     }
 
     // ------------------------------------------------------

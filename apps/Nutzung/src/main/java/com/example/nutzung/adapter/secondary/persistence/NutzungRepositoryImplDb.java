@@ -37,6 +37,12 @@ public class NutzungRepositoryImplDb implements NutzungRepository {
     }
 
     @Override
+    public List<Nutzung> findAll() {
+        List<NutzungEntity> entities = (List<NutzungEntity>) jdbcRepo.findAll();
+        return entities.stream().map(NutzungMapper::toDomain).collect(Collectors.toList());
+    }
+
+    @Override
     public List<Nutzung> findAllByHalterId(FahrzeughalterId halterId) {
         List<NutzungEntity> entities = jdbcRepo.findByHalterId(halterId.getId());
         return entities.stream().map(NutzungMapper::toDomain).collect(Collectors.toList());
