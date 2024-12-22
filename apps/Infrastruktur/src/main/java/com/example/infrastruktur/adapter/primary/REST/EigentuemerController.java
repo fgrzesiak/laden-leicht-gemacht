@@ -59,7 +59,7 @@ public class EigentuemerController {
     }
 
     /**
-     * Aktualisiert Daten eines Eigentümers
+     * Aktualisiert die Daten eines Eigentümers
      *
      * @param id             Die ID des Eigentümers
      * @param eigentuemerDto Die neuen Daten des Eigentümers

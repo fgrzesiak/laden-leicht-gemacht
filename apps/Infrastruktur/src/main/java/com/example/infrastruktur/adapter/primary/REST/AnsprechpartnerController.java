@@ -61,11 +61,11 @@ public class AnsprechpartnerController {
     public ResponseEntity<String> ansprechpartnerAktualisieren(@PathVariable("id") Integer id,
             @RequestBody AnsprechpartnerRequest dto) throws InfrastrukturAppException {
         service.ansprechpartnerAktualisieren(id, dto);
-        return new ResponseEntity<>("Ansprechpartner aktualisiert", HttpStatus.OK);
+        return ResponseEntity.ok("Ansprechpartner aktualisiert");
     }
 
     /**
-     * Löscht einen Ansprechpartner anhand der ID.
+     * Löscht einen Ansprechpartner.
      *
      * @param id Die ID des Ansprechpartners.
      * @return Eine ResponseEntity mit einer Bestätigungsmeldung.
@@ -76,7 +76,7 @@ public class AnsprechpartnerController {
     public ResponseEntity<String> ansprechpartnerLoeschen(@PathVariable("id") Integer id)
             throws InfrastrukturAppException {
         service.ansprechpartnerLoeschen(id);
-        return new ResponseEntity<>("Ansprechpartner gelöscht", HttpStatus.OK);
+        return ResponseEntity.ok("Ansprechpartner gelöscht");
     }
 
     /**

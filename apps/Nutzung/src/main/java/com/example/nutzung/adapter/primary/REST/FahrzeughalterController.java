@@ -48,7 +48,7 @@ public class FahrzeughalterController {
     }
 
     /**
-     * Zeigt alle Fahrzeughalter an.
+     * Liefert eine Liste aller Fahrzeughalter.
      *
      * @return eine Liste aller Fahrzeughalter
      */

@@ -30,7 +30,7 @@ public class LadepunktController {
     }
 
     /**
-     * Ruft eine Liste aller Ladepunkte ab.
+     * Liefert eine Liste aller Ladepunkte.
      * 
      * @return eine Liste von LadepunktResponse-Objekten, die alle Ladepunkte
      *         darstellen

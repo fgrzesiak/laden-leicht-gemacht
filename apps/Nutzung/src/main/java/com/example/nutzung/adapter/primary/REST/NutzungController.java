@@ -64,7 +64,7 @@ public class NutzungController {
     }
 
     /**
-     * Löscht eine Nutzung anhand ihrer ID.
+     * Löscht eine Nutzung.
      *
      * @param id die ID der Nutzung
      * @return eine ResponseEntity mit einer Bestätigungsmeldung

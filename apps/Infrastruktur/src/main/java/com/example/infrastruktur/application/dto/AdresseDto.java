@@ -1,8 +1,5 @@
 package com.example.infrastruktur.application.dto;
 
-/**
- * Value Object für Adress-Daten
- */
 public class AdresseDTO {
 
     private String strasse;

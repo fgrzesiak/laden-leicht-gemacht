@@ -24,7 +24,7 @@ public class LadepunktController {
     }
 
     /**
-     * Erstellt einen neuen Ladepunkt.
+     * Legt einen neuen Ladepunkt an.
      *
      * @param ladepunktRequest die Daten des neuen Ladepunkts
      * @return eine ResponseEntity mit einer Bestätigungsnachricht und dem
@@ -44,12 +44,13 @@ public class LadepunktController {
      * @throws InfrastrukturAppException wenn der Ladepunkt nicht gefunden wird
      */
     @GetMapping("/{id}")
-    public ResponseEntity<?> ladepunktFinden(@PathVariable("id") Integer id) throws InfrastrukturAppException {
+    public ResponseEntity<LadepunktResponse> ladepunktFinden(@PathVariable("id") Integer id)
+            throws InfrastrukturAppException {
         return ResponseEntity.ok(service.ladepunktFinden(id));
     }
 
     /**
-     * Zeigt alle Ladepunkte an.
+     * Liefert eine Liste aller Ladepunkte.
      *
      * @return eine Liste aller Ladepunkte
      */
@@ -59,7 +60,7 @@ public class LadepunktController {
     }
 
     /**
-     * Aktualisiert einen bestehenden Ladepunkt.
+     * Aktualisiert die Daten eines Ladepunkts.
      *
      * @param id        die ID des Ladepunkts
      * @param neueDaten die neuen Daten des Ladepunkts
@@ -71,7 +72,7 @@ public class LadepunktController {
     public ResponseEntity<String> ladepunktAktualisieren(@PathVariable("id") Integer id,
             @RequestBody LadepunktRequest neueDaten) throws InfrastrukturAppException {
         service.ladepunktAktualisieren(id, neueDaten);
-        return new ResponseEntity<>("Ladepunkt aktualisiert", HttpStatus.OK);
+        return ResponseEntity.ok("Ladepunkt aktualisiert");
     }
 
     /**
@@ -85,6 +86,6 @@ public class LadepunktController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> ladepunktLoeschen(@PathVariable("id") Integer id) throws InfrastrukturAppException {
         service.ladepunktLoeschen(id);
-        return new ResponseEntity<>("Ladepunkt gelöscht", HttpStatus.OK);
+        return ResponseEntity.ok("Ladepunkt gelöscht");
     }
 }
