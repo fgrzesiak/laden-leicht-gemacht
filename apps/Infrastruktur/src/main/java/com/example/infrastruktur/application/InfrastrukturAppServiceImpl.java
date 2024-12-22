@@ -7,6 +7,8 @@ import com.example.infrastruktur.application.dto.EigentuemerRequest;
 import com.example.infrastruktur.application.dto.EigentuemerResponse;
 import com.example.infrastruktur.application.dto.LadepunktRequest;
 import com.example.infrastruktur.application.dto.LadepunktResponse;
+import com.example.infrastruktur.application.exception.InfrastrukturAppException;
+import com.example.infrastruktur.application.exception.NotFoundException;
 import com.example.infrastruktur.application.mapper.AnsprechpartnerMapper;
 import com.example.infrastruktur.application.mapper.EigentuemerMapper;
 import com.example.infrastruktur.application.mapper.LadepunktMapper;
@@ -50,56 +52,41 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
         }
 
         @Override
-        public LadepunktResponse ladepunktFinden(Integer ladepunktId) {
+        public LadepunktResponse ladepunktFinden(Integer ladepunktId) throws InfrastrukturAppException {
                 Ladepunkt ladepunkt = ladepunktRepository.findById(new LadepunktId(ladepunktId));
                 if (ladepunkt == null) {
-                        return null;
+                        throw new NotFoundException("Ladepunkt nicht gefunden");
                 }
                 return LadepunktMapper.toResponse(ladepunkt);
         }
 
         @Override
-        public boolean ladepunktAktualisieren(Integer ladepunktId, LadepunktRequest neueDaten) {
+        public void ladepunktAktualisieren(Integer ladepunktId, LadepunktRequest neueDaten)
+                        throws InfrastrukturAppException {
                 LadepunktId lpId = new LadepunktId(ladepunktId);
                 Ladepunkt ladepunktAlt = ladepunktRepository.findById(lpId);
                 if (ladepunktAlt == null) {
-                        return false;
+                        throw new NotFoundException("Ladepunkt nicht gefunden");
                 }
                 Ladepunkt ladepunktNeu = LadepunktMapper.toDomain(neueDaten);
                 ladepunktNeu.setLadepunktId(lpId);
                 ladepunktRepository.save(ladepunktNeu);
                 ladepunktDomainService.speichereLadepunkt(ladepunktNeu);
-                return true;
         }
 
         @Override
-        public boolean ladepunktLoeschen(Integer ladepunktId) {
+        public void ladepunktLoeschen(Integer ladepunktId) throws InfrastrukturAppException {
                 Ladepunkt lp = ladepunktRepository.findById(new LadepunktId(ladepunktId));
                 if (lp == null) {
-                        return false;
+                        throw new NotFoundException("Ladepunkt nicht gefunden");
                 }
                 ladepunktRepository.delete(lp.getLadepunktId());
-                return true;
         }
 
         @Override
         public List<LadepunktResponse> alleLadepunkteAnzeigen() {
                 List<Ladepunkt> ladepunkte = ladepunktRepository.findAll();
                 return ladepunkte.stream().map(LadepunktMapper::toResponse).collect(Collectors.toList());
-        }
-
-        /**
-         * NEU: Beispielmethode, die einen Ladevorgang verbucht.
-         * Ruft den Domain Service auf, der dann Events etc. publiziert.
-         */
-        public boolean ladevorgangVerbuchen(LadepunktId ladepunktId, double geladeneKWh) {
-                Ladepunkt lp = ladepunktRepository.findById(ladepunktId);
-                if (lp == null) {
-                        return false;
-                }
-                ladepunktDomainService.verarbeiteLadevorgang(lp, geladeneKWh);
-                ladepunktRepository.save(lp);
-                return true;
         }
 
         // ------------------------------------------------------
@@ -114,36 +101,34 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
         }
 
         @Override
-        public EigentuemerResponse eigentuemerFinden(Integer eigentuemerId) {
+        public EigentuemerResponse eigentuemerFinden(Integer eigentuemerId) throws InfrastrukturAppException {
                 Eigentuemer eigentuemer = eigentuemerRepository.findById(new EigentuemerId(eigentuemerId));
                 if (eigentuemer == null) {
-                        return null;
+                        throw new NotFoundException("Eigentümer nicht gefunden");
                 }
                 return EigentuemerMapper.toResponse(eigentuemer);
         }
 
         @Override
-        public boolean eigentuemerAktualisieren(Integer eigentuemerId, EigentuemerRequest neueDaten) {
+        public void eigentuemerAktualisieren(Integer eigentuemerId, EigentuemerRequest neueDaten)
+                        throws InfrastrukturAppException {
                 EigentuemerId eigentuemerIdObj = new EigentuemerId(eigentuemerId);
                 Eigentuemer alt = eigentuemerRepository.findById(eigentuemerIdObj);
                 if (alt == null) {
-                        return false;
+                        throw new NotFoundException("Eigentümer nicht gefunden");
                 }
                 Eigentuemer neu = EigentuemerMapper.toDomain(neueDaten);
                 neu.setEigentuemerId(eigentuemerIdObj);
                 eigentuemerRepository.save(neu);
-                return true;
         }
 
         @Override
-        public boolean eigentuemerLoeschen(Integer eigentuemerId) {
-                Eigentuemer eig = eigentuemerRepository
-                                .findById(new EigentuemerId(eigentuemerId));
+        public void eigentuemerLoeschen(Integer eigentuemerId) throws InfrastrukturAppException {
+                Eigentuemer eig = eigentuemerRepository.findById(new EigentuemerId(eigentuemerId));
                 if (eig == null) {
-                        return false;
+                        throw new NotFoundException("Eigentümer nicht gefunden");
                 }
                 eigentuemerRepository.delete(eig.getEigentuemerId());
-                return true;
         }
 
         @Override
@@ -164,32 +149,35 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
         }
 
         @Override
-        public AnsprechpartnerResponse ansprechpartnerFinden(Integer ansprechpartnerId) {
+        public AnsprechpartnerResponse ansprechpartnerFinden(Integer ansprechpartnerId)
+                        throws InfrastrukturAppException {
                 Ansprechpartner ap = ansprechpartnerRepository.findById(new AnsprechpartnerId(ansprechpartnerId));
-                if (ap == null)
-                        return null;
+                if (ap == null) {
+                        throw new NotFoundException("Ansprechpartner nicht gefunden");
+                }
                 return AnsprechpartnerMapper.toResponse(ap);
         }
 
         @Override
-        public boolean ansprechpartnerAktualisieren(Integer ansprechpartnerId, AnsprechpartnerRequest dto) {
+        public void ansprechpartnerAktualisieren(Integer ansprechpartnerId, AnsprechpartnerRequest dto)
+                        throws InfrastrukturAppException {
                 AnsprechpartnerId apId = new AnsprechpartnerId(ansprechpartnerId);
                 Ansprechpartner apAlt = ansprechpartnerRepository.findById(apId);
-                if (apAlt == null)
-                        return false;
+                if (apAlt == null) {
+                        throw new NotFoundException("Ansprechpartner nicht gefunden");
+                }
                 Ansprechpartner apNeu = AnsprechpartnerMapper.toDomain(dto);
                 apNeu.setAnsprechpartnerId(apId);
                 ansprechpartnerRepository.save(apNeu);
-                return true;
         }
 
         @Override
-        public boolean ansprechpartnerLoeschen(Integer ansprechpartnerId) {
+        public void ansprechpartnerLoeschen(Integer ansprechpartnerId) throws InfrastrukturAppException {
                 Ansprechpartner ap = ansprechpartnerRepository.findById(new AnsprechpartnerId(ansprechpartnerId));
-                if (ap == null)
-                        return false;
+                if (ap == null) {
+                        throw new NotFoundException("Ansprechpartner nicht gefunden");
+                }
                 ansprechpartnerRepository.delete(ap.getAnsprechpartnerId());
-                return true;
         }
 
         @Override

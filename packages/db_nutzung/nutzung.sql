@@ -15,7 +15,7 @@ CREATE TABLE fahrzeughalter_entity (
 #-- Tabelle: LADEPUNKT
 #-------------------------
 CREATE TABLE ladepunkt_entity (
-    ladepunkt_id          INT PRIMARY KEY,
+    ladepunkt_id          INT PRIMARY KEY, #-- Referenz auf Ladepunkt-ID aus anderem System
     ladeleistung_kw       DECIMAL(5,2) NOT NULL, 
     verfuegbarkeit        VARCHAR(50) NOT NULL
 );
@@ -25,7 +25,7 @@ CREATE TABLE ladepunkt_entity (
 #-------------------------
 CREATE TABLE nutzung_entity (
     nutzungs_id      INT AUTO_INCREMENT PRIMARY KEY,
-    ladepunkt_id     INT NOT NULL,       #-- Referenz auf Ladepunkt-ID aus anderem System
+    ladepunkt_id     INT NOT NULL,
     datum            DATE NOT NULL,
     ladezeit_min     INT NOT NULL,
     ladeleistung_kwh DECIMAL(10,2) NOT NULL,

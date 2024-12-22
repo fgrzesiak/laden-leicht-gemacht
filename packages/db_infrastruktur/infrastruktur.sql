@@ -39,7 +39,7 @@ CREATE TABLE ladepunkt_entity (
     eigentuemer_id        INT,  #-- optionaler FK, falls Ladepunkt einem Eigentümer zugeordnet ist
     ladeleistung_kw       DECIMAL(5,2) NOT NULL,       #-- z.B. 22.00
     anschlussart          VARCHAR(50) NOT NULL,         #-- z.B. "Typ 2", "CCS", ...
-    verfuegbarkeit        VARCHAR(50) NOT NULL,         #-- z.B. "verfügbar", "in Wartung"
+    verfuegbarkeit        ENUM('VERFUEGBAR', 'IN_WARTUNG') NOT NULL DEFAULT 'VERFUEGBAR',
     gesamtleistung_kwh    DECIMAL(10,2) NOT NULL DEFAULT 0.0,
     strasse               VARCHAR(255) NOT NULL,
     hausnummer            VARCHAR(10) NOT NULL,

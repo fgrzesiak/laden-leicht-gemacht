@@ -6,6 +6,7 @@ import com.example.infrastruktur.application.dto.EigentuemerRequest;
 import com.example.infrastruktur.application.dto.EigentuemerResponse;
 import com.example.infrastruktur.application.dto.LadepunktRequest;
 import com.example.infrastruktur.application.dto.LadepunktResponse;
+import com.example.infrastruktur.application.exception.InfrastrukturAppException;
 
 import java.util.List;
 
@@ -14,33 +15,34 @@ public interface InfrastrukturAppService {
     // Ladepunkt-Funktionen
     Integer ladepunktAnlegen(LadepunktRequest request);
 
-    LadepunktResponse ladepunktFinden(Integer ladepunktId);
+    LadepunktResponse ladepunktFinden(Integer ladepunktId) throws InfrastrukturAppException;
 
-    boolean ladepunktAktualisieren(Integer ladepunktId, LadepunktRequest neueDaten);
+    void ladepunktAktualisieren(Integer ladepunktId, LadepunktRequest neueDaten) throws InfrastrukturAppException;
 
-    boolean ladepunktLoeschen(Integer ladepunktId);
+    void ladepunktLoeschen(Integer ladepunktId) throws InfrastrukturAppException;
 
     List<LadepunktResponse> alleLadepunkteAnzeigen();
 
     // Eigentümer-Funktionen
     Integer eigentuemerAnlegen(EigentuemerRequest request);
 
-    EigentuemerResponse eigentuemerFinden(Integer eigentuemerId);
+    EigentuemerResponse eigentuemerFinden(Integer eigentuemerId) throws InfrastrukturAppException;
 
-    boolean eigentuemerAktualisieren(Integer eigentuemerId, EigentuemerRequest neueDaten);
+    void eigentuemerAktualisieren(Integer eigentuemerId, EigentuemerRequest neueDaten) throws InfrastrukturAppException;
 
-    boolean eigentuemerLoeschen(Integer eigentuemerId);
+    void eigentuemerLoeschen(Integer eigentuemerId) throws InfrastrukturAppException;
 
     List<EigentuemerResponse> alleEigentuemerAnzeigen();
 
     // Ansprechpartner-Funktionen
     Integer ansprechpartnerAnlegen(AnsprechpartnerRequest dto);
 
-    AnsprechpartnerResponse ansprechpartnerFinden(Integer ansprechpartnerId);
+    AnsprechpartnerResponse ansprechpartnerFinden(Integer ansprechpartnerId) throws InfrastrukturAppException;
 
-    boolean ansprechpartnerAktualisieren(Integer ansprechpartnerId, AnsprechpartnerRequest dto);
+    void ansprechpartnerAktualisieren(Integer ansprechpartnerId, AnsprechpartnerRequest dto)
+            throws InfrastrukturAppException;
 
-    boolean ansprechpartnerLoeschen(Integer ansprechpartnerId);
+    void ansprechpartnerLoeschen(Integer ansprechpartnerId) throws InfrastrukturAppException;
 
     List<AnsprechpartnerResponse> alleAnsprechpartnerFuerEigentuemer(Integer eigentuemerId);
 

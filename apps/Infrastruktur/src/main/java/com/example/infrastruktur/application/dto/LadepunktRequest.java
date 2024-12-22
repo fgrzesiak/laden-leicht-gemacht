@@ -5,7 +5,7 @@ public class LadepunktRequest {
     private Integer eigentuemerId;
     private Double ladeleistungKW;
     private String anschlussart;
-    private String verfuegbarkeit;
+    private VerfuegbarkeitEnum verfuegbarkeit;
     private Double gesamtleistungKWH;
     private AdresseDTO adresse;
 
@@ -13,7 +13,7 @@ public class LadepunktRequest {
     }
 
     public LadepunktRequest(Integer eigentuemerId, AdresseDTO adresse, Double ladeleistungKW, String anschlussart,
-            String verfuegbarkeit,
+            VerfuegbarkeitEnum verfuegbarkeit,
             Double gesamtleistungKWH) {
         this.eigentuemerId = eigentuemerId;
         this.adresse = adresse;
@@ -55,11 +55,11 @@ public class LadepunktRequest {
         this.anschlussart = anschlussart;
     }
 
-    public String getVerfuegbarkeit() {
+    public VerfuegbarkeitEnum getVerfuegbarkeit() {
         return verfuegbarkeit;
     }
 
-    public void setVerfuegbarkeit(String verfuegbarkeit) {
+    public void setVerfuegbarkeit(VerfuegbarkeitEnum verfuegbarkeit) {
         this.verfuegbarkeit = verfuegbarkeit;
     }
 

@@ -2,6 +2,7 @@ package com.example.infrastruktur.adapter.primary.REST;
 
 import com.example.infrastruktur.application.dto.EigentuemerRequest;
 import com.example.infrastruktur.application.dto.EigentuemerResponse;
+import com.example.infrastruktur.application.exception.InfrastrukturAppException;
 import com.example.infrastruktur.application.port.primary.InfrastrukturAppService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,12 +24,9 @@ public class EigentuemerController {
      * GET /eigentuemer/{id}
      */
     @GetMapping("/{id}")
-    public ResponseEntity<?> eigentuemerFinden(@PathVariable("id") Integer id) {
-        EigentuemerResponse eigentuemer = service.eigentuemerFinden(id);
-        if (eigentuemer == null) {
-            return new ResponseEntity<>("Eigentuemer nicht gefunden", HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(eigentuemer, HttpStatus.OK);
+    public ResponseEntity<EigentuemerResponse> eigentuemerFinden(@PathVariable("id") Integer id)
+            throws InfrastrukturAppException {
+        return ResponseEntity.ok(service.eigentuemerFinden(id));
     }
 
     /**
@@ -38,11 +36,8 @@ public class EigentuemerController {
     @PutMapping("/{id}")
     public ResponseEntity<String> eigentuemerAktualisieren(
             @PathVariable("id") Integer id,
-            @RequestBody EigentuemerRequest eigentuemerDto) {
-        boolean success = service.eigentuemerAktualisieren(id, eigentuemerDto);
-        if (!success) {
-            return new ResponseEntity<>("Eigentümer nicht gefunden", HttpStatus.NOT_FOUND);
-        }
+            @RequestBody EigentuemerRequest eigentuemerDto) throws InfrastrukturAppException {
+        service.eigentuemerAktualisieren(id, eigentuemerDto);
         return new ResponseEntity<>("Eigentümer aktualisiert", HttpStatus.OK);
     }
 
@@ -53,10 +48,7 @@ public class EigentuemerController {
     @PostMapping
     public ResponseEntity<String> eigentuemerAnlegen(@RequestBody EigentuemerRequest eigentuemerDto) {
         Integer newId = service.eigentuemerAnlegen(eigentuemerDto); // gibt String-ID zurück
-        if (newId != null) {
-            return new ResponseEntity<>("Neuer Eigentümer mit ID=" + newId + " angelegt.", HttpStatus.CREATED);
-        }
-        return new ResponseEntity<>("Fehler beim Anlegen des Eigentümers", HttpStatus.BAD_REQUEST);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Neuer Eigentümer mit ID=" + newId + " angelegt.");
     }
 
     /**
@@ -64,11 +56,8 @@ public class EigentuemerController {
      * Löscht Eigentümer
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> eigentuemerLoeschen(@PathVariable("id") Integer id) {
-        boolean deleted = service.eigentuemerLoeschen(id);
-        if (!deleted) {
-            return new ResponseEntity<>("Eigentümer nicht gefunden", HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<String> eigentuemerLoeschen(@PathVariable("id") Integer id) throws InfrastrukturAppException {
+        service.eigentuemerLoeschen(id);
         return new ResponseEntity<>("Eigentümer gelöscht", HttpStatus.OK);
     }
 

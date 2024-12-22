@@ -27,7 +27,7 @@ public class LadepunktMapper {
                 AdresseMapper.toDomain(ladepunktRequest.getAdresse()),
                 ladepunktRequest.getLadeleistungKW(),
                 ladepunktRequest.getAnschlussart(),
-                ladepunktRequest.getVerfuegbarkeit(),
+                ladepunktRequest.getVerfuegbarkeit().toString(),
                 ladepunktRequest.getGesamtleistungKWH());
     }
 
