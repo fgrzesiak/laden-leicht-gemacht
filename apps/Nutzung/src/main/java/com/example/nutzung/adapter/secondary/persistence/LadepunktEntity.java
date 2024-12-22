@@ -57,7 +57,7 @@ public class LadepunktEntity implements Persistable<Integer> {
 
     @Override
     public Integer getId() {
-        return ladepunktId;
+        return Integer.valueOf(ladepunktId);
     }
 
     @Override

@@ -7,5 +7,5 @@ import org.springframework.data.repository.CrudRepository;
 public interface JdbcAnsprechpartnerEntityRepository
 		extends CrudRepository<AnsprechpartnerEntity, Integer> {
 
-	List<AnsprechpartnerEntity> findByEigentuemerId(Integer eigentuemerId);
+	List<AnsprechpartnerEntity> findByEigentuemerId(int eigentuemerId);
 }

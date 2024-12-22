@@ -6,18 +6,13 @@ import java.util.stream.Collectors;
 
 import com.example.infrastruktur.application.domain.Ladepunkt;
 import com.example.infrastruktur.application.domain.LadepunktId;
+import com.example.infrastruktur.application.mapper.LadepunktMapper;
 import com.example.infrastruktur.application.port.secondary.LadepunktRepository;
 
-/**
- * Implementierung des LadepunktRepository für die DB.
- * Greift intern auf ein JdbcLadepunktEntityRepository (oder Spring Data Repo)
- * zu.
- */
 public class LadepunktRepositoryImplDb implements LadepunktRepository {
 
     private final JdbcLadepunktEntityRepository jdbcLadepunktEntityRepository;
 
-    // Konstruktor-Injection
     public LadepunktRepositoryImplDb(JdbcLadepunktEntityRepository jdbcLadepunktEntityRepository) {
         this.jdbcLadepunktEntityRepository = jdbcLadepunktEntityRepository;
     }
@@ -25,7 +20,7 @@ public class LadepunktRepositoryImplDb implements LadepunktRepository {
     @Override
     public Ladepunkt findById(LadepunktId ladepunktId) {
         Optional<LadepunktEntity> ladepunktEntity = jdbcLadepunktEntityRepository.findById(ladepunktId.getId());
-        return ladepunktEntity.map(LadepunktEntity::toDomain).orElse(null);
+        return ladepunktEntity.map(LadepunktMapper::toDomain).orElse(null);
     }
 
     @Override
@@ -44,7 +39,7 @@ public class LadepunktRepositoryImplDb implements LadepunktRepository {
     public List<Ladepunkt> findAll() {
         return ((List<LadepunktEntity>) jdbcLadepunktEntityRepository.findAll())
                 .stream()
-                .map(LadepunktEntity::toDomain)
+                .map(LadepunktMapper::toDomain)
                 .collect(Collectors.toList());
     }
 }

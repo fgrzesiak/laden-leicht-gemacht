@@ -2,6 +2,7 @@ package com.example.infrastruktur.adapter.secondary.persistence;
 
 import com.example.infrastruktur.application.domain.Eigentuemer;
 import com.example.infrastruktur.application.domain.EigentuemerId;
+import com.example.infrastruktur.application.mapper.EigentuemerMapper;
 import com.example.infrastruktur.application.port.secondary.EigentuemerRepository;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class EigentuemerRepositoryImplDb implements EigentuemerRepository {
     @Override
     public Eigentuemer findById(EigentuemerId id) {
         Optional<EigentuemerEntity> entity = jdbcRepo.findById(id.getId());
-        return entity.map(EigentuemerEntity::toDomain).orElse(null);
+        return entity.map(EigentuemerMapper::toDomain).orElse(null);
     }
 
     @Override
@@ -38,7 +39,7 @@ public class EigentuemerRepositoryImplDb implements EigentuemerRepository {
     public List<Eigentuemer> findAll() {
         return ((List<EigentuemerEntity>) jdbcRepo.findAll())
                 .stream()
-                .map(EigentuemerEntity::toDomain)
+                .map(EigentuemerMapper::toDomain)
                 .collect(Collectors.toList());
     }
 }

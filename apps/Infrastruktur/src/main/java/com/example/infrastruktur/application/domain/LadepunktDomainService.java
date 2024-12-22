@@ -17,23 +17,4 @@ public class LadepunktDomainService {
         DomainEvent ladepunktAktualisiertEvent = new LadepunktAktualisiertEvent(ladepunkt);
         eventPublisher.publishDomainEvent(ladepunktAktualisiertEvent);
     }
-
-    /**
-     * Beispielmethode, die einen Ladevorgang bearbeitet:
-     * - Gesamtleistung des Ladepunkts erhöhen
-     * - Event veröffentlichen
-     */
-    public boolean verarbeiteLadevorgang(Ladepunkt ladepunkt, double geladeneKWh) {
-
-        // Hier könnte man noch prüfen, ob der Ladevorgang valide ist
-        ladepunkt.setGesamtleistungKWH(ladepunkt.getGesamtleistungKWH() + geladeneKWh);
-
-        // DomainEvent anlegen (z. B. LadepunktAktualisiertEvent)
-        DomainEvent ladepunktAktualisiertEvent = new LadepunktAktualisiertEvent(ladepunkt);
-
-        // Event publizieren
-        eventPublisher.publishDomainEvent(ladepunktAktualisiertEvent);
-
-        return true;
-    }
 }

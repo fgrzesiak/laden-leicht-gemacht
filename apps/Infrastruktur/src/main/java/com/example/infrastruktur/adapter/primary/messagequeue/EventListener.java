@@ -19,9 +19,7 @@ public class EventListener {
 
 	@RabbitListener(queues = "nutzungQueue")
 	public void receiveMessage(String message) {
-		// Process the received message
 		System.out.println("#################Received message:################# " + message);
-
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
 			NutzungTO nutzungTO = objectMapper.readValue(message, NutzungTO.class);

@@ -27,7 +27,6 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
         private final AnsprechpartnerRepository ansprechpartnerRepository;
         private final LadepunktDomainService ladepunktDomainService;
 
-        // Konstruktor (jetzt mit ladepunktDomainService)
         public InfrastrukturAppServiceImpl(
                         LadepunktRepository ladepunktRepository,
                         EigentuemerRepository eigentuemerRepository,
@@ -44,7 +43,12 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
         // ------------------------------------------------------
 
         @Override
-        public Integer ladepunktAnlegen(LadepunktRequest ladepunkt) {
+        public int ladepunktAnlegen(LadepunktRequest ladepunkt) throws InfrastrukturAppException {
+                Eigentuemer eigentuemer = eigentuemerRepository
+                                .findById(new EigentuemerId(ladepunkt.getEigentuemerId()));
+                if (eigentuemer == null) {
+                        throw new NotFoundException("Eigentümer nicht gefunden");
+                }
                 Ladepunkt neuerLadepunkt = LadepunktMapper.toDomain(ladepunkt);
                 ladepunktRepository.save(neuerLadepunkt);
                 ladepunktDomainService.speichereLadepunkt(neuerLadepunkt);
@@ -52,7 +56,7 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
         }
 
         @Override
-        public LadepunktResponse ladepunktFinden(Integer ladepunktId) throws InfrastrukturAppException {
+        public LadepunktResponse ladepunktFinden(int ladepunktId) throws InfrastrukturAppException {
                 Ladepunkt ladepunkt = ladepunktRepository.findById(new LadepunktId(ladepunktId));
                 if (ladepunkt == null) {
                         throw new NotFoundException("Ladepunkt nicht gefunden");
@@ -61,7 +65,7 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
         }
 
         @Override
-        public void ladepunktAktualisieren(Integer ladepunktId, LadepunktRequest neueDaten)
+        public void ladepunktAktualisieren(int ladepunktId, LadepunktRequest neueDaten)
                         throws InfrastrukturAppException {
                 LadepunktId lpId = new LadepunktId(ladepunktId);
                 Ladepunkt ladepunktAlt = ladepunktRepository.findById(lpId);
@@ -75,7 +79,7 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
         }
 
         @Override
-        public void ladepunktLoeschen(Integer ladepunktId) throws InfrastrukturAppException {
+        public void ladepunktLoeschen(int ladepunktId) throws InfrastrukturAppException {
                 Ladepunkt lp = ladepunktRepository.findById(new LadepunktId(ladepunktId));
                 if (lp == null) {
                         throw new NotFoundException("Ladepunkt nicht gefunden");
@@ -94,14 +98,14 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
         // ------------------------------------------------------
 
         @Override
-        public Integer eigentuemerAnlegen(EigentuemerRequest eigentuemer) {
+        public int eigentuemerAnlegen(EigentuemerRequest eigentuemer) {
                 Eigentuemer neu = EigentuemerMapper.toDomain(eigentuemer);
                 eigentuemerRepository.save(neu);
                 return neu.getEigentuemerId().getId();
         }
 
         @Override
-        public EigentuemerResponse eigentuemerFinden(Integer eigentuemerId) throws InfrastrukturAppException {
+        public EigentuemerResponse eigentuemerFinden(int eigentuemerId) throws InfrastrukturAppException {
                 Eigentuemer eigentuemer = eigentuemerRepository.findById(new EigentuemerId(eigentuemerId));
                 if (eigentuemer == null) {
                         throw new NotFoundException("Eigentümer nicht gefunden");
@@ -110,7 +114,7 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
         }
 
         @Override
-        public void eigentuemerAktualisieren(Integer eigentuemerId, EigentuemerRequest neueDaten)
+        public void eigentuemerAktualisieren(int eigentuemerId, EigentuemerRequest neueDaten)
                         throws InfrastrukturAppException {
                 EigentuemerId eigentuemerIdObj = new EigentuemerId(eigentuemerId);
                 Eigentuemer alt = eigentuemerRepository.findById(eigentuemerIdObj);
@@ -123,7 +127,7 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
         }
 
         @Override
-        public void eigentuemerLoeschen(Integer eigentuemerId) throws InfrastrukturAppException {
+        public void eigentuemerLoeschen(int eigentuemerId) throws InfrastrukturAppException {
                 Eigentuemer eig = eigentuemerRepository.findById(new EigentuemerId(eigentuemerId));
                 if (eig == null) {
                         throw new NotFoundException("Eigentümer nicht gefunden");
@@ -142,14 +146,14 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
         // ------------------------------------------------------
 
         @Override
-        public Integer ansprechpartnerAnlegen(AnsprechpartnerRequest dto) {
+        public int ansprechpartnerAnlegen(AnsprechpartnerRequest dto) {
                 Ansprechpartner ap = AnsprechpartnerMapper.toDomain(dto);
                 ansprechpartnerRepository.save(ap);
                 return ap.getAnsprechpartnerId().getId();
         }
 
         @Override
-        public AnsprechpartnerResponse ansprechpartnerFinden(Integer ansprechpartnerId)
+        public AnsprechpartnerResponse ansprechpartnerFinden(int ansprechpartnerId)
                         throws InfrastrukturAppException {
                 Ansprechpartner ap = ansprechpartnerRepository.findById(new AnsprechpartnerId(ansprechpartnerId));
                 if (ap == null) {
@@ -159,7 +163,7 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
         }
 
         @Override
-        public void ansprechpartnerAktualisieren(Integer ansprechpartnerId, AnsprechpartnerRequest dto)
+        public void ansprechpartnerAktualisieren(int ansprechpartnerId, AnsprechpartnerRequest dto)
                         throws InfrastrukturAppException {
                 AnsprechpartnerId apId = new AnsprechpartnerId(ansprechpartnerId);
                 Ansprechpartner apAlt = ansprechpartnerRepository.findById(apId);
@@ -172,7 +176,7 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
         }
 
         @Override
-        public void ansprechpartnerLoeschen(Integer ansprechpartnerId) throws InfrastrukturAppException {
+        public void ansprechpartnerLoeschen(int ansprechpartnerId) throws InfrastrukturAppException {
                 Ansprechpartner ap = ansprechpartnerRepository.findById(new AnsprechpartnerId(ansprechpartnerId));
                 if (ap == null) {
                         throw new NotFoundException("Ansprechpartner nicht gefunden");
@@ -181,14 +185,20 @@ public class InfrastrukturAppServiceImpl implements InfrastrukturAppService {
         }
 
         @Override
-        public List<AnsprechpartnerResponse> alleAnsprechpartnerFuerEigentuemer(Integer eigentuemerId) {
+        public List<AnsprechpartnerResponse> alleAnsprechpartnerAnzeigen() {
+                List<Ansprechpartner> ansprechpartner = ansprechpartnerRepository.findAll();
+                return ansprechpartner.stream().map(AnsprechpartnerMapper::toResponse).collect(Collectors.toList());
+        }
+
+        @Override
+        public List<AnsprechpartnerResponse> alleAnsprechpartnerFuerEigentuemer(int eigentuemerId) {
                 List<Ansprechpartner> aps = ansprechpartnerRepository
                                 .findByEigentuemerId(new EigentuemerId(eigentuemerId));
                 return aps.stream().map(AnsprechpartnerMapper::toResponse).collect(Collectors.toList());
         }
 
         // ------------------------------------------------------
-        // RabbitMq-Funktionen
+        // Event-Funktionen
         // ------------------------------------------------------
         @Override
         public void verarbeiteLadevorgang(int ladepunktId, double ladeleistungKWH) {

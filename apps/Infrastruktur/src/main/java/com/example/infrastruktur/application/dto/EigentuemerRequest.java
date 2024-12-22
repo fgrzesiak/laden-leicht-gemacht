@@ -1,7 +1,7 @@
 package com.example.infrastruktur.application.dto;
 
 /**
- * DTO für REST-Kommunikation (Request) über Grundstückseigentümer
+ * Repräsentiert das Request Data Transfer Object (DTO) für einen Eigentümer.
  */
 public class EigentuemerRequest {
 
@@ -20,15 +20,8 @@ public class EigentuemerRequest {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public AdresseDTO getAdresse() {
         return adresse;
     }
 
-    public void setAdresse(AdresseDTO adresse) {
-        this.adresse = adresse;
-    }
 }

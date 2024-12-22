@@ -5,19 +5,16 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * DomainEvent, das signalisiert, dass ein Ladepunkt aktualisiert wurde
- * (z.B. Gesamtleistung erhöht, Standort geändert, etc.).
+ * DomainEvent, das signalisiert, dass ein Ladepunkt aktualisiert oder erstellt
+ * wurde.
  */
 public class LadepunktAktualisiertEvent extends DomainEvent {
 
     public LadepunktAktualisiertEvent(Ladepunkt ladepunkt) {
-        // Erstelle ein Transferobjekt (TO), das die relevanten Felder für die Message
-        // Queue enthält.
         LadepunktTO ladepunktTO = new LadepunktTO(
                 ladepunkt.getLadepunktId().getId(),
                 ladepunkt.getLadeleistungKW(),
                 ladepunkt.getVerfuegbarkeit());
-
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             this.payload = objectMapper.writeValueAsString(ladepunktTO);

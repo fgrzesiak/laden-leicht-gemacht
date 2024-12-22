@@ -12,12 +12,12 @@ import java.time.LocalDate;
 public class NutzungEntity {
 
     @Id
-    private Integer nutzungsId;
-    private Integer ladepunktId;
+    private int nutzungsId;
+    private int ladepunktId;
     private LocalDate datum;
     private int ladezeitMin;
     private double ladeleistungKWH;
-    private Integer halterId;
+    private int halterId;
 
     public NutzungEntity() {
     }
@@ -27,7 +27,7 @@ public class NutzungEntity {
         this.datum = domain.getDatum();
         this.ladezeitMin = domain.getLadezeitMin();
         this.ladeleistungKWH = domain.getladeleistungKWH();
-        this.halterId = Integer.valueOf(domain.getHalterId().getId());
+        this.halterId = domain.getHalterId().getId();
     }
 
     public Nutzung toDomain() {
@@ -37,19 +37,19 @@ public class NutzungEntity {
         return new Nutzung(nid, ladepunktId, datum, ladezeitMin, ladeleistungKWH, hid);
     }
 
-    public Integer getNutzungsId() {
+    public int getNutzungsId() {
         return nutzungsId;
     }
 
-    public void setNutzungsId(Integer nutzungsId) {
+    public void setNutzungsId(int nutzungsId) {
         this.nutzungsId = nutzungsId;
     }
 
-    public Integer getLadepunktId() {
+    public int getLadepunktId() {
         return ladepunktId;
     }
 
-    public void setLadepunktId(Integer ladepunktId) {
+    public void setLadepunktId(int ladepunktId) {
         this.ladepunktId = ladepunktId;
     }
 
@@ -77,11 +77,11 @@ public class NutzungEntity {
         this.ladeleistungKWH = ladeleistungKWH;
     }
 
-    public Integer getHalterId() {
+    public int getHalterId() {
         return halterId;
     }
 
-    public void setHalterId(Integer halterId) {
+    public void setHalterId(int halterId) {
         this.halterId = halterId;
     }
 }

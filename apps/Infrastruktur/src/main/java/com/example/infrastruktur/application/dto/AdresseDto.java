@@ -1,5 +1,8 @@
 package com.example.infrastruktur.application.dto;
 
+/**
+ * Repräsentiert das Data Transfer Object (DTO) für eine Adresse.
+ */
 public class AdresseDTO {
 
     private String strasse;
@@ -10,7 +13,6 @@ public class AdresseDTO {
     public AdresseDTO() {
     }
 
-    // Konstruktor mit allen nötigen Feldern
     public AdresseDTO(String strasse, String hausnummer, String plz, String ort) {
         this.strasse = strasse;
         this.hausnummer = hausnummer;
@@ -18,7 +20,6 @@ public class AdresseDTO {
         this.ort = ort;
     }
 
-    // Getter
     public String getStrasse() {
         return strasse;
     }
@@ -33,23 +34,6 @@ public class AdresseDTO {
 
     public String getOrt() {
         return ort;
-    }
-
-    // Setter
-    public void setStrasse(String strasse) {
-        this.strasse = strasse;
-    }
-
-    public void setHausnummer(String hausnummer) {
-        this.hausnummer = hausnummer;
-    }
-
-    public void setPlz(String plz) {
-        this.plz = plz;
-    }
-
-    public void setOrt(String ort) {
-        this.ort = ort;
     }
 
 }

@@ -19,7 +19,7 @@ public class FahrzeughalterRepositoryImplDb implements FahrzeughalterRepository 
 
     @Override
     public Fahrzeughalter findById(FahrzeughalterId id) {
-        Optional<FahrzeughalterEntity> e = jdbcRepo.findById(Integer.valueOf(id.getId()));
+        Optional<FahrzeughalterEntity> e = jdbcRepo.findById(id.getId());
         return e.map(FahrzeughalterEntity::toDomain).orElse(null);
     }
 
@@ -32,7 +32,7 @@ public class FahrzeughalterRepositoryImplDb implements FahrzeughalterRepository 
 
     @Override
     public void delete(FahrzeughalterId id) {
-        jdbcRepo.deleteById(Integer.valueOf(id.getId()));
+        jdbcRepo.deleteById(id.getId());
     }
 
     @Override

@@ -31,8 +31,9 @@ public class LadepunktController {
      *         HTTP-Status 201 (Created)
      */
     @PostMapping
-    public ResponseEntity<String> ladepunktAnlegen(@RequestBody LadepunktRequest ladepunktRequest) {
-        Integer newId = service.ladepunktAnlegen(ladepunktRequest);
+    public ResponseEntity<String> ladepunktAnlegen(@RequestBody LadepunktRequest ladepunktRequest)
+            throws InfrastrukturAppException {
+        int newId = service.ladepunktAnlegen(ladepunktRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body("Neuer Ladepunkt mit ID=" + newId + " angelegt.");
     }
 
@@ -44,7 +45,7 @@ public class LadepunktController {
      * @throws InfrastrukturAppException wenn der Ladepunkt nicht gefunden wird
      */
     @GetMapping("/{id}")
-    public ResponseEntity<LadepunktResponse> ladepunktFinden(@PathVariable("id") Integer id)
+    public ResponseEntity<LadepunktResponse> ladepunktFinden(@PathVariable("id") int id)
             throws InfrastrukturAppException {
         return ResponseEntity.ok(service.ladepunktFinden(id));
     }
@@ -69,7 +70,7 @@ public class LadepunktController {
      * @throws InfrastrukturAppException wenn der Ladepunkt nicht gefunden wird
      */
     @PutMapping("/{id}")
-    public ResponseEntity<String> ladepunktAktualisieren(@PathVariable("id") Integer id,
+    public ResponseEntity<String> ladepunktAktualisieren(@PathVariable("id") int id,
             @RequestBody LadepunktRequest neueDaten) throws InfrastrukturAppException {
         service.ladepunktAktualisieren(id, neueDaten);
         return ResponseEntity.ok("Ladepunkt aktualisiert");
@@ -84,7 +85,7 @@ public class LadepunktController {
      * @throws InfrastrukturAppException wenn der Ladepunkt nicht gefunden wird
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> ladepunktLoeschen(@PathVariable("id") Integer id) throws InfrastrukturAppException {
+    public ResponseEntity<String> ladepunktLoeschen(@PathVariable("id") int id) throws InfrastrukturAppException {
         service.ladepunktLoeschen(id);
         return ResponseEntity.ok("Ladepunkt gelöscht");
     }

@@ -17,7 +17,6 @@ public class Eigentuemer {
         this.adresse = adresse;
     }
 
-    // Getter/Setter
     public EigentuemerId getEigentuemerId() {
         return eigentuemerId;
     }

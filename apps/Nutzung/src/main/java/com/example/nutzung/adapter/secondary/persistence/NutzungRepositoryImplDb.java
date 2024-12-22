@@ -19,7 +19,7 @@ public class NutzungRepositoryImplDb implements NutzungRepository {
 
     @Override
     public Nutzung findById(NutzungId id) {
-        Optional<NutzungEntity> e = jdbcRepo.findById(Integer.valueOf(id.getId()));
+        Optional<NutzungEntity> e = jdbcRepo.findById(id.getId());
         return e.map(NutzungEntity::toDomain).orElse(null);
     }
 
@@ -31,12 +31,12 @@ public class NutzungRepositoryImplDb implements NutzungRepository {
 
     @Override
     public void delete(NutzungId id) {
-        jdbcRepo.deleteById(Integer.valueOf(id.getId()));
+        jdbcRepo.deleteById(id.getId());
     }
 
     @Override
     public List<Nutzung> findAllByHalterId(FahrzeughalterId halterId) {
-        List<NutzungEntity> entities = jdbcRepo.findByHalterId(Integer.valueOf(halterId.getId()));
+        List<NutzungEntity> entities = jdbcRepo.findByHalterId(halterId.getId());
         return entities.stream().map(NutzungEntity::toDomain).collect(Collectors.toList());
     }
 }

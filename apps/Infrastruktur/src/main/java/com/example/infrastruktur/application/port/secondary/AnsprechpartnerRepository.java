@@ -13,5 +13,7 @@ public interface AnsprechpartnerRepository {
 
     void delete(AnsprechpartnerId id);
 
+    List<Ansprechpartner> findAll();
+
     List<Ansprechpartner> findByEigentuemerId(EigentuemerId eigentuemerId);
 }

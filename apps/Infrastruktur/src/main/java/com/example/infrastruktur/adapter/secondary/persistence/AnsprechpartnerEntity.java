@@ -11,9 +11,9 @@ import com.example.infrastruktur.application.domain.Adresse;
 public class AnsprechpartnerEntity {
 
     @Id
-    private Integer ansprechpartnerId;
+    private int ansprechpartnerId;
 
-    private Integer eigentuemerId;
+    private int eigentuemerId;
     private String name;
     private String telefon;
     private String email;
@@ -24,7 +24,7 @@ public class AnsprechpartnerEntity {
     public AnsprechpartnerEntity() {
     }
 
-    public AnsprechpartnerEntity(Integer ansprechpartnerId, Integer eigentuemerId, String name, String telefon,
+    public AnsprechpartnerEntity(int ansprechpartnerId, int eigentuemerId, String name, String telefon,
             String email, Adresse adresse) {
         this.ansprechpartnerId = ansprechpartnerId;
         this.eigentuemerId = eigentuemerId;
@@ -42,59 +42,27 @@ public class AnsprechpartnerEntity {
         this.adresse = new AdresseEntity(domain.getAdresse());
     }
 
-    public Ansprechpartner toDomain() {
-        AnsprechpartnerId ansprechpartnerId = new AnsprechpartnerId(this.ansprechpartnerId);
-        EigentuemerId eigentuemerId = new EigentuemerId(this.eigentuemerId);
-        return new Ansprechpartner(ansprechpartnerId, eigentuemerId, this.name, this.telefon, this.email,
-                this.adresse.toDomain());
-    }
-
-    // Getter/Setter
-    public Integer getAnsprechpartnerId() {
+    public int getAnsprechpartnerId() {
         return ansprechpartnerId;
     }
 
-    public void setAnsprechpartnerId(Integer ansprechpartnerId) {
-        this.ansprechpartnerId = ansprechpartnerId;
-    }
-
-    public Integer getEigentuemerId() {
+    public int getEigentuemerId() {
         return eigentuemerId;
-    }
-
-    public void setEigentuemerId(Integer eigentuemerId) {
-        this.eigentuemerId = eigentuemerId;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getTelefon() {
         return telefon;
-    }
-
-    public void setTelefon(String telefon) {
-        this.telefon = telefon;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public AdresseEntity getAdresse() {
         return adresse;
-    }
-
-    public void setAdresse(AdresseEntity adresse) {
-        this.adresse = adresse;
     }
 }

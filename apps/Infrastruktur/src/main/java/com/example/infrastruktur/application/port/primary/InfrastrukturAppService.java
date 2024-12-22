@@ -12,41 +12,54 @@ import java.util.List;
 
 public interface InfrastrukturAppService {
 
+    // ------------------------------------------------------
     // Ladepunkt-Funktionen
-    Integer ladepunktAnlegen(LadepunktRequest request);
+    // ------------------------------------------------------
 
-    LadepunktResponse ladepunktFinden(Integer ladepunktId) throws InfrastrukturAppException;
+    int ladepunktAnlegen(LadepunktRequest request) throws InfrastrukturAppException;
 
-    void ladepunktAktualisieren(Integer ladepunktId, LadepunktRequest neueDaten) throws InfrastrukturAppException;
+    LadepunktResponse ladepunktFinden(int ladepunktId) throws InfrastrukturAppException;
 
-    void ladepunktLoeschen(Integer ladepunktId) throws InfrastrukturAppException;
+    void ladepunktAktualisieren(int ladepunktId, LadepunktRequest neueDaten) throws InfrastrukturAppException;
+
+    void ladepunktLoeschen(int ladepunktId) throws InfrastrukturAppException;
 
     List<LadepunktResponse> alleLadepunkteAnzeigen();
 
-    // Eigentümer-Funktionen
-    Integer eigentuemerAnlegen(EigentuemerRequest request);
+    // ------------------------------------------------------
+    // Eigentuemer-Funktionen
+    // ------------------------------------------------------
 
-    EigentuemerResponse eigentuemerFinden(Integer eigentuemerId) throws InfrastrukturAppException;
+    int eigentuemerAnlegen(EigentuemerRequest request);
 
-    void eigentuemerAktualisieren(Integer eigentuemerId, EigentuemerRequest neueDaten) throws InfrastrukturAppException;
+    EigentuemerResponse eigentuemerFinden(int eigentuemerId) throws InfrastrukturAppException;
 
-    void eigentuemerLoeschen(Integer eigentuemerId) throws InfrastrukturAppException;
+    void eigentuemerAktualisieren(int eigentuemerId, EigentuemerRequest neueDaten) throws InfrastrukturAppException;
+
+    void eigentuemerLoeschen(int eigentuemerId) throws InfrastrukturAppException;
 
     List<EigentuemerResponse> alleEigentuemerAnzeigen();
 
+    // ------------------------------------------------------
     // Ansprechpartner-Funktionen
-    Integer ansprechpartnerAnlegen(AnsprechpartnerRequest dto);
+    // ------------------------------------------------------
 
-    AnsprechpartnerResponse ansprechpartnerFinden(Integer ansprechpartnerId) throws InfrastrukturAppException;
+    int ansprechpartnerAnlegen(AnsprechpartnerRequest dto);
 
-    void ansprechpartnerAktualisieren(Integer ansprechpartnerId, AnsprechpartnerRequest dto)
+    AnsprechpartnerResponse ansprechpartnerFinden(int ansprechpartnerId) throws InfrastrukturAppException;
+
+    void ansprechpartnerAktualisieren(int ansprechpartnerId, AnsprechpartnerRequest dto)
             throws InfrastrukturAppException;
 
-    void ansprechpartnerLoeschen(Integer ansprechpartnerId) throws InfrastrukturAppException;
+    void ansprechpartnerLoeschen(int ansprechpartnerId) throws InfrastrukturAppException;
 
-    List<AnsprechpartnerResponse> alleAnsprechpartnerFuerEigentuemer(Integer eigentuemerId);
+    List<AnsprechpartnerResponse> alleAnsprechpartnerAnzeigen();
 
-    // RabbitMq-Funktionen
+    List<AnsprechpartnerResponse> alleAnsprechpartnerFuerEigentuemer(int eigentuemerId);
+
+    // ------------------------------------------------------
+    // Event-Funktionen
+    // ------------------------------------------------------
     void verarbeiteLadevorgang(int ladepunktId, double ladeleistungKWH);
 
 }

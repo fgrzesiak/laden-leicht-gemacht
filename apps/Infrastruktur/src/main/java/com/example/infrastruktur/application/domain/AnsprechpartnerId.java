@@ -1,38 +1,20 @@
 package com.example.infrastruktur.application.domain;
 
-import java.util.Objects;
-
 /**
  * Value Object für die eindeutige ID eines Ansprechpartners
  */
 public class AnsprechpartnerId {
 
-    private Integer id;
+    private int id;
 
     public AnsprechpartnerId() {
-        this.id = null;
     }
 
-    public AnsprechpartnerId(Integer id) {
+    public AnsprechpartnerId(int id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (!(o instanceof AnsprechpartnerId))
-            return false;
-        AnsprechpartnerId ansprechpartnerId = (AnsprechpartnerId) o;
-        return Objects.equals(id, ansprechpartnerId.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 }

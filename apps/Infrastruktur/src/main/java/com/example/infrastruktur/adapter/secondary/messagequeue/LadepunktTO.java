@@ -2,7 +2,6 @@ package com.example.infrastruktur.adapter.secondary.messagequeue;
 
 /**
  * Transfer Object für ein Ladepunkt-Event.
- * Hier z.B. ein fiktives "LadepunktAktualisiertEvent".
  */
 public class LadepunktTO {
 

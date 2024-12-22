@@ -29,9 +29,9 @@ public class AnsprechpartnerController {
      * @param dto Die Daten des neuen Ansprechpartners.
      * @return Eine ResponseEntity mit der ID des neuen Ansprechpartners.
      */
-    @PostMapping("/eigentuemer/{eigentuemerId}")
+    @PostMapping
     public ResponseEntity<String> ansprechpartnerAnlegen(@RequestBody AnsprechpartnerRequest dto) {
-        Integer newId = service.ansprechpartnerAnlegen(dto);
+        int newId = service.ansprechpartnerAnlegen(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body("Neuer Ansprechpartner mit ID=" + newId + " angelegt.");
     }
 
@@ -44,8 +44,30 @@ public class AnsprechpartnerController {
      *                                   wird.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<?> ansprechpartnerFinden(@PathVariable("id") Integer id) throws InfrastrukturAppException {
+    public ResponseEntity<?> ansprechpartnerFinden(@PathVariable("id") int id) throws InfrastrukturAppException {
         return ResponseEntity.ok(service.ansprechpartnerFinden(id));
+    }
+
+    /**
+     * Liefert eine Liste aller Ansprechpartner.
+     *
+     * @return Eine Liste von Ansprechpartnern.
+     */
+    @GetMapping
+    public List<AnsprechpartnerResponse> alleAnsprechpartner() {
+        return service.alleAnsprechpartnerAnzeigen();
+    }
+
+    /**
+     * Findet alle Ansprechpartner für einen bestimmten Eigentümer.
+     *
+     * @param eigentuemerId Die ID des Eigentümers.
+     * @return Eine Liste von Ansprechpartnern.
+     */
+    @GetMapping("/eigentuemer/{eigentuemerId}")
+    public List<AnsprechpartnerResponse> alleAnsprechpartnerFuerEigentuemer(
+            @PathVariable("eigentuemerId") int eigentuemerId) {
+        return service.alleAnsprechpartnerFuerEigentuemer(eigentuemerId);
     }
 
     /**
@@ -58,7 +80,7 @@ public class AnsprechpartnerController {
      *                                   wird.
      */
     @PutMapping("/{id}")
-    public ResponseEntity<String> ansprechpartnerAktualisieren(@PathVariable("id") Integer id,
+    public ResponseEntity<String> ansprechpartnerAktualisieren(@PathVariable("id") int id,
             @RequestBody AnsprechpartnerRequest dto) throws InfrastrukturAppException {
         service.ansprechpartnerAktualisieren(id, dto);
         return ResponseEntity.ok("Ansprechpartner aktualisiert");
@@ -73,21 +95,10 @@ public class AnsprechpartnerController {
      *                                   wird.
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> ansprechpartnerLoeschen(@PathVariable("id") Integer id)
+    public ResponseEntity<String> ansprechpartnerLoeschen(@PathVariable("id") int id)
             throws InfrastrukturAppException {
         service.ansprechpartnerLoeschen(id);
         return ResponseEntity.ok("Ansprechpartner gelöscht");
     }
 
-    /**
-     * Findet alle Ansprechpartner für einen bestimmten Eigentümer.
-     *
-     * @param eigentuemerId Die ID des Eigentümers.
-     * @return Eine Liste von Ansprechpartnern.
-     */
-    @GetMapping("/eigentuemer/{eigentuemerId}")
-    public List<AnsprechpartnerResponse> alleAnsprechpartnerFuerEigentuemer(
-            @PathVariable("eigentuemerId") Integer eigentuemerId) {
-        return service.alleAnsprechpartnerFuerEigentuemer(eigentuemerId);
-    }
 }

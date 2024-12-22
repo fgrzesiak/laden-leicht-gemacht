@@ -1,20 +1,23 @@
 package com.example.infrastruktur.application.dto;
 
+/**
+ * Repräsentiert das Request Data Transfer Object (DTO) für einen Ladepunkt.
+ */
 public class LadepunktRequest {
 
-    private Integer eigentuemerId;
-    private Double ladeleistungKW;
+    private int eigentuemerId;
+    private double ladeleistungKW;
     private String anschlussart;
     private VerfuegbarkeitEnum verfuegbarkeit;
-    private Double gesamtleistungKWH;
+    private double gesamtleistungKWH;
     private AdresseDTO adresse;
 
     public LadepunktRequest() {
     }
 
-    public LadepunktRequest(Integer eigentuemerId, AdresseDTO adresse, Double ladeleistungKW, String anschlussart,
+    public LadepunktRequest(int eigentuemerId, AdresseDTO adresse, double ladeleistungKW, String anschlussart,
             VerfuegbarkeitEnum verfuegbarkeit,
-            Double gesamtleistungKWH) {
+            double gesamtleistungKWH) {
         this.eigentuemerId = eigentuemerId;
         this.adresse = adresse;
         this.ladeleistungKW = ladeleistungKW;
@@ -23,51 +26,28 @@ public class LadepunktRequest {
         this.gesamtleistungKWH = gesamtleistungKWH;
     }
 
-    public Integer getEigentuemerId() {
+    public int getEigentuemerId() {
         return eigentuemerId;
-    }
-
-    public void setEigentuemerId(Integer eigentuemerId) {
-        this.eigentuemerId = eigentuemerId;
     }
 
     public AdresseDTO getAdresse() {
         return adresse;
     }
 
-    public void setAdresse(AdresseDTO adresse) {
-        this.adresse = adresse;
-    }
-
-    public Double getLadeleistungKW() {
+    public double getLadeleistungKW() {
         return ladeleistungKW;
-    }
-
-    public void setLadeleistungKW(Double ladeleistungKW) {
-        this.ladeleistungKW = ladeleistungKW;
     }
 
     public String getAnschlussart() {
         return anschlussart;
     }
 
-    public void setAnschlussart(String anschlussart) {
-        this.anschlussart = anschlussart;
-    }
-
     public VerfuegbarkeitEnum getVerfuegbarkeit() {
         return verfuegbarkeit;
     }
 
-    public void setVerfuegbarkeit(VerfuegbarkeitEnum verfuegbarkeit) {
-        this.verfuegbarkeit = verfuegbarkeit;
-    }
-
-    public Double getGesamtleistungKWH() {
+    public double getGesamtleistungKWH() {
         return gesamtleistungKWH;
     }
 
-    public void setGesamtleistungKWH(Double gesamtleistungKWH) {
-        this.gesamtleistungKWH = gesamtleistungKWH;
-    }
 }

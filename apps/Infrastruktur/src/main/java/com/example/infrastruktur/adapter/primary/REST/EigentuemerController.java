@@ -31,7 +31,7 @@ public class EigentuemerController {
      */
     @PostMapping
     public ResponseEntity<String> eigentuemerAnlegen(@RequestBody EigentuemerRequest eigentuemerDto) {
-        Integer newId = service.eigentuemerAnlegen(eigentuemerDto); // gibt String-ID zurück
+        int newId = service.eigentuemerAnlegen(eigentuemerDto); // gibt String-ID zurück
         return ResponseEntity.status(HttpStatus.CREATED).body("Neuer Eigentümer mit ID=" + newId + " angelegt.");
     }
 
@@ -43,7 +43,7 @@ public class EigentuemerController {
      * @throws InfrastrukturAppException Wenn ein Fehler auftritt
      */
     @GetMapping("/{id}")
-    public ResponseEntity<EigentuemerResponse> eigentuemerFinden(@PathVariable("id") Integer id)
+    public ResponseEntity<EigentuemerResponse> eigentuemerFinden(@PathVariable("id") int id)
             throws InfrastrukturAppException {
         return ResponseEntity.ok(service.eigentuemerFinden(id));
     }
@@ -68,7 +68,7 @@ public class EigentuemerController {
      */
     @PutMapping("/{id}")
     public ResponseEntity<String> eigentuemerAktualisieren(
-            @PathVariable("id") Integer id,
+            @PathVariable("id") int id,
             @RequestBody EigentuemerRequest eigentuemerDto) throws InfrastrukturAppException {
         service.eigentuemerAktualisieren(id, eigentuemerDto);
         return new ResponseEntity<>("Eigentümer aktualisiert", HttpStatus.OK);
@@ -82,7 +82,7 @@ public class EigentuemerController {
      * @throws InfrastrukturAppException Wenn ein Fehler auftritt
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> eigentuemerLoeschen(@PathVariable("id") Integer id) throws InfrastrukturAppException {
+    public ResponseEntity<String> eigentuemerLoeschen(@PathVariable("id") int id) throws InfrastrukturAppException {
         service.eigentuemerLoeschen(id);
         return new ResponseEntity<>("Eigentümer gelöscht", HttpStatus.OK);
     }

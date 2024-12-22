@@ -16,12 +16,4 @@ public class NutzungTO {
         return ladeleistungKWH;
     }
 
-    public void setLadepunktId(int ladepunktId) {
-        this.ladepunktId = ladepunktId;
-    }
-
-    public void setLadeleistungKWH(double ladeleistungKWH) {
-        this.ladeleistungKWH = ladeleistungKWH;
-    }
-
 }

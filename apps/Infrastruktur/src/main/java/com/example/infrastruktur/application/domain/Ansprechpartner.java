@@ -1,7 +1,5 @@
 package com.example.infrastruktur.application.domain;
 
-import java.util.Objects;
-
 /**
  * Repräsentiert einen Ansprechpartner (Value Object) mit Kontaktdaten.
  */
@@ -74,26 +72,5 @@ public class Ansprechpartner {
 
     public void setAdresse(Adresse adresse) {
         this.adresse = adresse;
-    }
-
-    // equals / hashCode (typisch für Value Objects)
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (!(o instanceof Ansprechpartner))
-            return false;
-        Ansprechpartner that = (Ansprechpartner) o;
-        return Objects.equals(ansprechpartnerId, that.ansprechpartnerId) &&
-                Objects.equals(eigentuemerId, that.eigentuemerId) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(adresse, that.adresse) &&
-                Objects.equals(telefon, that.telefon) &&
-                Objects.equals(email, that.email);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(ansprechpartnerId, eigentuemerId, name, adresse, telefon, email);
     }
 }
