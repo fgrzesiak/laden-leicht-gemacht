@@ -1,5 +1,9 @@
 package com.example.nutzung.application.dto;
 
+/**
+ * Repräsentiert ein Request Data Transfer Object (DTO) für einen
+ * Fahrzeughalter.
+ */
 public class FahrzeughalterRequest {
     private String name;
     private String bankverbindung;
@@ -18,24 +22,12 @@ public class FahrzeughalterRequest {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public AdresseDTO getAdresse() {
         return adresse;
     }
 
-    public void setAdresse(AdresseDTO adresse) {
-        this.adresse = adresse;
-    }
-
     public String getBankverbindung() {
         return bankverbindung;
-    }
-
-    public void setBankverbindung(String bankverbindung) {
-        this.bankverbindung = bankverbindung;
     }
 
 }

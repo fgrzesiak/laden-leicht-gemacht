@@ -35,6 +35,10 @@ public class NutzungAppServiceImpl implements NutzungAppService {
         this.nutzungDomainService = nutzungDomainService;
     }
 
+    // ------------------------------------------------------
+    // Fahrzeughalter-Funktionen
+    // ------------------------------------------------------
+
     @Override
     public int halterAnlegen(FahrzeughalterRequest dto) {
         Fahrzeughalter halter = FahrzeughalterMapper.toDomain(dto);
@@ -78,13 +82,17 @@ public class NutzungAppServiceImpl implements NutzungAppService {
         return halter.stream().map(FahrzeughalterMapper::toResponse).collect(Collectors.toList());
     }
 
+    // ------------------------------------------------------
+    // Nutzung-Funktionen
+    // ------------------------------------------------------
+
     @Override
     public int nutzungAnlegen(int ladepunktId, NutzungRequest dto) throws NutzungAppException {
         Ladepunkt ladepunkt = ladepunktRepo.findById(new LadepunktId(ladepunktId));
         if (ladepunkt == null) {
             throw new NotFoundException("Ladepunkt nicht gefunden");
         }
-        if (!ladepunkt.getVerfuegbarkeit().equals("verfügbar")) {
+        if (!ladepunkt.isVerfuegbar()) {
             throw new BadRequestException("Ladepunkt nicht verfügbar");
         }
         Fahrzeughalter halter = halterRepo.findById(new FahrzeughalterId(dto.getHalterId()));
@@ -126,6 +134,20 @@ public class NutzungAppServiceImpl implements NutzungAppService {
         return nutzungen.stream().map(NutzungMapper::toResponse).collect(Collectors.toList());
     }
 
+    // ------------------------------------------------------
+    // Ladepunkt-Funktionen
+    // ------------------------------------------------------
+
+    @Override
+    public List<LadepunktResponse> alleLadepunkteAnzeigen() {
+        List<Ladepunkt> ladepunkte = ladepunktRepo.findAll();
+        return ladepunkte.stream().map(LadepunktMapper::toResponse).collect(Collectors.toList());
+    }
+
+    // ------------------------------------------------------
+    // Event-Funktionen
+    // ------------------------------------------------------
+
     @Override
     public void ladepunktAktualisieren(int ladepunktId, double ladeleistungKW, String verfuegbarkeit) {
         Ladepunkt ladepunktAlt = ladepunktRepo.findById(new LadepunktId(ladepunktId));
@@ -137,11 +159,5 @@ public class NutzungAppServiceImpl implements NutzungAppService {
         ladepunktAlt.setLadeleistungKW(ladeleistungKW);
         ladepunktAlt.setVerfuegbarkeit(verfuegbarkeit);
         ladepunktRepo.save(ladepunktAlt, false);
-    }
-
-    @Override
-    public List<LadepunktResponse> alleLadepunkteAnzeigen() {
-        List<Ladepunkt> ladepunkte = ladepunktRepo.findAll();
-        return ladepunkte.stream().map(LadepunktMapper::toResponse).collect(Collectors.toList());
     }
 }

@@ -9,6 +9,16 @@ import com.example.infrastruktur.application.dto.AnsprechpartnerResponse;
 
 public class AnsprechpartnerMapper {
 
+    public static AnsprechpartnerEntity toEntity(Ansprechpartner ansprechpartner) {
+        return new AnsprechpartnerEntity(
+                ansprechpartner.getAnsprechpartnerId().getId(),
+                ansprechpartner.getEigentuemerId().getId(),
+                ansprechpartner.getName(),
+                ansprechpartner.getTelefon(),
+                ansprechpartner.getEmail(),
+                AdresseMapper.toEntity(ansprechpartner.getAdresse()));
+    }
+
     public static Ansprechpartner toDomain(AnsprechpartnerEntity ansprechpartnerEntity) {
         return new Ansprechpartner(
                 new AnsprechpartnerId(ansprechpartnerEntity.getAnsprechpartnerId()),

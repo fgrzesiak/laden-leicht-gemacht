@@ -2,12 +2,12 @@ package com.example.nutzung.adapter.secondary.persistence;
 
 import com.example.nutzung.application.domain.Fahrzeughalter;
 import com.example.nutzung.application.domain.FahrzeughalterId;
+import com.example.nutzung.application.mapper.FahrzeughalterMapper;
 import com.example.nutzung.application.port.secondary.FahrzeughalterRepository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 public class FahrzeughalterRepositoryImplDb implements FahrzeughalterRepository {
 
@@ -19,15 +19,15 @@ public class FahrzeughalterRepositoryImplDb implements FahrzeughalterRepository 
 
     @Override
     public Fahrzeughalter findById(FahrzeughalterId id) {
-        Optional<FahrzeughalterEntity> e = jdbcRepo.findById(id.getId());
-        return e.map(FahrzeughalterEntity::toDomain).orElse(null);
+        Optional<FahrzeughalterEntity> entity = jdbcRepo.findById(id.getId());
+        return entity.map(FahrzeughalterMapper::toDomain).orElse(null);
     }
 
     @Override
     public void save(Fahrzeughalter halter) {
-        FahrzeughalterEntity entity = new FahrzeughalterEntity(halter);
-        jdbcRepo.save(entity);
-        halter.setHalterId(new FahrzeughalterId(entity.getHalterId()));
+        FahrzeughalterEntity fahrzeughalterEntity = FahrzeughalterMapper.toEntity(halter);
+        jdbcRepo.save(fahrzeughalterEntity);
+        halter.setHalterId(new FahrzeughalterId(fahrzeughalterEntity.getHalterId()));
     }
 
     @Override
@@ -37,8 +37,7 @@ public class FahrzeughalterRepositoryImplDb implements FahrzeughalterRepository 
 
     @Override
     public List<Fahrzeughalter> findAll() {
-        return StreamSupport.stream(jdbcRepo.findAll().spliterator(), false)
-                .map(FahrzeughalterEntity::toDomain)
-                .collect(Collectors.toList());
+        List<FahrzeughalterEntity> entities = (List<FahrzeughalterEntity>) jdbcRepo.findAll();
+        return entities.stream().map(FahrzeughalterMapper::toDomain).collect(Collectors.toList());
     }
 }

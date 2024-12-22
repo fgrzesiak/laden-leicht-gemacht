@@ -26,7 +26,7 @@ public class AnsprechpartnerRepositoryImplDb implements AnsprechpartnerRepositor
 
     @Override
     public void save(Ansprechpartner ansprechpartner) {
-        AnsprechpartnerEntity entity = new AnsprechpartnerEntity(ansprechpartner);
+        AnsprechpartnerEntity entity = AnsprechpartnerMapper.toEntity(ansprechpartner);
         jdbcRepo.save(entity);
         ansprechpartner.setAnsprechpartnerId(new AnsprechpartnerId(entity.getAnsprechpartnerId()));
     }
@@ -38,10 +38,8 @@ public class AnsprechpartnerRepositoryImplDb implements AnsprechpartnerRepositor
 
     @Override
     public List<Ansprechpartner> findAll() {
-        return ((List<AnsprechpartnerEntity>) jdbcRepo.findAll())
-                .stream()
-                .map(AnsprechpartnerMapper::toDomain)
-                .collect(Collectors.toList());
+        List<AnsprechpartnerEntity> entities = (List<AnsprechpartnerEntity>) jdbcRepo.findAll();
+        return entities.stream().map(AnsprechpartnerMapper::toDomain).collect(Collectors.toList());
     }
 
     @Override

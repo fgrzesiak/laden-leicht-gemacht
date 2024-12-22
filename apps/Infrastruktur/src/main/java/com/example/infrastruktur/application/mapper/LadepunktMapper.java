@@ -9,6 +9,17 @@ import com.example.infrastruktur.application.dto.LadepunktResponse;
 
 public class LadepunktMapper {
 
+    public static LadepunktEntity toEntity(Ladepunkt ladepunkt) {
+        return new LadepunktEntity(
+                ladepunkt.getLadepunktId().getId(),
+                ladepunkt.getEigentuemerId().getId(),
+                AdresseMapper.toEntity(ladepunkt.getAdresse()),
+                ladepunkt.getLadeleistungKW(),
+                ladepunkt.getAnschlussart(),
+                ladepunkt.getVerfuegbarkeit(),
+                ladepunkt.getGesamtleistungKWH());
+    }
+
     public static Ladepunkt toDomain(LadepunktEntity ladepunktEntity) {
         return new Ladepunkt(
                 new LadepunktId(ladepunktEntity.getLadepunktId()),

@@ -1,5 +1,8 @@
 package com.example.nutzung.application.dto;
 
+/**
+ * Repräsentiert ein Request Data Transfer Object (DTO) für eine Nutzung.
+ */
 public class NutzungRequest {
     private String datum; // z. B. "2023-10-10"
     private int ladezeitMin;
@@ -19,24 +22,12 @@ public class NutzungRequest {
         return datum;
     }
 
-    public void setDatum(String datum) {
-        this.datum = datum;
-    }
-
     public int getLadezeitMin() {
         return ladezeitMin;
     }
 
-    public void setLadezeitMin(int ladezeitMin) {
-        this.ladezeitMin = ladezeitMin;
-    }
-
     public int getHalterId() {
         return halterId;
-    }
-
-    public void setHalterId(int halterId) {
-        this.halterId = halterId;
     }
 
     public double getladeleistungKWH() {

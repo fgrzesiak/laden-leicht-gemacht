@@ -1,5 +1,8 @@
 package com.example.nutzung.application.dto;
 
+/**
+ * Repräsentiert ein Response Data Transfer Object (DTO) für einen Ladepunkt.
+ */
 public class LadepunktResponse {
     private int ladepunktId;
     private double ladeleistungKW;

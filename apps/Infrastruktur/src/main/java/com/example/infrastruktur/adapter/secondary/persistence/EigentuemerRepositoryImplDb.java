@@ -25,7 +25,7 @@ public class EigentuemerRepositoryImplDb implements EigentuemerRepository {
 
     @Override
     public void save(Eigentuemer eigentuemer) {
-        EigentuemerEntity entity = new EigentuemerEntity(eigentuemer);
+        EigentuemerEntity entity = EigentuemerMapper.toEntity(eigentuemer);
         jdbcRepo.save(entity);
         eigentuemer.setEigentuemerId(new EigentuemerId(entity.getEigentuemerId())); // set auto-generated ID
     }
@@ -37,9 +37,7 @@ public class EigentuemerRepositoryImplDb implements EigentuemerRepository {
 
     @Override
     public List<Eigentuemer> findAll() {
-        return ((List<EigentuemerEntity>) jdbcRepo.findAll())
-                .stream()
-                .map(EigentuemerMapper::toDomain)
-                .collect(Collectors.toList());
+        List<EigentuemerEntity> entities = (List<EigentuemerEntity>) jdbcRepo.findAll();
+        return entities.stream().map(EigentuemerMapper::toDomain).collect(Collectors.toList());
     }
 }

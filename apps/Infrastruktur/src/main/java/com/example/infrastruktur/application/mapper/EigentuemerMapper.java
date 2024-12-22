@@ -8,6 +8,13 @@ import com.example.infrastruktur.application.dto.EigentuemerResponse;
 
 public class EigentuemerMapper {
 
+    public static EigentuemerEntity toEntity(Eigentuemer eigentuemer) {
+        return new EigentuemerEntity(
+                eigentuemer.getEigentuemerId().getId(),
+                eigentuemer.getName(),
+                AdresseMapper.toEntity(eigentuemer.getAdresse()));
+    }
+
     public static Eigentuemer toDomain(EigentuemerEntity eigentuemerEntity) {
         return new Eigentuemer(
                 new EigentuemerId(eigentuemerEntity.getEigentuemerId()),

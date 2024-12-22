@@ -3,11 +3,6 @@ package com.example.infrastruktur.adapter.secondary.persistence;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Embedded;
 
-import com.example.infrastruktur.application.domain.Ansprechpartner;
-import com.example.infrastruktur.application.domain.AnsprechpartnerId;
-import com.example.infrastruktur.application.domain.EigentuemerId;
-import com.example.infrastruktur.application.domain.Adresse;
-
 public class AnsprechpartnerEntity {
 
     @Id
@@ -25,21 +20,13 @@ public class AnsprechpartnerEntity {
     }
 
     public AnsprechpartnerEntity(int ansprechpartnerId, int eigentuemerId, String name, String telefon,
-            String email, Adresse adresse) {
+            String email, AdresseEntity adresse) {
         this.ansprechpartnerId = ansprechpartnerId;
         this.eigentuemerId = eigentuemerId;
         this.name = name;
         this.telefon = telefon;
         this.email = email;
-        this.adresse = new AdresseEntity(adresse);
-    }
-
-    public AnsprechpartnerEntity(Ansprechpartner domain) {
-        this.eigentuemerId = domain.getEigentuemerId().getId();
-        this.name = domain.getName();
-        this.telefon = domain.getTelefon();
-        this.email = domain.getEmail();
-        this.adresse = new AdresseEntity(domain.getAdresse());
+        this.adresse = adresse;
     }
 
     public int getAnsprechpartnerId() {

@@ -25,7 +25,7 @@ public class LadepunktRepositoryImplDb implements LadepunktRepository {
 
     @Override
     public void save(Ladepunkt ladepunkt) {
-        LadepunktEntity ladepunktEntity = new LadepunktEntity(ladepunkt);
+        LadepunktEntity ladepunktEntity = LadepunktMapper.toEntity(ladepunkt);
         jdbcLadepunktEntityRepository.save(ladepunktEntity);
         ladepunkt.setLadepunktId(new LadepunktId(ladepunktEntity.getLadepunktId())); // set auto-generated ID
     }
@@ -37,9 +37,7 @@ public class LadepunktRepositoryImplDb implements LadepunktRepository {
 
     @Override
     public List<Ladepunkt> findAll() {
-        return ((List<LadepunktEntity>) jdbcLadepunktEntityRepository.findAll())
-                .stream()
-                .map(LadepunktMapper::toDomain)
-                .collect(Collectors.toList());
+        List<LadepunktEntity> entities = (List<LadepunktEntity>) jdbcLadepunktEntityRepository.findAll();
+        return entities.stream().map(LadepunktMapper::toDomain).collect(Collectors.toList());
     }
 }

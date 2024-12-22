@@ -6,6 +6,14 @@ import com.example.infrastruktur.application.dto.AdresseDTO;
 
 public class AdresseMapper {
 
+    public static AdresseEntity toEntity(Adresse adresse) {
+        return new AdresseEntity(
+                adresse.getStrasse(),
+                adresse.getHausnummer(),
+                adresse.getPlz(),
+                adresse.getOrt());
+    }
+
     public static Adresse toDomain(AdresseEntity entity) {
         return new Adresse(
                 entity.getStrasse(),

@@ -2,6 +2,7 @@ package com.example.nutzung.adapter.secondary.persistence;
 
 import com.example.nutzung.application.domain.Nutzung;
 import com.example.nutzung.application.domain.NutzungId;
+import com.example.nutzung.application.mapper.NutzungMapper;
 import com.example.nutzung.application.domain.FahrzeughalterId;
 import com.example.nutzung.application.port.secondary.NutzungRepository;
 
@@ -20,13 +21,14 @@ public class NutzungRepositoryImplDb implements NutzungRepository {
     @Override
     public Nutzung findById(NutzungId id) {
         Optional<NutzungEntity> e = jdbcRepo.findById(id.getId());
-        return e.map(NutzungEntity::toDomain).orElse(null);
+        return e.map(NutzungMapper::toDomain).orElse(null);
     }
 
     @Override
     public void save(Nutzung nutzung) {
-        NutzungEntity entity = new NutzungEntity(nutzung);
+        NutzungEntity entity = NutzungMapper.toEntity(nutzung);
         jdbcRepo.save(entity);
+        nutzung.setNutzungsId(new NutzungId(entity.getNutzungsId()));
     }
 
     @Override
@@ -37,6 +39,6 @@ public class NutzungRepositoryImplDb implements NutzungRepository {
     @Override
     public List<Nutzung> findAllByHalterId(FahrzeughalterId halterId) {
         List<NutzungEntity> entities = jdbcRepo.findByHalterId(halterId.getId());
-        return entities.stream().map(NutzungEntity::toDomain).collect(Collectors.toList());
+        return entities.stream().map(NutzungMapper::toDomain).collect(Collectors.toList());
     }
 }

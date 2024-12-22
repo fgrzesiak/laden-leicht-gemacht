@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * DomainEvent, das signalisiert, dass eine Nutzung registriert wurde
- * (z.B. um andere Microservices zu informieren).
  */
 public class NutzungRegistriertEvent extends DomainEvent {
 

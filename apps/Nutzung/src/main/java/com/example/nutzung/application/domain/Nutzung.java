@@ -29,6 +29,10 @@ public class Nutzung {
         return nutzungsId;
     }
 
+    public void setNutzungsId(NutzungId nutzungsId) {
+        this.nutzungsId = nutzungsId;
+    }
+
     public LadepunktId getLadepunktId() {
         return ladepunktId;
     }

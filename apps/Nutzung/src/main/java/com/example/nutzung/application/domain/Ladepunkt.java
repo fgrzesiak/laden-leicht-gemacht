@@ -1,5 +1,7 @@
 package com.example.nutzung.application.domain;
 
+import com.example.nutzung.application.dto.VerfuegbarkeitEnum;
+
 public class Ladepunkt {
     private LadepunktId ladepunktId;
     private double ladeleistungKW;
@@ -33,5 +35,9 @@ public class Ladepunkt {
 
     public void setVerfuegbarkeit(String verfuegbarkeit) {
         this.verfuegbarkeit = verfuegbarkeit;
+    }
+
+    public boolean isVerfuegbar() {
+        return verfuegbarkeit == VerfuegbarkeitEnum.VERFUEGBAR.toString();
     }
 }
