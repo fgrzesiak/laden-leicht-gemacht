@@ -9,9 +9,9 @@
     </parent>
     <groupId>com.example</groupId>
     <artifactId>Nutzung</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>Nutzung</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Microservice zur Verwaltung der Ladenutzung von LadenLeichtGemacht</description>
     <url/>
     <licenses>
         <license/>

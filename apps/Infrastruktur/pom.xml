@@ -8,9 +8,9 @@
 	</parent>
 	<groupId>com.example</groupId>
 	<artifactId>Infrastruktur</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>Infrastruktur</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Microservice zur Verwaltung der Ladeinfrastruktur von LadenLeichtGemacht</description>
 	<url/>
 	<licenses>
 		<license/>
