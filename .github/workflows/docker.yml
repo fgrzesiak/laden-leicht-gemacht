@@ -77,7 +77,7 @@ jobs:
         if: needs.paths-filter.outputs.infrastruktur_changed == 'true'
         uses: docker/build-push-action@v6
         with:
-          context: ./apps/infrastruktur
+          context: ./apps/Infrastruktur
           push: true
           tags: ${{ vars.DOCKERHUB_USERNAME }}/laden-leicht-gemacht:infrastruktur-latest
 
