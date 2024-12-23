@@ -11,6 +11,9 @@ jobs:
     outputs:
       infrastruktur_changed: ${{ steps.filter.outputs.infrastruktur_changed }}
       nutzung_changed: ${{ steps.filter.outputs.nutzung_changed }}
+      rabbitmq_changed: ${{ steps.filter.outputs.rabbitmq_changed }}
+      db_nutzung_changed: ${{ steps.filter.outputs.db_nutzung_changed }}
+      db_infrastruktur_changed: ${{ steps.filter.outputs.db_infrastruktur_changed }}
     steps:
       - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
@@ -18,15 +21,21 @@ jobs:
         with:
           filters: |
             infrastruktur_changed:
-              - 'apps/Infrastruktur/**'
+                - 'apps/infrastruktur/**'
             nutzung_changed:
-              - 'apps/Nutzung/**'
+                - 'apps/Nutzung/**'
+            rabbitmq_changed:
+                - 'packages/rabbitmq/**'
+            db_nutzung_changed:
+                - 'packages/db_nutzung/**'
+            db_infrastruktur_changed:
+                - 'packages/db_infrastruktur/**'
 
   build_and_push_docker_images:
     name: Build and Push Docker Images
     runs-on: ubuntu-latest
     needs: paths-filter
-    if: needs.paths-filter.outputs.infrastruktur_changed == 'true' || needs.paths-filter.outputs.nutzung_changed == 'true'
+    if: needs.paths-filter.outputs.infrastruktur_changed == 'true' || needs.paths-filter.outputs.nutzung_changed == 'true' || needs.paths-filter.outputs.rabbitmq_changed == 'true' || needs.paths-filter.outputs.db_nutzung_changed == 'true' || needs.paths-filter.outputs.db_infrastruktur_changed == 'true'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -40,20 +49,42 @@ jobs:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Build and Push RabbitMQ Image
+        if: needs.paths-filter.outputs.rabbitmq_changed == 'true'
+        uses: docker/build-push-action@v6
+        with:
+          context: ./packages/rabbitmq
+          push: true
+          tags: ${{ vars.DOCKERHUB_USERNAME }}/laden-leicht-gemacht:rabbitmq-latest
+
+      - name: Build and Push DB Nutzung Image
+        if: needs.paths-filter.outputs.db_nutzung_changed == 'true'
+        uses: docker/build-push-action@v6
+        with:
+          context: ./packages/db_nutzung
+          push: true
+          tags: ${{ vars.DOCKERHUB_USERNAME }}/laden-leicht-gemacht:db_nutzung-latest
+
+      - name: Build and Push DB Infrastruktur Image
+        if: needs.paths-filter.outputs.db_infrastruktur_changed == 'true'
+        uses: docker/build-push-action@v6
+        with:
+          context: ./packages/db_infrastruktur
+          push: true
+          tags: ${{ vars.DOCKERHUB_USERNAME }}/laden-leicht-gemacht:db_infrastruktur-latest
+
       - name: Build and Push Infrastruktur Image
         if: needs.paths-filter.outputs.infrastruktur_changed == 'true'
         uses: docker/build-push-action@v6
         with:
+          context: ./apps/infrastruktur
           push: true
           tags: ${{ vars.DOCKERHUB_USERNAME }}/laden-leicht-gemacht:infrastruktur-latest
-          platforms: windows/amd64
-          target: infrastruktur
 
       - name: Build and Push Nutzung Image
         if: needs.paths-filter.outputs.nutzung_changed == 'true'
         uses: docker/build-push-action@v6
         with:
+          context: ./apps/Nutzung
           push: true
           tags: ${{ vars.DOCKERHUB_USERNAME }}/laden-leicht-gemacht:nutzung-latest
-          platforms: linux/arm64
-          target: nutzung
