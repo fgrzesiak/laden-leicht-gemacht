@@ -13,7 +13,7 @@ public class SwaggerConfiguration {
         @Bean
         public OpenAPI customOpenAPI() {
                 Server server = new Server()
-                                .url("http://localhost:8081")
+                                .url("http://localhost:8082")
                                 .description("Ladenutzungsverwaltungs-API");
 
                 return new OpenAPI()

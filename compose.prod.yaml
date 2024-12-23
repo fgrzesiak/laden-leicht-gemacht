@@ -1,0 +1,44 @@
+services:
+  rabbitmq:
+    image: fabianjg/laden-leicht-gemacht:rabbitmq-latest
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+  db_infrastruktur:
+    image: fabianjg/laden-leicht-gemacht:db_infrastruktur-latest
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: infrastruktur
+
+  db_nutzung:
+    image: fabianjg/laden-leicht-gemacht:db_nutzung-latest
+    ports:
+      - 3308:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: nutzung
+
+  infrastruktur:
+    image: fabianjg/laden-leicht-gemacht:infrastruktur-latest
+    ports:
+      - 8081:8080
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db_infrastruktur:3306/infrastruktur
+      SPRING_QUEUE_URL: rabbitmq
+    depends_on:
+      - db_infrastruktur
+      - rabbitmq
+
+  nutzung:
+    image: fabianjg/laden-leicht-gemacht:nutzung-latest
+    ports:
+      - 8082:8080
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db_nutzung:3306/nutzung
+      SPRING_QUEUE_URL: rabbitmq
+    depends_on:
+      - db_nutzung
+      - rabbitmq

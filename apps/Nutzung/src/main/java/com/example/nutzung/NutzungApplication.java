@@ -10,7 +10,7 @@ public class NutzungApplication {
     String urlSpring = System.getenv("SPRING_DATASOURCE_URL");
 
     if (urlSpring == null)
-      urlSpring = "jdbc:mysql://localhost:3307/nutzung";
+      urlSpring = "jdbc:mysql://localhost:3308/nutzung";
 
     String urlRabbit = System.getenv("SPRING_QUEUE_URL");
     if (urlRabbit == null)

@@ -8,7 +8,7 @@ public class InfrastrukturApplication {
     public static void main(String[] args) {
         String urlSpring = System.getenv("SPRING_DATASOURCE_URL");
         if (urlSpring == null)
-            urlSpring = "jdbc:mysql://localhost:3308/infrastruktur";
+            urlSpring = "jdbc:mysql://localhost:3307/infrastruktur";
 
         String urlRabbit = System.getenv("SPRING_QUEUE_URL");
         if (urlRabbit == null)
