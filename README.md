@@ -89,3 +89,12 @@ Alternativ oder für den Fall, dass die Images auf DockerHub aktualisiert werden
 ```
 docker compose -f compose.prod.yaml  up -d --pull always
 ```
+
+## Testen der Anwendung
+
+Die Anwendung besteht aus zwei Microservices: `Infrastruktur-Service` und `Nutzungs-Service`. Die Anwendung kann über die folgenden Links getestet werden:
+
+- [Infrastruktur-Service](http://localhost:8081/api.html) (http://localhost:8081/api.html)
+- [Nutzungs-Service](http://localhost:8082/api.html) (http://localhost:8082/api.html)
+
+Dafür ist es notwendig, dass die Anwendung lokal ausgeführt wird, unabhängig davon, ob die Anwendung lokal gebaut oder die Images von DockerHub heruntergeladen werden.
