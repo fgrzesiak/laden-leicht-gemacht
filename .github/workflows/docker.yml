@@ -21,7 +21,7 @@ jobs:
         with:
           filters: |
             infrastruktur_changed:
-                - 'apps/infrastruktur/**'
+                - 'apps/Infrastruktur/**'
             nutzung_changed:
                 - 'apps/Nutzung/**'
             rabbitmq_changed:
