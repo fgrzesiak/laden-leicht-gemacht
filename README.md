@@ -49,7 +49,43 @@ Das Unternehmen „LadenLeichtGemacht“ betreibt verschiedene Ladepunkte. Das U
 
 # Befehle zum Ausführen der Anwendung
 
-Einfacher Start: `docker compose up -d`
-Datenbankschema initialisieren: `docker compose down -v` und `docker compose up -d`
-Docker neuer Build: `docker compose build --no-cache`
-Docker Recreate: `docker compose up -d --force-recreate`
+1. Einfacher Start:
+
+```
+docker compose up -d
+```
+
+2. Datenbankschema initialisieren:
+
+```
+docker compose down -v
+docker compose up -d
+```
+
+3. Docker neuer Build:
+
+```
+docker compose build --no-cache
+```
+
+4. Docker Recreate:
+
+```
+docker compose up -d --force-recreate
+```
+
+# Befehle zur Ausführung der DockerHub-Images (bei Nicht-Entwicklung und für die Abgabe der Anwendung)
+
+Es reicht, die `compose.prod.yaml` Datei herunterzuladen und dann den folgenden Befehl auszuführen:
+
+```
+docker compose -f compose.prod.yaml up -d
+```
+
+Dadurch wird die Anwendung nicht selbst auf dem lokalen Rechner gebaut, sondern die Images von DockerHub heruntergeladen und ausgeführt.
+
+Alternativ oder für den Fall, dass die Images auf DockerHub aktualisiert werden, kann der folgende Befehl ausgeführt werden:
+
+```
+docker compose -f compose.prod.yaml  up -d --pull always
+```
