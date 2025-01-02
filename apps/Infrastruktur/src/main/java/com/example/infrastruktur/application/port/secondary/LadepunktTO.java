@@ -1,4 +1,4 @@
-package com.example.infrastruktur.adapter.secondary.messagequeue;
+package com.example.infrastruktur.application.port.secondary;
 
 /**
  * Transfer Object für ein Ladepunkt-Event.

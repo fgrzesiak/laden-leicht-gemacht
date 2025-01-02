@@ -3,6 +3,10 @@ package com.example.infrastruktur.adapter.secondary.persistence;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Embedded;
 
+import com.example.infrastruktur.application.domain.EigentuemerId;
+import com.example.infrastruktur.application.domain.Ladepunkt;
+import com.example.infrastruktur.application.domain.LadepunktId;
+
 public class LadepunktEntity {
 
     @Id
@@ -27,6 +31,27 @@ public class LadepunktEntity {
         this.anschlussart = anschlussart;
         this.verfuegbarkeit = verfuegbarkeit;
         this.gesamtleistungKWH = gesamtleistungKWH;
+    }
+
+    public LadepunktEntity(Ladepunkt ladepunkt) {
+        this.ladepunktId = ladepunkt.getLadepunktId().getId();
+        this.eigentuemerId = ladepunkt.getEigentuemerId().getId();
+        this.adresse = new AdresseEntity(ladepunkt.getAdresse());
+        this.ladeleistungKW = ladepunkt.getLadeleistungKW();
+        this.anschlussart = ladepunkt.getAnschlussart();
+        this.verfuegbarkeit = ladepunkt.getVerfuegbarkeit();
+        this.gesamtleistungKWH = ladepunkt.getGesamtleistungKWH();
+    }
+
+    public Ladepunkt toDomain() {
+        return new Ladepunkt(
+                new LadepunktId(ladepunktId),
+                new EigentuemerId(eigentuemerId),
+                adresse.toDomain(),
+                ladeleistungKW,
+                anschlussart,
+                verfuegbarkeit,
+                gesamtleistungKWH);
     }
 
     public int getLadepunktId() {

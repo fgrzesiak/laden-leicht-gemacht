@@ -2,7 +2,6 @@ package com.example.nutzung.adapter.secondary.persistence;
 
 import com.example.nutzung.application.domain.Fahrzeughalter;
 import com.example.nutzung.application.domain.FahrzeughalterId;
-import com.example.nutzung.application.mapper.FahrzeughalterMapper;
 import com.example.nutzung.application.port.secondary.FahrzeughalterRepository;
 
 import java.util.List;
@@ -20,12 +19,12 @@ public class FahrzeughalterRepositoryImplDb implements FahrzeughalterRepository 
     @Override
     public Fahrzeughalter findById(FahrzeughalterId id) {
         Optional<FahrzeughalterEntity> entity = jdbcRepo.findById(id.getId());
-        return entity.map(FahrzeughalterMapper::toDomain).orElse(null);
+        return entity.map(e -> e.toDomain()).orElse(null);
     }
 
     @Override
     public void save(Fahrzeughalter halter) {
-        FahrzeughalterEntity fahrzeughalterEntity = FahrzeughalterMapper.toEntity(halter);
+        FahrzeughalterEntity fahrzeughalterEntity = new FahrzeughalterEntity(halter);
         jdbcRepo.save(fahrzeughalterEntity);
         halter.setHalterId(new FahrzeughalterId(fahrzeughalterEntity.getHalterId()));
     }
@@ -38,6 +37,6 @@ public class FahrzeughalterRepositoryImplDb implements FahrzeughalterRepository 
     @Override
     public List<Fahrzeughalter> findAll() {
         List<FahrzeughalterEntity> entities = (List<FahrzeughalterEntity>) jdbcRepo.findAll();
-        return entities.stream().map(FahrzeughalterMapper::toDomain).collect(Collectors.toList());
+        return entities.stream().map(e -> e.toDomain()).collect(Collectors.toList());
     }
 }

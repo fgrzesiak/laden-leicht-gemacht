@@ -2,7 +2,6 @@ package com.example.infrastruktur.adapter.secondary.persistence;
 
 import com.example.infrastruktur.application.domain.Eigentuemer;
 import com.example.infrastruktur.application.domain.EigentuemerId;
-import com.example.infrastruktur.application.mapper.EigentuemerMapper;
 import com.example.infrastruktur.application.port.secondary.EigentuemerRepository;
 
 import java.util.List;
@@ -20,12 +19,12 @@ public class EigentuemerRepositoryImplDb implements EigentuemerRepository {
     @Override
     public Eigentuemer findById(EigentuemerId id) {
         Optional<EigentuemerEntity> entity = jdbcRepo.findById(id.getId());
-        return entity.map(EigentuemerMapper::toDomain).orElse(null);
+        return entity.map(e -> e.toDomain()).orElse(null);
     }
 
     @Override
     public void save(Eigentuemer eigentuemer) {
-        EigentuemerEntity entity = EigentuemerMapper.toEntity(eigentuemer);
+        EigentuemerEntity entity = new EigentuemerEntity(eigentuemer);
         jdbcRepo.save(entity);
         eigentuemer.setEigentuemerId(new EigentuemerId(entity.getEigentuemerId())); // set auto-generated ID
     }
@@ -38,6 +37,6 @@ public class EigentuemerRepositoryImplDb implements EigentuemerRepository {
     @Override
     public List<Eigentuemer> findAll() {
         List<EigentuemerEntity> entities = (List<EigentuemerEntity>) jdbcRepo.findAll();
-        return entities.stream().map(EigentuemerMapper::toDomain).collect(Collectors.toList());
+        return entities.stream().map(e -> e.toDomain()).collect(Collectors.toList());
     }
 }

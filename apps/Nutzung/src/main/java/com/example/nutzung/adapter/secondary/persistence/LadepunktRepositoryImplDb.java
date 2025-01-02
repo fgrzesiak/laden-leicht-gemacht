@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import com.example.nutzung.application.domain.Ladepunkt;
 import com.example.nutzung.application.domain.LadepunktId;
-import com.example.nutzung.application.mapper.LadepunktMapper;
 import com.example.nutzung.application.port.secondary.LadepunktRepository;
 
 public class LadepunktRepositoryImplDb implements LadepunktRepository {
@@ -20,12 +19,12 @@ public class LadepunktRepositoryImplDb implements LadepunktRepository {
 	@Override
 	public Ladepunkt findById(LadepunktId ladepunktId) {
 		Optional<LadepunktEntity> ladepunktEntity = jdbcLadepunktEntityRepository.findById(ladepunktId.getId());
-		return ladepunktEntity.map(LadepunktMapper::toDomain).orElse(null);
+		return ladepunktEntity.map(e -> e.toDomain()).orElse(null);
 	}
 
 	@Override
 	public void save(Ladepunkt ladepunkt, boolean isNew) {
-		LadepunktEntity ladepunktEntity = LadepunktMapper.toEntity(ladepunkt);
+		LadepunktEntity ladepunktEntity = new LadepunktEntity(ladepunkt);
 		ladepunktEntity.setIsNew(isNew);
 		jdbcLadepunktEntityRepository.save(ladepunktEntity);
 		ladepunkt.setLadepunktId(new LadepunktId(ladepunktEntity.getId()));
@@ -34,6 +33,6 @@ public class LadepunktRepositoryImplDb implements LadepunktRepository {
 	@Override
 	public List<Ladepunkt> findAll() {
 		List<LadepunktEntity> entities = (List<LadepunktEntity>) jdbcLadepunktEntityRepository.findAll();
-		return entities.stream().map(LadepunktMapper::toDomain).collect(Collectors.toList());
+		return entities.stream().map(e -> e.toDomain()).collect(Collectors.toList());
 	}
 }

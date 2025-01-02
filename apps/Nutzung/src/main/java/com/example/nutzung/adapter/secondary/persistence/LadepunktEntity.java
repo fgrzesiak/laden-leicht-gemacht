@@ -4,6 +4,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.domain.Persistable;
 
+import com.example.nutzung.application.domain.Ladepunkt;
+import com.example.nutzung.application.domain.LadepunktId;
+
 public class LadepunktEntity implements Persistable<Integer> {
     @Id
     private int ladepunktId;
@@ -20,6 +23,16 @@ public class LadepunktEntity implements Persistable<Integer> {
         this.ladepunktId = ladepunktId;
         this.ladeleistungKW = ladeleistungKW;
         this.verfuegbarkeit = verfuegbarkeit;
+    }
+
+    public LadepunktEntity(Ladepunkt ladepunkt) {
+        this.ladepunktId = ladepunkt.getLadepunktId().getId();
+        this.ladeleistungKW = ladepunkt.getLadeleistungKW();
+        this.verfuegbarkeit = ladepunkt.getVerfuegbarkeit();
+    }
+
+    public Ladepunkt toDomain() {
+        return new Ladepunkt(new LadepunktId(ladepunktId), ladeleistungKW, verfuegbarkeit);
     }
 
     public double getLadeleistungKW() {

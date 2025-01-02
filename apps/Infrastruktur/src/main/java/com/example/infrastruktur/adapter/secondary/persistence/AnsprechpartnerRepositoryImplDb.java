@@ -3,7 +3,6 @@ package com.example.infrastruktur.adapter.secondary.persistence;
 import com.example.infrastruktur.application.domain.Ansprechpartner;
 import com.example.infrastruktur.application.domain.AnsprechpartnerId;
 import com.example.infrastruktur.application.domain.EigentuemerId;
-import com.example.infrastruktur.application.mapper.AnsprechpartnerMapper;
 import com.example.infrastruktur.application.port.secondary.AnsprechpartnerRepository;
 
 import java.util.List;
@@ -21,12 +20,12 @@ public class AnsprechpartnerRepositoryImplDb implements AnsprechpartnerRepositor
     @Override
     public Ansprechpartner findById(AnsprechpartnerId id) {
         Optional<AnsprechpartnerEntity> entity = jdbcRepo.findById(id.getId());
-        return entity.map(AnsprechpartnerMapper::toDomain).orElse(null);
+        return entity.map(e -> e.toDomain()).orElse(null);
     }
 
     @Override
     public void save(Ansprechpartner ansprechpartner) {
-        AnsprechpartnerEntity entity = AnsprechpartnerMapper.toEntity(ansprechpartner);
+        AnsprechpartnerEntity entity = new AnsprechpartnerEntity(ansprechpartner);
         jdbcRepo.save(entity);
         ansprechpartner.setAnsprechpartnerId(new AnsprechpartnerId(entity.getAnsprechpartnerId()));
     }
@@ -39,12 +38,12 @@ public class AnsprechpartnerRepositoryImplDb implements AnsprechpartnerRepositor
     @Override
     public List<Ansprechpartner> findAll() {
         List<AnsprechpartnerEntity> entities = (List<AnsprechpartnerEntity>) jdbcRepo.findAll();
-        return entities.stream().map(AnsprechpartnerMapper::toDomain).collect(Collectors.toList());
+        return entities.stream().map(e -> e.toDomain()).collect(Collectors.toList());
     }
 
     @Override
     public List<Ansprechpartner> findByEigentuemerId(EigentuemerId eigentuemerId) {
         List<AnsprechpartnerEntity> entities = jdbcRepo.findByEigentuemerId(eigentuemerId.getId());
-        return entities.stream().map(AnsprechpartnerMapper::toDomain).collect(Collectors.toList());
+        return entities.stream().map(e -> e.toDomain()).collect(Collectors.toList());
     }
 }

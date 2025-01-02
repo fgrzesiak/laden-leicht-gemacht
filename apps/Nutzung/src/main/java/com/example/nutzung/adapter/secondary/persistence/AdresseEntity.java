@@ -1,5 +1,7 @@
 package com.example.nutzung.adapter.secondary.persistence;
 
+import com.example.nutzung.application.domain.Adresse;
+
 public class AdresseEntity {
 
     private String strasse;
@@ -15,6 +17,17 @@ public class AdresseEntity {
         this.hausnummer = hausnummer;
         this.plz = plz;
         this.ort = ort;
+    }
+
+    public AdresseEntity(Adresse adresse) {
+        this.strasse = adresse.getStrasse();
+        this.hausnummer = adresse.getHausnummer();
+        this.plz = adresse.getPlz();
+        this.ort = adresse.getOrt();
+    }
+
+    public Adresse toDomain() {
+        return new Adresse(strasse, hausnummer, plz, ort);
     }
 
     public String getStrasse() {

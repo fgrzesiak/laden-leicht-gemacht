@@ -14,26 +14,6 @@ import java.time.format.DateTimeFormatter;
 
 public class NutzungMapper {
 
-    public static NutzungEntity toEntity(Nutzung nutzung) {
-        return new NutzungEntity(
-                nutzung.getNutzungsId().getId(),
-                nutzung.getLadepunktId().getId(),
-                nutzung.getDatum(),
-                nutzung.getLadezeitMin(),
-                nutzung.getLadeleistungKWH(),
-                nutzung.getHalterId().getId());
-    }
-
-    public static Nutzung toDomain(NutzungEntity nutzungEntity) {
-        return new Nutzung(
-                new NutzungId(nutzungEntity.getNutzungsId()),
-                new LadepunktId(nutzungEntity.getLadepunktId()),
-                nutzungEntity.getDatum(),
-                nutzungEntity.getLadezeitMin(),
-                nutzungEntity.getLadeleistungKWH(),
-                new FahrzeughalterId(nutzungEntity.getHalterId()));
-    }
-
     public static Nutzung toDomain(int ladepunktId, NutzungRequest nutzungRequest) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate datum = LocalDate.parse(nutzungRequest.getDatum(), formatter);

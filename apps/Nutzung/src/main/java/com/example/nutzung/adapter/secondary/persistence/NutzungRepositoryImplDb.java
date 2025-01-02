@@ -2,7 +2,6 @@ package com.example.nutzung.adapter.secondary.persistence;
 
 import com.example.nutzung.application.domain.Nutzung;
 import com.example.nutzung.application.domain.NutzungId;
-import com.example.nutzung.application.mapper.NutzungMapper;
 import com.example.nutzung.application.domain.FahrzeughalterId;
 import com.example.nutzung.application.port.secondary.NutzungRepository;
 
@@ -20,13 +19,13 @@ public class NutzungRepositoryImplDb implements NutzungRepository {
 
     @Override
     public Nutzung findById(NutzungId id) {
-        Optional<NutzungEntity> e = jdbcRepo.findById(id.getId());
-        return e.map(NutzungMapper::toDomain).orElse(null);
+        Optional<NutzungEntity> entity = jdbcRepo.findById(id.getId());
+        return entity.map(e -> e.toDomain()).orElse(null);
     }
 
     @Override
     public void save(Nutzung nutzung) {
-        NutzungEntity entity = NutzungMapper.toEntity(nutzung);
+        NutzungEntity entity = new NutzungEntity(nutzung);
         jdbcRepo.save(entity);
         nutzung.setNutzungsId(new NutzungId(entity.getNutzungsId()));
     }
@@ -39,12 +38,12 @@ public class NutzungRepositoryImplDb implements NutzungRepository {
     @Override
     public List<Nutzung> findAll() {
         List<NutzungEntity> entities = (List<NutzungEntity>) jdbcRepo.findAll();
-        return entities.stream().map(NutzungMapper::toDomain).collect(Collectors.toList());
+        return entities.stream().map(e -> e.toDomain()).collect(Collectors.toList());
     }
 
     @Override
     public List<Nutzung> findAllByHalterId(FahrzeughalterId halterId) {
         List<NutzungEntity> entities = jdbcRepo.findByHalterId(halterId.getId());
-        return entities.stream().map(NutzungMapper::toDomain).collect(Collectors.toList());
+        return entities.stream().map(e -> e.toDomain()).collect(Collectors.toList());
     }
 }

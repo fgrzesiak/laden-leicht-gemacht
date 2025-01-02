@@ -1,6 +1,6 @@
 package com.example.infrastruktur.application.domain;
 
-import com.example.infrastruktur.adapter.secondary.messagequeue.LadepunktTO;
+import com.example.infrastruktur.application.port.secondary.LadepunktTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
