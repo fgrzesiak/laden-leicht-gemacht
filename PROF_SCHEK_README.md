@@ -5,14 +5,13 @@ Bei Fragen oder Problemen wenden Sie sich gerne direkt an uns unter folgenden M�
 
 1. UNI-Email
 2. Privat-Email: fj.grzesiak@gmail.com
-3. Telefon: 0176 34576061
 
 ## Start der Anwendung
 
-Es reicht, die `compose.prod.yaml` Datei herunterzuladen und dann den folgenden Befehl auszuf체hren:
+Es reicht, die `compose.yaml` Datei herunterzuladen und dann den folgenden Befehl auszuf체hren:
 
 ```
-docker compose -f compose.prod.yaml up -d
+docker compose up -d
 ```
 
 Dadurch wird die Anwendung nicht selbst auf dem lokalen Rechner gebaut, sondern die Images von DockerHub heruntergeladen und ausgef체hrt.
@@ -20,7 +19,7 @@ Dadurch wird die Anwendung nicht selbst auf dem lokalen Rechner gebaut, sondern 
 Alternativ oder f체r den Fall, dass die Images auf DockerHub aktualisiert werden, kann der folgende Befehl ausgef체hrt werden:
 
 ```
-docker compose -f compose.prod.yaml  up -d --pull always
+docker compose up -d --pull always
 ```
 
 ## Testen der Anwendung

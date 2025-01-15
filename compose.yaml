@@ -1,35 +1,30 @@
 services:
-  #
-  # RabbitMQ
-  #
   rabbitmq:
-    build: ./packages/rabbitmq
-    container_name: rabbitmq
+    image: fabianjg/laden-leicht-gemacht:rabbitmq-latest
     ports:
       - 5672:5672
       - 15672:15672
 
-  #
-  # Service infrastruktur + Datenbank
-  #
   db_infrastruktur:
-    build: ./packages/db_infrastruktur
-    container_name: db_infrastruktur
-    volumes:
-      - /var/lib/mysql/infrastruktur:/dbdata
+    image: fabianjg/laden-leicht-gemacht:db_infrastruktur-latest
     ports:
       - 3307:3306
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: infrastruktur
 
-  app_infrastruktur:
-    build: ./apps/infrastruktur
-    container_name: app_infrastruktur
+  db_nutzung:
+    image: fabianjg/laden-leicht-gemacht:db_nutzung-latest
+    ports:
+      - 3308:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: nutzung
+
+  infrastruktur:
+    image: fabianjg/laden-leicht-gemacht:infrastruktur-latest
     ports:
       - 8081:8080
-    volumes:
-      - ./apps/infrastruktur:/app
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db_infrastruktur:3306/infrastruktur
       SPRING_QUEUE_URL: rabbitmq
@@ -37,32 +32,13 @@ services:
       - db_infrastruktur
       - rabbitmq
 
-  #
-  # Service nutzung + Datenbank
-  #
-  db_nutzung:
-    build: ./packages/db_nutzung
-    container_name: db_nutzung
-    volumes:
-      - /var/lib/mysql/nutzung:/dbdata
-    ports:
-      - 3308:3306
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: nutzung
-
-  app_nutzung:
-    build: ./apps/Nutzung
-    container_name: app_nutzung
+  nutzung:
+    image: fabianjg/laden-leicht-gemacht:nutzung-latest
     ports:
       - 8082:8080
-    volumes:
-      - ./apps/Nutzung:/app
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db_nutzung:3306/nutzung
       SPRING_QUEUE_URL: rabbitmq
-      SPRING_PROFILES_ACTIVE: dev
-      SPRING_DEVTOOLS_RESTART_ENABLED: true
     depends_on:
       - db_nutzung
       - rabbitmq
