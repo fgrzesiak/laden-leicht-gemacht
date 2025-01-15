@@ -77,7 +77,7 @@ INSERT INTO ladepunkt_entity (
     gesamtleistung_kwh, strasse, hausnummer, plz, ort
 )
 VALUES
-(1,  22.00, 'Typ 2', 'VERFUEGBAR',  33.00,  'Musterstrasse',     '11', '12345', 'Musterstadt'),
-(2, 150.00, 'CCS',    'IN_WARTUNG', 300.00, 'Energiestrasse',    '5b', '54321', 'Energiestadt'),
-(3,  11.00, 'Typ 2', 'VERFUEGBAR',   8.25,  'Solarweg',         '26', '67890', 'Solartown'),
-(NULL, 50.00, 'CCS',  'VERFUEGBAR',   0.00,  'Freiheitsstrasse',  '1',  '11111', 'Unbekannt');
+(1, 22.00, 'Typ 2', 'VERFUEGBAR', 33.00, 'Musterstrasse', '11', '12345', 'Musterstadt'),
+(2, 150.00, 'CCS', 'IN_WARTUNG', 300.00, 'Energiestrasse', '5b', '54321', 'Energiestadt'),
+(3, 11.00, 'Typ 2', 'VERFUEGBAR', 8.25, 'Solarweg', '26', '67890', 'Solartown'),
+(NULL, 50.00, 'CCS', 'VERFUEGBAR', 0.00, 'Freiheitsstrasse', '1', '11111', 'Unbekannt');
