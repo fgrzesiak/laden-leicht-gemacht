@@ -1,17 +1,17 @@
 package com.example.nutzung.application.domain;
 
-import com.example.nutzung.application.port.secondary.EventPublisher;
+import com.example.nutzung.application.port.secondary.NutzungAktualisiertEventPublisher;
 
 public class NutzungDomainService {
 
-    private final EventPublisher eventPublisher;
+    private final NutzungAktualisiertEventPublisher eventPublisher;
 
-    public NutzungDomainService(EventPublisher eventPublisher) {
+    public NutzungDomainService(NutzungAktualisiertEventPublisher eventPublisher) {
         this.eventPublisher = eventPublisher;
     }
 
     public void verarbeiteLadevorgang(Nutzung nutzung) {
-        DomainEvent nutzungRegistriertEvent = new NutzungRegistriertEvent(nutzung);
+        NutzungAktualisiertEvent nutzungRegistriertEvent = new NutzungAktualisiertEvent(nutzung);
         eventPublisher.publishDomainEvent(nutzungRegistriertEvent);
     }
 
@@ -45,12 +45,17 @@ public class NutzungDomainService {
 
         if (ladepunktIdAlt == ladepunktIdNeu && kwhAlt != kwhNeu) {
             nutzungNeu.setLadeleistungKWH(kwhNeu - kwhAlt);
-            eventPublisher.publishDomainEvent(new NutzungRegistriertEvent(nutzungNeu));
+            eventPublisher.publishDomainEvent(new NutzungAktualisiertEvent(nutzungNeu));
         } else if (ladepunktIdAlt != ladepunktIdNeu) {
             nutzungAlt.setLadeleistungKWH(kwhAlt * -1);
-            eventPublisher.publishDomainEvent(new NutzungRegistriertEvent(nutzungAlt));
-            eventPublisher.publishDomainEvent(new NutzungRegistriertEvent(nutzungNeu));
+            eventPublisher.publishDomainEvent(new NutzungAktualisiertEvent(nutzungAlt));
+            eventPublisher.publishDomainEvent(new NutzungAktualisiertEvent(nutzungNeu));
         }
         // sonst: keine Änderung, keine Aktion erforderlich
+    }
+
+    public void verarbeiteLadevorgangGeloescht(Nutzung nutzungAlt) {
+        nutzungAlt.setLadeleistungKWH(nutzungAlt.getLadeleistungKWH() * -1);
+        eventPublisher.publishDomainEvent(new NutzungAktualisiertEvent(nutzungAlt));
     }
 }

@@ -1,20 +1,20 @@
 package com.example.infrastruktur.application.domain;
 
-import com.example.infrastruktur.application.port.secondary.EventPublisher;
+import com.example.infrastruktur.application.port.secondary.LadepunktAktualisiertEventPublisher;
 
 public class LadepunktDomainService {
 
-    private final EventPublisher eventPublisher;
+    private final LadepunktAktualisiertEventPublisher ladepunktAktualisiertEventPublisher;
 
-    public LadepunktDomainService(EventPublisher eventPublisher) {
-        this.eventPublisher = eventPublisher;
+    public LadepunktDomainService(LadepunktAktualisiertEventPublisher ladepunktAktualisiertEventPublisher) {
+        this.ladepunktAktualisiertEventPublisher = ladepunktAktualisiertEventPublisher;
     }
 
     /**
      * Ladepunkt erstellt oder aktualisiert
      */
     public void speichereLadepunkt(Ladepunkt ladepunkt) {
-        DomainEvent ladepunktAktualisiertEvent = new LadepunktAktualisiertEvent(ladepunkt);
-        eventPublisher.publishDomainEvent(ladepunktAktualisiertEvent);
+        LadepunktAktualisiertEvent ladepunktAktualisiertEvent = new LadepunktAktualisiertEvent(ladepunkt);
+        ladepunktAktualisiertEventPublisher.publishDomainEvent(ladepunktAktualisiertEvent);
     }
 }

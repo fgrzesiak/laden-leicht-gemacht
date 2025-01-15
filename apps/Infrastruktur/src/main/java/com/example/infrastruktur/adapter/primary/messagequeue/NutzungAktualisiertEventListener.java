@@ -9,15 +9,15 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
-public class EventListener {
+public class NutzungAktualisiertEventListener {
 
 	InfrastrukturAppService infrastrukturAppService;
 
-	public EventListener(InfrastrukturAppService infrastrukturAppService) {
+	public NutzungAktualisiertEventListener(InfrastrukturAppService infrastrukturAppService) {
 		this.infrastrukturAppService = infrastrukturAppService;
 	}
 
-	@RabbitListener(queues = "nutzungQueue")
+	@RabbitListener(queues = "nutzung_aktualisierung")
 	public void receiveMessage(String message) {
 		System.out.println("#################Received message:################# " + message);
 		ObjectMapper objectMapper = new ObjectMapper();

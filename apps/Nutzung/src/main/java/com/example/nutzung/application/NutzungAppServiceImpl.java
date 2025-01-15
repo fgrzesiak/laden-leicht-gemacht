@@ -154,6 +154,7 @@ public class NutzungAppServiceImpl implements NutzungAppService {
             throw new NotFoundException("Nutzung nicht gefunden");
         }
         nutzungRepo.delete(nutzung.getNutzungsId());
+        nutzungDomainService.verarbeiteLadevorgangGeloescht(nutzung);
     }
 
     // ------------------------------------------------------

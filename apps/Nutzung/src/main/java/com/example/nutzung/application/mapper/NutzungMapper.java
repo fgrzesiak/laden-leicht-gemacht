@@ -1,6 +1,5 @@
 package com.example.nutzung.application.mapper;
 
-import com.example.nutzung.adapter.secondary.persistence.NutzungEntity;
 import com.example.nutzung.application.domain.FahrzeughalterId;
 import com.example.nutzung.application.domain.LadepunktId;
 import com.example.nutzung.application.domain.Nutzung;
