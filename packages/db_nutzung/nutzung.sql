@@ -42,7 +42,7 @@ CREATE TABLE nutzung_entity (
 # Dummy-Daten einfügen
 #--------------------------------------------------------
 
-# 1) Einträge in fahrzeughalter_entity
+# 1) Einträge in fahrzeughalter_entity 
 INSERT INTO fahrzeughalter_entity (name, bankverbindung, strasse, hausnummer, plz, ort)
 VALUES
 ('Max Mustermann', 'DE1234567890', 'Musterstrasse', '1', '12345', 'Musterstadt'),

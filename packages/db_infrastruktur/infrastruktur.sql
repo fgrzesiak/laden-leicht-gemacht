@@ -54,7 +54,7 @@ CREATE TABLE ladepunkt_entity (
 #-- Dummy-Daten einfügen
 #-------------------------
 
-# -- Einträge in eigentuemer_entity
+# -- Einträge in eigentuemer_entity 
 INSERT INTO eigentuemer_entity (name, strasse, hausnummer, plz, ort)
 VALUES
 ('Max Mustermann GmbH', 'Musterstrasse', '10', '12345', 'Musterstadt'),
