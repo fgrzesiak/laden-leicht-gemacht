@@ -47,7 +47,7 @@ INSERT INTO fahrzeughalter_entity (name, bankverbindung, strasse, hausnummer, pl
 VALUES
 ('Max Mustermann', 'DE1234567890', 'Musterstrasse', '1', '12345', 'Musterstadt'),
 ('Lisa Schmid', 'DE0987654321', 'Schmidstrasse', '10', '54321', 'Berlingersdorf'),
-('Thomas Müller', 'DE1111222233', 'Bergstrasse', '7', '11111', 'Bergstadt');
+('Thomas Mueller', 'DE1111222233', 'Bergstrasse', '7', '11111', 'Bergstadt');
 
 # 2) Einträge in ladepunkt_entity
 INSERT INTO ladepunkt_entity (ladepunkt_id, ladeleistung_kw, verfuegbarkeit)

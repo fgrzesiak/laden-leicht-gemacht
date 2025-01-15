@@ -66,7 +66,7 @@ INSERT INTO ansprechpartner_entity (eigentuemer_id, name, telefon, email, strass
 VALUES
 (1, 'Max Mustermann', '0123/456789', 'max.mustermann@muster.de', 'Musterstrasse', '10', '12345', 'Musterstadt'),
 (1, 'Julia Mustermann', '0123/456780', 'julia.mustermann@muster.de', 'Musterstrasse', '10', '12345', 'Musterstadt'),
-(2, 'Thomas Müller', '0987/654321', 'thomas.mueller@emobility.com', 'Energiestrasse', '5a', '54321', 'Energiestadt'),
+(2, 'Thomas Mueller', '0987/654321', 'thomas.mueller@emobility.com', 'Energiestrasse', '5a', '54321', 'Energiestadt'),
 (2, 'Lisa Bauer', '0987/654322', 'lisa.bauer@emobility.com', 'Energiestrasse', '5a', '54321', 'Energiestadt'),
 (3, 'Sarah Green', '0111/222333', 'sarah.green@greensolutions.com', 'Solarweg', '25', '67890', 'Solartown'),
 (3, 'Michael Smith', '0111/222334', 'michael.smith@greensolutions.com', 'Solarweg', '25', '67890', 'Solartown');
